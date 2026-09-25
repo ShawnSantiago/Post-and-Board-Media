@@ -1,0 +1,32 @@
+---
+/** Wraps a mockup with the mandatory "Example layout" label. */
+interface Props {
+  caption?: string;
+  class?: string;
+}
+const { caption, class: className } = Astro.props;
+---
+<figure class:list={['example-figure', className]}>
+  <span class="example-label example-figure__label">Example layout</span>
+  <slot />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .example-figure {
+    position: relative;
+    margin: 0;
+  }
+  .example-figure__label {
+    position: absolute;
+    top: -0.8rem;
+    left: 1rem;
+    z-index: 2;
+  }
+  figcaption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-align: center;
+  }
+</style>

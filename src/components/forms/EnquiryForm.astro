@@ -1,0 +1,172 @@
+---
+import '../../styles/forms.css';
+import { site } from '../../config/site';
+import { areaOptions } from '../../content/areas';
+import { budgetRanges, formatOptions, timingOptions } from '../../content/services';
+import { deliveryConfigured } from '../../lib/delivery';
+import { isEnquirable, opportunities } from '../../lib/opportunities';
+import FormConnectionNotice from './FormConnectionNotice.astro';
+
+interface Props {
+  title?: string;
+  intro?: string;
+  headingLevel?: 'h2' | 'h3';
+  /** Preselected area value (area slug). */
+  area?: string;
+  /** Preselected format id. */
+  format?: string;
+  /** Preselected opportunity. */
+  opportunity?: { slug: string; title: string; area: string; format: string };
+  /** Read ?area, ?format and ?opportunity from the page URL. */
+  prefillFromUrl?: boolean;
+  idPrefix?: string;
+}
+
+const {
+  title = 'Tell us where you’d like to advertise',
+  intro = 'A few details are enough to start. We’ll reply with suitable options — an enquiry doesn’t book or commit you to anything.',
+  headingLevel: H = 'h2',
+  area,
+  format,
+  opportunity,
+  prefillFromUrl = false,
+  idPrefix = 'enq',
+} = Astro.props;
+
+const id = (name: string) => `${idPrefix}-${name}`;
+const connected = deliveryConfigured();
+const formats = formatOptions.filter((f) => site.features.digitalScreensInterest || !f.futureOnly);
+const oppMap = Object.fromEntries(
+  opportunities.filter(isEnquirable).map((o) => [o.slug, { title: o.title, area: o.area, format: o.format }]),
+);
+---
+<div class="enquiry" data-enquiry-wrap>
+  <div class="enquiry__head">
+    <H id={id('title')}>{title}</H>
+    <p>{intro}</p>
+  </div>
+
+  <FormConnectionNotice connected={connected} />
+
+  <p class="enquiry__context" data-context hidden={!opportunity}>
+    <span class="chip chip--orange">Enquiring about: <span data-context-title>{opportunity?.title}</span></span>
+  </p>
+
+  <form
+    method="post"
+    action="/api/enquiry"
+    novalidate
+    data-enquiry-form
+    data-prefill={prefillFromUrl ? 'url' : undefined}
+    data-opportunities={prefillFromUrl ? JSON.stringify(oppMap) : undefined}
+    aria-labelledby={id('title')}
+  >
+    <input type="hidden" name="formType" value="advertiser" />
+    <input type="hidden" name="sourcePage" value={Astro.url.pathname} data-source />
+    <input type="hidden" name="opportunity" value={opportunity?.slug ?? ''} data-opportunity />
+    <div class="hp-field" aria-hidden="true">
+      <label for={id('hp')}>Leave this field empty</label>
+      <input id={id('hp')} type="text" name="company_url" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label for={id('name')}>Your name <span class="req" aria-hidden="true">*</span></label>
+        <input id={id('name')} name="name" type="text" autocomplete="name" required maxlength="120" aria-describedby={id('name-err')} />
+        <p class="field__error" id={id('name-err')}></p>
+      </div>
+      <div class="field">
+        <label for={id('business')}>Business name <span class="req" aria-hidden="true">*</span></label>
+        <input id={id('business')} name="business" type="text" autocomplete="organization" required maxlength="160" aria-describedby={id('business-err')} />
+        <p class="field__error" id={id('business-err')}></p>
+      </div>
+      <div class="field">
+        <label for={id('email')}>Email <span class="req" aria-hidden="true">*</span></label>
+        <input id={id('email')} name="email" type="email" autocomplete="email" required maxlength="200" aria-describedby={id('email-err')} />
+        <p class="field__error" id={id('email-err')}></p>
+      </div>
+      <div class="field">
+        <label for={id('area')}>Where do you want to advertise? <span class="req" aria-hidden="true">*</span></label>
+        <select id={id('area')} name="area" required aria-describedby={id('area-err')} data-area>
+          <option value="">Choose an area</option>
+          {areaOptions.map((o) => <option value={o.value} selected={o.value === area}>{o.label}</option>)}
+        </select>
+        <p class="field__error" id={id('area-err')}></p>
+      </div>
+      <div class="field field--full">
+        <label for={id('areaDetail')}>Neighbourhoods, streets or venues <span class="opt">(optional)</span></label>
+        <input id={id('areaDetail')} name="areaDetail" type="text" maxlength="200" aria-describedby={id('areaDetail-hint')} />
+        <p class="hint" id={id('areaDetail-hint')}>For example “Dundas downtown” or “homes near Brant Street”.</p>
+      </div>
+      <div class="field">
+        <label for={id('format')}>Advertising format <span class="opt">(optional)</span></label>
+        <select id={id('format')} name="format" data-format>
+          <option value="">Choose a format</option>
+          {formats.map((f) => <option value={f.id} selected={f.id === format}>{f.label}</option>)}
+        </select>
+      </div>
+      <div class="field">
+        <label for={id('category')}>Business category <span class="opt">(optional)</span></label>
+        <input id={id('category')} name="category" type="text" maxlength="120" placeholder="e.g. Dental clinic, landscaping" />
+      </div>
+      <div class="field">
+        <label for={id('website')}>Website <span class="opt">(optional)</span></label>
+        <input id={id('website')} name="website" type="text" inputmode="url" autocomplete="url" maxlength="300" aria-describedby={id('website-err')} />
+        <p class="field__error" id={id('website-err')}></p>
+      </div>
+      <div class="field">
+        <label for={id('phone')}>Phone <span class="opt">(optional)</span></label>
+        <input id={id('phone')} name="phone" type="tel" autocomplete="tel" maxlength="40" />
+      </div>
+      <div class="field">
+        <label for={id('budget')}>Budget range <span class="opt">(optional)</span></label>
+        <select id={id('budget')} name="budget">
+          <option value="">Choose a range</option>
+          {budgetRanges.map((b) => <option value={b}>{b}</option>)}
+        </select>
+      </div>
+      <div class="field">
+        <label for={id('timing')}>Preferred timing <span class="opt">(optional)</span></label>
+        <select id={id('timing')} name="timing">
+          <option value="">Choose timing</option>
+          {timingOptions.map((t) => <option value={t}>{t}</option>)}
+        </select>
+      </div>
+      <div class="field field--full">
+        <label for={id('message')}>Anything else we should know? <span class="opt">(optional)</span></label>
+        <textarea id={id('message')} name="message" maxlength="3000" rows="4"></textarea>
+      </div>
+      <div class="field field--full">
+        <label class="check" for={id('updates')}>
+          <input id={id('updates')} type="checkbox" name="updatesOptIn" value="yes" />
+          <span>Optional: email me when new opportunities open in my area. You can unsubscribe anytime. This is separate from your enquiry.</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="enquiry__footer">
+      <button class="btn btn--primary" type="submit" data-submit>
+        <span class="spinner" aria-hidden="true"></span>
+        <span data-submit-label>Send enquiry</span>
+      </button>
+      <p class="enquiry__privacy">
+        We use these details only to reply to your enquiry. See our <a href="/privacy">privacy notice</a>.
+      </p>
+    </div>
+    <div class="enquiry__status" role="status" aria-live="polite" data-status></div>
+  </form>
+
+  <div class="enquiry__success" tabindex="-1" hidden data-success>
+    <H>Thanks — your enquiry has been sent.</H>
+    <p>
+      We’ll review it and reply by email with suitable options. Nothing is booked yet; any placement or campaign is
+      confirmed only once you accept a written quote.
+    </p>
+    <a class="text-link" href="/opportunities">Browse opportunities</a>
+  </div>
+</div>
+
+<script>
+  import { enhanceEnquiryForms } from '../../lib/form-client';
+  enhanceEnquiryForms();
+</script>

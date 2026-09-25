@@ -1,0 +1,89 @@
+---
+import SectionHead from '../ui/SectionHead.astro';
+interface Props {
+  title?: string;
+  lede?: string;
+}
+const {
+  title = 'How it works',
+  lede = 'A straightforward, person-to-person process. Sending an enquiry doesn’t book anything — it starts a conversation.',
+} = Astro.props;
+const steps = [
+  { t: 'Tell us where and who you want to reach.', d: 'Choose an area and, if you know it, a format. A short enquiry is enough.' },
+  { t: 'We confirm suitable opportunities and pricing.', d: 'You get a written quote listing the placement or coverage, term, space and total cost.' },
+  { t: 'You approve your advertising artwork.', d: 'Send finished artwork, or your logo and text for us to lay out. Nothing prints until you approve it.' },
+  { t: 'We coordinate production and placement or distribution.', d: 'We handle printing, installation or mailing through appropriate providers, and keep you updated.' },
+];
+---
+<section class="section section--paper" aria-labelledby="how-title">
+  <div class="container">
+    <SectionHead eyebrow="The process" title={title} lede={lede} id="how-title" />
+    <ol class="steps">
+      {
+        steps.map((s, i) => (
+          <li class="step">
+            <span class="step__num" aria-hidden="true">{i + 1}</span>
+            <h3 class="step__title">{s.t}</h3>
+            <p>{s.d}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    counter-reset: step;
+  }
+  .step {
+    position: relative;
+    padding: 1.5rem 1.4rem 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--ivory);
+  }
+  .step::after {
+    content: '';
+    position: absolute;
+    inset: auto 1.4rem 0;
+    border-bottom: 3px solid var(--mustard);
+    border-radius: 3px;
+  }
+  .step:nth-child(2)::after {
+    border-color: var(--orange);
+  }
+  .step:nth-child(3)::after {
+    border-color: var(--forest-2);
+  }
+  .step:nth-child(4)::after {
+    border-color: #9fb09c;
+  }
+  .step__num {
+    display: inline-grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: var(--forest);
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+  }
+  .step__title {
+    font-size: var(--step-1);
+  }
+  .step p {
+    color: var(--muted);
+    margin: 0;
+    font-size: 0.97rem;
+  }
+</style>

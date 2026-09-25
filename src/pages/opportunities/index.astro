@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import OpportunityCard from '../../components/opportunities/OpportunityCard.astro';
+import LaunchState from '../../components/opportunities/LaunchState.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import { opportunities, demoMode } from '../../lib/opportunities';
+import { areas } from '../../content/areas';
+import { formatLabels } from '../../content/services';
+import { audienceLabels } from '../../content/opportunities';
+
+const statusOrder = ['accepting-enquiries', 'open-for-applications', 'fully-booked', 'completed'];
+const list = [...opportunities].sort(
+  (a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status) || b.lastUpdated.localeCompare(a.lastUpdated),
+);
+const usedAreas = areas.filter((a) => list.some((o) => o.area === a.slug));
+const usedFormats = [...new Set(list.map((o) => o.format))];
+const hasMailers = list.some((o) => o.format === 'mailer');
+---
+<BaseLayout
+  title="Advertising Opportunities | Boards & Shared Mailers | Post and Board Media"
+  description="Browse current advertising board placements and shared mailer campaigns from Post and Board Media, or tell us where you’d like to advertise."
+  breadcrumbs={[{ label: 'Opportunities' }]}
+>
+  <section class="section--tight">
+    <div class="container">
+      <p class="eyebrow">Opportunities</p>
+      <h1>Advertising opportunities</h1>
+      <p class="lede">
+        Board placements and shared mailer campaigns we’re organizing. Listings are updated by hand. An enquiry isn’t a
+        reservation — we confirm availability when we reply.
+      </p>
+
+      {
+        demoMode && (
+          <div class="notice notice--warn" style="margin-top:1.5rem">
+            <strong>Development preview — example records shown.</strong>
+            These are fictional examples for testing the layout. They can’t be enquired about and are never included in
+            production builds.
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1rem">
+    <div class="container">
+      {
+        list.length === 0 ? (
+          <LaunchState />
+        ) : (
+          <>
+            <form class="filters" data-filters aria-label="Filter opportunities" onsubmit="return false">
+              <div class="filters__field">
+                <label for="f-area">Area</label>
+                <select id="f-area" name="area">
+                  <option value="">All areas</option>
+                  {usedAreas.map((a) => <option value={a.slug}>{a.name}</option>)}
+                </select>
+              </div>
+              <div class="filters__field">
+                <label for="f-format">Format</label>
+                <select id="f-format" name="format">
+                  <option value="">All formats</option>
+                  {usedFormats.map((f) => <option value={f}>{formatLabels[f]}</option>)}
+                </select>
+              </div>
+              {hasMailers && (
+                <div class="filters__field">
+                  <label for="f-audience">Mailer audience</label>
+                  <select id="f-audience" name="audience">
+                    <option value="">Any audience</option>
+                    {Object.entries(audienceLabels).map(([k, v]) => <option value={k}>{v}</option>)}
+                  </select>
+                </div>
+              )}
+              <p class="filters__count" role="status" aria-live="polite" data-count>
+                {list.length} {list.length === 1 ? 'listing' : 'listings'}
+              </p>
+            </form>
+
+            <div class="opp-grid" data-list>
+              {list.map((o) => <OpportunityCard opp={o} headingLevel="h2" />)}
+            </div>
+            <div class="no-match notice" hidden data-empty>
+              <strong>No listings match those filters.</strong>
+              <a href="/contact">Tell us what you’re looking for</a> and we’ll let you know when something suitable is
+              confirmed.
+            </div>
+          </>
+        )
+      }
+    </div>
+  </section>
+
+  <CtaBand
+    title="Don’t see your area?"
+    text="Most placements start with an enquiry. Tell us the area and format you want, and we’ll let you know what we can organize."
+    secondary={{ href: '/host-a-board', label: 'Suggest a host venue' }}
+  />
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-filters]');
+  if (form) {
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-opp]'));
+    const count = document.querySelector<HTMLElement>('[data-count]')!;
+    const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+    const params = new URLSearchParams(location.search);
+    for (const key of ['area', 'format', 'audience']) {
+      const el = form.elements.namedItem(key) as HTMLSelectElement | null;
+      const v = params.get(key);
+      if (el && v && Array.from(el.options).some((o) => o.value === v)) el.value = v;
+    }
+    const apply = () => {
+      const data = new FormData(form);
+      const area = String(data.get('area') ?? '');
+      const format = String(data.get('format') ?? '');
+      const audience = String(data.get('audience') ?? '');
+      let shown = 0;
+      for (const c of cards) {
+        const ok =
+          (!area || c.dataset.area === area) &&
+          (!format || c.dataset.format === format) &&
+          (!audience || c.dataset.audience === audience);
+        c.hidden = !ok;
+        if (ok) shown++;
+      }
+      count.textContent = `${shown} ${shown === 1 ? 'listing' : 'listings'}`;
+      empty.hidden = shown > 0;
+      // Filter state lives in the query string for sharing, but filtered views
+      // keep the directory's canonical URL and are never separate pages.
+      const q = new URLSearchParams();
+      if (area) q.set('area', area);
+      if (format) q.set('format', format);
+      if (audience) q.set('audience', audience);
+      history.replaceState(null, '', q.toString() ? `?${q}` : location.pathname);
+    };
+    form.addEventListener('change', apply);
+    apply();
+  }
+</script>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+  }
+  .filters__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 180px;
+    flex: 1 1 180px;
+  }
+  .filters label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--forest);
+  }
+  .filters select {
+    font: inherit;
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    border: 1.5px solid #bfb49d;
+    background: #fff;
+  }
+  .filters__count {
+    margin: 0 0 0.6rem auto;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .opp-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  .opp-grid > [hidden] {
+    display: none;
+  }
+  .no-match {
+    margin-top: 1rem;
+  }
+</style>

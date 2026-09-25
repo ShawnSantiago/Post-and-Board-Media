@@ -1,0 +1,16 @@
+---
+/**
+ * Shown when no server-side delivery destination is configured. Rendered from
+ * the build-time value, then corrected in the browser from GET /api/enquiry so
+ * runtime-only configuration is reflected accurately.
+ */
+interface Props {
+  connected: boolean;
+}
+const { connected } = Astro.props;
+---
+<div class="notice notice--warn" style="margin-bottom:1.25rem" data-connection-notice hidden={connected}>
+  <strong>Preview: this form isn’t connected yet.</strong>
+  Enquiries can’t be delivered until a destination is configured, so submitting will show an error rather than a
+  confirmation.
+</div>

@@ -1,0 +1,54 @@
+---
+import BrandMark from './BrandMark.astro';
+interface Props {
+  tone?: 'default' | 'light';
+}
+const { tone = 'default' } = Astro.props;
+---
+<span class:list={['wordmark', `wordmark--${tone}`]}>
+  <BrandMark size={34} tone={tone} />
+  <span class="wordmark__text">
+    <span class="wordmark__name">Post <span class="wordmark__amp">&amp;</span> Board</span>
+    <span class="wordmark__sub">Media</span>
+  </span>
+</span>
+
+<style>
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--forest);
+  }
+  .wordmark--light {
+    color: var(--paper);
+  }
+  .wordmark__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .wordmark__name {
+    font-family: var(--font-display);
+    font-weight: 650;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+  .wordmark__amp {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--orange-deep);
+  }
+  .wordmark--light .wordmark__amp {
+    color: var(--mustard);
+  }
+  .wordmark__sub {
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+    opacity: 0.8;
+  }
+</style>

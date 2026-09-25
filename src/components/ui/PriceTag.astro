@@ -1,0 +1,62 @@
+---
+/**
+ * Shows a price only when it's approved. Otherwise shows "Request pricing".
+ * Monthly equivalents are always shown beside the upfront payment and commitment.
+ */
+import type { PriceRecord } from '../../content/pricing';
+import { pricingFallback } from '../../content/pricing';
+import { formatCad } from '../../lib/format';
+
+interface Props {
+  price?: PriceRecord | { amountCad: number; basis: string; notes?: string } | null;
+  compact?: boolean;
+}
+const { price, compact = false } = Astro.props;
+const approved =
+  price && price.amountCad != null && (!('approved' in price) || price.approved === true);
+const rec = price as PriceRecord | undefined;
+---
+<div class="price-tag">
+  {
+    approved && rec ? (
+      <>
+        <p class="price-tag__amount">
+          {formatCad(rec.amountCad!)} <span>{rec.basis}</span>
+        </p>
+        {rec.monthlyEquivalentCad != null && rec.upfrontCad != null && (
+          <p class="price-tag__detail">
+            Equivalent to {formatCad(rec.monthlyEquivalentCad)}/month · Paid upfront: {formatCad(rec.upfrontCad)}
+            {rec.commitment && ` · ${rec.commitment}`}
+          </p>
+        )}
+        {rec.notes && <p class="price-tag__detail">{rec.notes}</p>}
+      </>
+    ) : (
+      <>
+        <p class="price-tag__amount">Request pricing</p>
+        {!compact && <p class="price-tag__detail">{pricingFallback}</p>}
+      </>
+    )
+  }
+</div>
+
+<style>
+  .price-tag__amount {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 600;
+    color: var(--forest);
+    margin: 0;
+  }
+  .price-tag__amount span {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .price-tag__detail {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin: 0.2rem 0 0;
+  }
+</style>

@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AreaGrid from '../../components/sections/AreaGrid.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import { getArea } from '../../content/areas';
+const hamilton = getArea('hamilton');
+---
+<BaseLayout
+  title="Areas We Serve | Hamilton, Burlington, Oakville & Nearby | Post and Board Media"
+  description="Post and Board Media is launching in Hamilton and accepting enquiries from Burlington, Oakville and surrounding communities. See what’s available in each area."
+  breadcrumbs={[{ label: 'Areas' }]}
+>
+  <section class="section--tight">
+    <div class="container">
+      <p class="eyebrow">Cities and communities</p>
+      <h1>Where we’re organizing local advertising</h1>
+      <p class="lede">
+        We’re launching in Hamilton and accepting enquiries from surrounding communities. Each area page explains what you
+        can enquire about there and where things stand. An area listed here doesn’t mean placements are already
+        available — it means we want to hear from you.
+      </p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:1rem">
+    <div class="container">
+      <AreaGrid headingLevel="h2" />
+      {
+        hamilton?.communities && (
+          <div class="communities">
+            <h2>Communities within Hamilton</h2>
+            <ul>
+              {hamilton.communities.items.map((c) => (
+                <li>
+                  <a href={`/areas/hamilton#${c.slug}`}>{c.name}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+    </div>
+  </section>
+  <CtaBand title="Somewhere else in mind?" text="Tell us the area you want to reach. It helps us decide where to plan next." primary={{ href: '/contact?area=other', label: 'Tell us your area' }} />
+</BaseLayout>
+
+<style>
+  .communities {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px dashed var(--line);
+  }
+  .communities h2 {
+    font-size: var(--step-2);
+  }
+  .communities ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .communities a {
+    display: inline-block;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .communities a:hover {
+    border-color: var(--forest);
+  }
+</style>

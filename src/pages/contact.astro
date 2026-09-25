@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EnquiryForm from '../components/forms/EnquiryForm.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import { faqsFor } from '../content/faqs';
+import { site } from '../config/site';
+---
+<BaseLayout
+  title="Check Availability | Contact Post and Board Media"
+  description="Tell Post and Board Media where you’d like to advertise. Ask about advertising boards, shared mailers and upcoming opportunities — an enquiry doesn’t commit you to anything."
+  breadcrumbs={[{ label: 'Contact' }]}
+>
+  <section class="section--tight">
+    <div class="container contact">
+      <div class="contact__intro">
+        <p class="eyebrow">Check availability</p>
+        <h1>Tell us where you’d like to advertise.</h1>
+        <p class="lede">
+          Share your area and what you have in mind. We’ll reply by email with suitable options, or tell you honestly if
+          nothing fits yet.
+        </p>
+        <ol class="next">
+          <li><strong>We review your enquiry</strong> and check what’s confirmed or being planned in your area.</li>
+          <li><strong>We reply by email</strong> with options — or ask a quick question if we need to.</li>
+          <li><strong>You get a written quote</strong> for anything suitable. Nothing is booked until you accept it.</li>
+        </ol>
+        {
+          site.contact.email && (
+            <p>
+              Prefer email? <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+            </p>
+          )
+        }
+        <p class="host-note">Own a venue? <a href="/host-a-board">Apply to host a board</a> instead.</p>
+      </div>
+      <EnquiryForm prefillFromUrl title="Your enquiry" />
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="contact-faq">
+    <div class="container--narrow">
+      <h2 id="contact-faq">Before you send</h2>
+      <FaqList items={faqsFor('contact', site.features.digitalScreensInterest)} />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact {
+    display: grid;
+    gap: 2.5rem;
+  }
+  @media (min-width: 980px) {
+    .contact {
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: start;
+    }
+    .contact__intro {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+  .next {
+    list-style: none;
+    counter-reset: n;
+    padding: 0;
+    margin: 1.5rem 0;
+    display: grid;
+    gap: 0.9rem;
+  }
+  .next li {
+    counter-increment: n;
+    position: relative;
+    padding-left: 2.6rem;
+  }
+  .next li::before {
+    content: counter(n);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--mustard);
+    color: var(--forest-ink);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .host-note {
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+</style>

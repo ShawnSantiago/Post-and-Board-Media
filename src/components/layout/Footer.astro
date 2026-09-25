@@ -1,0 +1,118 @@
+---
+import Wordmark from '../ui/Wordmark.astro';
+import { site } from '../../config/site';
+import { publishedAreas } from '../../content/areas';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <Wordmark tone="light" />
+      <p class="site-footer__tagline">{site.tagline}</p>
+      <p class="site-footer__small">
+        Advertising boards inside local businesses and shared mailers, organized for you.
+      </p>
+      {site.contact.email && <p><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p>}
+    </div>
+    <nav aria-label="Advertising">
+      <h2>Advertise</h2>
+      <ul>
+        <li><a href="/advertising-boards">Advertising boards</a></li>
+        <li><a href="/shared-mailers">Shared mailers</a></li>
+        <li><a href="/opportunities">Opportunities</a></li>
+        <li><a href="/contact">Check availability</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Areas">
+      <h2>Areas</h2>
+      <ul>
+        {publishedAreas.map((a) => <li><a href={`/areas/${a.slug}`}>{a.name}</a></li>)}
+        <li><a href="/areas">All areas</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Company">
+      <h2>Post and Board</h2>
+      <ul>
+        <li><a href="/host-a-board">Host a board</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/terms">Terms</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container site-footer__base">
+    <p>© {year} {site.name}. Prices in Canadian dollars when shown.</p>
+    <p>{site.contact.serviceRegion}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--forest-ink);
+    color: #cfd8cc;
+    padding-top: clamp(3rem, 6vw, 4.5rem);
+    font-size: 0.95rem;
+  }
+  .site-footer__grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  .site-footer__brand {
+    grid-column: 1 / -1;
+  }
+  @media (min-width: 820px) {
+    .site-footer__grid {
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    }
+    .site-footer__brand {
+      grid-column: auto;
+    }
+  }
+  .site-footer__tagline {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--mustard);
+    margin: 1rem 0 0.4rem;
+  }
+  .site-footer__small {
+    max-width: 34ch;
+  }
+  .site-footer h2 {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9fb09c;
+    margin-bottom: 0.8rem;
+  }
+  .site-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.45rem;
+  }
+  .site-footer a {
+    color: #eef1ea;
+    text-decoration: none;
+  }
+  .site-footer a:hover {
+    color: var(--mustard);
+    text-decoration: underline;
+  }
+  .site-footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    margin-top: 3rem;
+    padding-block: 1.4rem;
+    font-size: 0.85rem;
+    color: #9fb09c;
+  }
+  .site-footer__base p {
+    margin: 0;
+  }
+</style>

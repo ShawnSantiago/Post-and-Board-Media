@@ -1,0 +1,430 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BoardMockup from '../components/mockups/BoardMockup.astro';
+import PostcardMockup from '../components/mockups/PostcardMockup.astro';
+import ExampleFigure from '../components/mockups/ExampleFigure.astro';
+import SectionHead from '../components/ui/SectionHead.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import DigitalInterest from '../components/sections/DigitalInterest.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import OpportunityCard from '../components/opportunities/OpportunityCard.astro';
+import LaunchState from '../components/opportunities/LaunchState.astro';
+import AreaGrid from '../components/sections/AreaGrid.astro';
+import { site } from '../config/site';
+import { services } from '../content/services';
+import { faqsFor } from '../content/faqs';
+import { opportunities } from '../lib/opportunities';
+import { absoluteUrl, siteOrigin } from '../lib/seo';
+import { areas } from '../content/areas';
+
+const featured = opportunities
+  .filter((o) => o.status === 'accepting-enquiries' || o.status === 'open-for-applications')
+  .slice(0, 3);
+const homeFaqs = faqsFor('home', site.features.digitalScreensInterest);
+
+const orgLd: Record<string, unknown>[] = siteOrigin
+  ? [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: site.name,
+        slogan: site.tagline,
+        url: absoluteUrl('/'),
+        logo: absoluteUrl('/favicon.svg'),
+        description: site.positioning,
+        ...(site.contact.email ? { email: site.contact.email } : {}),
+        ...(site.contact.phone ? { telephone: site.contact.phone } : {}),
+        areaServed: areas.map((a) => ({ '@type': 'City', name: `${a.name}, Ontario` })),
+      },
+      { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: absoluteUrl('/') },
+    ]
+  : [];
+---
+<BaseLayout
+  title="Post and Board Media | Advertising Boards & Shared Mailers"
+  description="Advertise on boards inside local businesses or join a shared mailer. Post and Board Media brings advertisers together and handles the coordination. Launching in Hamilton."
+  jsonLd={orgLd}
+>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow">{site.tagline}</p>
+        <h1>Get your business seen around the neighbourhood.</h1>
+        <p class="lede">
+          Advertise on boards inside local businesses or join a shared mailer. We bring advertisers together and handle
+          the coordination.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="#options">Explore advertising options</a>
+          <a class="btn btn--ghost" href="/host-a-board">Host a board</a>
+        </div>
+        <p class="hero__geo">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2"></path><circle cx="12" cy="10" r="2.5" fill="currentColor"></circle></svg>
+          {site.launchLine}
+        </p>
+      </div>
+      <div class="hero__visual">
+        <ExampleFigure class="hero__figure">
+          <div class="hero__stack">
+            <div class="hero__board"><BoardMockup /></div>
+            <div class="hero__card"><PostcardMockup /></div>
+          </div>
+        </ExampleFigure>
+        <ul class="hero__legend" aria-label="What the example shows">
+          <li><span class="dot dot--forest"></span>Board inside a local business</li>
+          <li><span class="dot dot--orange"></span>Shared mailer with several advertisers</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO OPTIONS -->
+  <section class="section" id="options" aria-labelledby="options-title">
+    <div class="container">
+      <SectionHead
+        eyebrow="Advertising options"
+        title="Two ways to reach people nearby"
+        lede="Advertise inside local businesses or join a shared mailer. Choose the area you want to reach, and we’ll help organize the rest."
+        id="options-title"
+      />
+      <div class="options">
+        <article class="option">
+          <div class="option__visual option__visual--board">
+            <ExampleFigure><BoardMockup highlight={1} /></ExampleFigure>
+          </div>
+          <div class="option__body">
+            <p class="eyebrow">{services.boards.eyebrow}</p>
+            <h3>Advertising boards at approved host venues</h3>
+            <p>
+              A branded specials board inside a café, restaurant or other customer-facing business. The venue keeps a
+              large area for its own specials. Advertisers share a designated section beneath it.
+            </p>
+            <ul class="checklist">
+              <li>A specific venue and display position</li>
+              <li>A set term, confirmed in writing</li>
+              <li>Clean, separated ad spaces</li>
+            </ul>
+            <a class="text-link" href={services.boards.href}>How advertising boards work</a>
+          </div>
+        </article>
+        <article class="option">
+          <div class="option__visual option__visual--mailer">
+            <ExampleFigure><PostcardMockup highlight={4} /></ExampleFigure>
+          </div>
+          <div class="option__body">
+            <p class="eyebrow">{services.mailers.eyebrow}</p>
+            <h3>Shared mailers for households or businesses</h3>
+            <p>
+              Several businesses share one printed mailer and its campaign costs. You buy a defined space in a campaign
+              we organize — you don’t have to run a mailing yourself.
+            </p>
+            <ul class="checklist">
+              <li>A defined area and recipient type</li>
+              <li>Household and business campaigns kept separate</li>
+              <li>Artwork deadline and mailing window up front</li>
+            </ul>
+            <a class="text-link" href={services.mailers.href}>How shared mailers work</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <HowItWorks />
+
+  <!-- OPPORTUNITIES -->
+  <section class="section" aria-labelledby="opps-title">
+    <div class="container">
+      <SectionHead eyebrow="Opportunities" title="Current opportunities" id="opps-title">
+        {featured.length > 0 && <p class="lede">Placements and campaigns we’re currently organizing. Availability is confirmed when we reply.</p>}
+      </SectionHead>
+      {
+        featured.length > 0 ? (
+          <>
+            <div class="opp-grid">
+              {featured.map((o) => (
+                <OpportunityCard opp={o} />
+              ))}
+            </div>
+            <p class="more-link">
+              <a class="text-link" href="/opportunities">See all opportunities</a>
+            </p>
+          </>
+        ) : (
+          <LaunchState headingLevel="h3" />
+        )
+      }
+    </div>
+  </section>
+
+  <!-- WHY SHARED -->
+  <section class="section section--cream" aria-labelledby="why-title">
+    <div class="container grid-2 grid-2--wide-left">
+      <div>
+        <SectionHead
+          eyebrow="Why shared advertising"
+          title="One campaign, several local businesses"
+          lede="Shared formats let local businesses take part in organized advertising without running a whole campaign on their own."
+          id="why-title"
+        />
+        <ul class="why">
+          <li>
+            <h3>Shared costs, defined space</h3>
+            <p>Several advertisers share one campaign or display. Each buys a clearly defined space, and the shared structure is explained in every quote.</p>
+          </li>
+          <li>
+            <h3>Choose a placement, skip the logistics</h3>
+            <p>You pick a suitable placement or campaign. We organize the venue, printing and distribution.</p>
+          </li>
+          <li>
+            <h3>One contact for everything</h3>
+            <p>Artwork, approvals, deadlines and updates go through one person — not a string of vendors.</p>
+          </li>
+          <li>
+            <h3>Add more over time</h3>
+            <p>Start with one placement. Suitable additional placements or campaigns can be considered later, each quoted separately.</p>
+          </li>
+        </ul>
+      </div>
+      <ExampleFigure caption="Each advertiser gets a clearly separated space — not a crowded wall of business cards.">
+        <PostcardMockup variant="business" />
+      </ExampleFigure>
+    </div>
+  </section>
+
+  <!-- HOST -->
+  <section class="section section--forest" aria-labelledby="host-title">
+    <div class="container grid-2">
+      <div class="host__visual">
+        <ExampleFigure><BoardMockup /></ExampleFigure>
+      </div>
+      <div>
+        <p class="eyebrow">For venues</p>
+        <h2 id="host-title">Give your specials a better home.</h2>
+        <p class="lede">
+          Suitable approved venues can receive a branded board at no upfront cost once the advertising campaign is
+          funded and the placement agreement is confirmed.
+        </p>
+        <ul class="checklist">
+          <li>A large area on the board stays yours for specials, events and announcements.</li>
+          <li>Advertisers fund their placements in a smaller, designated section.</li>
+          <li>You agree to a display position, a term and the advertising rules up front.</li>
+        </ul>
+        <div class="btn-row" style="margin-top:1.75rem">
+          <a class="btn btn--accent" href="/host-a-board">Explore hosting a board</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AREAS -->
+  <section class="section" aria-labelledby="areas-title">
+    <div class="container">
+      <SectionHead
+        eyebrow="Areas"
+        title="Cities and communities"
+        lede="We’re launching in Hamilton and accepting enquiries from surrounding communities. An area listed here means we welcome enquiries — not that placements are already available there."
+        id="areas-title"
+      />
+      <AreaGrid />
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--paper" aria-labelledby="faq-title">
+    <div class="container faq-wrap">
+      <SectionHead eyebrow="Questions" title="Practical answers" id="faq-title" lede="What people usually ask before their first placement." />
+      <div>
+        <FaqList items={homeFaqs} />
+        <div style="margin-top:2.5rem"><DigitalInterest /></div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand secondary={{ href: '/opportunities', label: 'See opportunities' }} />
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 7vw, 5.5rem);
+    background:
+      radial-gradient(circle at 85% 20%, rgba(240, 191, 76, 0.22), transparent 40%),
+      linear-gradient(var(--ivory), var(--ivory));
+    overflow: hidden;
+  }
+  .hero__grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: center;
+  }
+  @media (min-width: 960px) {
+    .hero__grid {
+      grid-template-columns: 1.02fr 1fr;
+    }
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.1rem);
+    max-width: 15ch;
+  }
+  .hero .lede {
+    margin-bottom: 1.8rem;
+  }
+  .hero__geo {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    margin-top: 1.6rem;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .hero__geo svg {
+    flex: none;
+    color: var(--orange-deep);
+    margin-top: 0.15rem;
+  }
+  .hero__stack {
+    position: relative;
+    padding-bottom: 14%;
+  }
+  .hero__board {
+    width: 64%;
+    transform: rotate(-1.5deg);
+  }
+  .hero__card {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 68%;
+    transform: rotate(2.5deg);
+  }
+  .hero__legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.4rem;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .hero__legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .dot {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 3px;
+  }
+  .dot--forest {
+    background: var(--forest);
+  }
+  .dot--orange {
+    background: var(--orange);
+  }
+
+  .options {
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 900px) {
+    .options {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .option {
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius) + 6px);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .option__visual {
+    padding: 2.5rem 2rem 2rem;
+    display: grid;
+    place-items: center;
+    min-height: 330px;
+  }
+  .option__visual--board {
+    background: var(--sage);
+  }
+  .option__visual--board :global(figure) {
+    width: min(62%, 260px);
+  }
+  .option__visual--mailer {
+    background: #fbe5cf;
+  }
+  .option__visual--mailer :global(figure) {
+    width: 100%;
+  }
+  .option__body {
+    padding: clamp(1.4rem, 3vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1;
+  }
+  .option__body .checklist {
+    margin: 0.5rem 0 1.4rem;
+  }
+  .option__body .text-link {
+    margin-top: auto;
+  }
+
+  .opp-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  }
+  .more-link {
+    margin-top: 1.5rem;
+  }
+
+  .why {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .why {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .why li {
+    border-top: 3px solid var(--forest);
+    padding-top: 0.9rem;
+  }
+  .why h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.4rem;
+  }
+  .why p {
+    color: var(--muted);
+    margin: 0;
+    font-size: 0.97rem;
+  }
+
+  .host__visual {
+    max-width: 380px;
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .faq-wrap {
+    display: grid;
+    gap: 1rem 4rem;
+  }
+  @media (min-width: 900px) {
+    .faq-wrap {
+      grid-template-columns: 0.8fr 1.4fr;
+      align-items: start;
+    }
+  }
+</style>

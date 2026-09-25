@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostcardMockup from '../components/mockups/PostcardMockup.astro';
+import MailerBackMockup from '../components/mockups/MailerBackMockup.astro';
+import ExampleFigure from '../components/mockups/ExampleFigure.astro';
+import SectionHead from '../components/ui/SectionHead.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import QuoteIncludes from '../components/sections/QuoteIncludes.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import { faqsFor } from '../content/faqs';
+import { pricing } from '../content/pricing';
+import { site } from '../config/site';
+
+const specs = [
+  ['Distribution area', 'The exact area the campaign covers.'],
+  ['Recipient type', 'Households or business addresses — never both mixed into one figure.'],
+  ['Quantity', 'How many pieces are printed and distributed, once confirmed.'],
+  ['Your ad space', 'Position, size and which side of the mailer.'],
+  ['Artwork deadline', 'When your artwork or content must be approved.'],
+  ['Mailing window', 'When the mailer is expected to go out.'],
+  ['Participation requirements', 'What the campaign needs to go ahead, and what happens if it doesn’t.'],
+];
+---
+<BaseLayout
+  title="Shared Mailers for Local Businesses | Post and Board Media"
+  description="Join a shared mailer campaign with other local businesses. Choose a defined space in a household or business-address mailer — Post and Board Media organizes the rest."
+  breadcrumbs={[{ label: 'Shared mailers' }]}
+>
+  <section class="section--tight page-hero">
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Delivered to a defined area</p>
+        <h1>Shared mailers for local businesses</h1>
+        <p class="lede">
+          Several businesses share one printed mailer and the campaign costs. Each advertiser buys a defined space in a
+          campaign we organize.
+        </p>
+        <p class="pull">Join a campaign — not organize an entire mailing yourself.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="/contact?format=mailer">Ask about upcoming mailers</a>
+          <a class="btn btn--ghost" href="/opportunities">See opportunities</a>
+        </div>
+      </div>
+      <ExampleFigure caption="Front of a shared postcard with six separate advertisers.">
+        <PostcardMockup highlight={2} />
+      </ExampleFigure>
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="model-title">
+    <div class="container">
+      <SectionHead eyebrow="The model" title="We organize the campaign. You choose your space." id="model-title"
+        lede="You don’t have to recruit the other advertisers, find a printer or arrange distribution. We plan each campaign, bring non-competing businesses together and coordinate everything through one contact." />
+      <div class="model">
+        <div class="model__col">
+          <h3>What we do</h3>
+          <ul class="checklist">
+            <li>Plan the campaign’s area, recipient type and timing</li>
+            <li>Bring the advertisers together</li>
+            <li>Coordinate artwork and approvals</li>
+            <li>Arrange printing and distribution through appropriate providers</li>
+          </ul>
+        </div>
+        <div class="model__col">
+          <h3>What you do</h3>
+          <ul class="checklist">
+            <li>Tell us where and who you want to reach</li>
+            <li>Choose a space in a suitable campaign</li>
+            <li>Send artwork, or your logo and text</li>
+            <li>Approve your ad before it prints</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="aud-title">
+    <div class="container">
+      <SectionHead eyebrow="Two kinds of campaign" title="Households or businesses — kept separate" id="aud-title"
+        lede="Household and business-address campaigns reach different people, so we plan them as different campaigns and never add them together into one reach number." />
+      <div class="aud">
+        <article class="aud__card">
+          <span class="chip chip--orange">Household campaigns</span>
+          <h3>For businesses that serve people near home</h3>
+          <p>Delivered to residential addresses in a defined neighbourhood or area. A fit for restaurants, trades, clinics, fitness studios, home services and other neighbourhood businesses.</p>
+        </article>
+        <article class="aud__card aud__card--biz">
+          <span class="chip">Business-address campaigns</span>
+          <h3>For businesses that sell to other businesses</h3>
+          <p>Delivered to commercial addresses, such as a business district or industrial area. A fit for cleaning, catering, IT, printing, signage, bookkeeping and other B2B services.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream" aria-labelledby="specs-title">
+    <div class="container grid-2">
+      <div>
+        <SectionHead eyebrow="Before you commit" title="What every campaign specifies" id="specs-title"
+          lede="Each confirmed campaign lists these details up front, so you can decide whether it fits." />
+        <div class="notes">
+          <p><strong>Category exclusivity</strong>, where offered, applies to that particular campaign — not a whole city or every advertising product.</p>
+          <p><strong>Distribution</strong> is arranged through appropriate print and delivery providers. The method is named in each campaign proposal.</p>
+        </div>
+      </div>
+      <dl class="spec-list">
+        {specs.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="frontback-title">
+    <div class="container">
+      <SectionHead eyebrow="Front and back" title="Every ad gets its own clear space" id="frontback-title" center
+        lede="A good shared mailer is easy to scan. Each advertiser has a defined, separated panel with room for a name, an offer and a way to get in touch." />
+      <div class="frontback">
+        <ExampleFigure caption="Front"><PostcardMockup /></ExampleFigure>
+        <ExampleFigure caption="Back"><MailerBackMockup /></ExampleFigure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <QuoteIncludes price={pricing.mailer} />
+    </div>
+  </section>
+
+  <HowItWorks title="From enquiry to mailbox" />
+
+  <section class="section section--paper" aria-labelledby="mailer-faq">
+    <div class="container--narrow">
+      <h2 id="mailer-faq">Shared mailer questions</h2>
+      <FaqList items={faqsFor('mailers', site.features.digitalScreensInterest)} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Ask about upcoming mailers."
+    text="Tell us the area and whether you want to reach households or businesses. We’ll share what’s being planned."
+    primary={{ href: '/contact?format=mailer', label: 'Ask about upcoming mailers' }}
+    secondary={{ href: '/advertising-boards', label: 'Advertising boards' }}
+  />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-top: 1rem;
+  }
+  .pull {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--step-2);
+    color: var(--forest);
+    border-left: 4px solid var(--orange);
+    padding-left: 1rem;
+    margin: 1.5rem 0 1.8rem;
+    line-height: 1.25;
+  }
+  .model {
+    display: grid;
+    gap: 1.25rem;
+  }
+  @media (min-width: 760px) {
+    .model {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .model__col {
+    background: var(--ivory);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.6rem;
+  }
+  .model__col h3 {
+    font-size: var(--step-1);
+  }
+  .aud {
+    display: grid;
+    gap: 1.25rem;
+  }
+  @media (min-width: 760px) {
+    .aud {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .aud__card {
+    padding: 1.8rem;
+    border-radius: var(--radius);
+    background: #fbe5cf;
+  }
+  .aud__card--biz {
+    background: var(--sage);
+  }
+  .aud__card h3 {
+    font-size: var(--step-2);
+    margin-top: 1rem;
+  }
+  .aud__card p {
+    margin: 0;
+  }
+  .notes p {
+    padding: 1rem 1.1rem;
+    background: var(--paper);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    font-size: 0.97rem;
+  }
+  .frontback {
+    display: grid;
+    gap: 2.5rem 2rem;
+  }
+  @media (min-width: 860px) {
+    .frontback {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

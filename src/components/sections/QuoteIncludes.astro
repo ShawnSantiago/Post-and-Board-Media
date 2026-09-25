@@ -1,0 +1,52 @@
+---
+import { pricingFallback, quoteIncludes } from '../../content/pricing';
+import PriceTag from '../ui/PriceTag.astro';
+import type { PriceRecord } from '../../content/pricing';
+interface Props {
+  price: PriceRecord;
+}
+const { price } = Astro.props;
+---
+<div class="quote card">
+  <div class="quote__price">
+    <p class="eyebrow">Pricing</p>
+    <PriceTag price={price} compact />
+    <p class="quote__fallback">{pricingFallback}</p>
+  </div>
+  <div>
+    <h3 class="quote__title">Every written quote specifies</h3>
+    <ul class="checklist">
+      {quoteIncludes.map((q) => <li>{q}</li>)}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .quote {
+    display: grid;
+    gap: 1.5rem 3rem;
+  }
+  @media (min-width: 820px) {
+    .quote {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+  }
+  .quote__price {
+    border-bottom: 1px dashed var(--line);
+    padding-bottom: 1.25rem;
+  }
+  @media (min-width: 820px) {
+    .quote__price {
+      border-bottom: 0;
+      border-right: 1px dashed var(--line);
+      padding: 0 2rem 0 0;
+    }
+  }
+  .quote__fallback {
+    color: var(--muted);
+    margin: 0.5rem 0 0;
+  }
+  .quote__title {
+    font-size: var(--step-1);
+  }
+</style>

@@ -1,0 +1,154 @@
+---
+import { draftAreas, publishedAreas, statusLabels } from '../../content/areas';
+interface Props {
+  headingLevel?: 'h2' | 'h3';
+}
+const { headingLevel: H = 'h3' } = Astro.props;
+---
+<div class="areas">
+  <ul class="areas__grid">
+    {
+      publishedAreas.map((a, i) => (
+        <li>
+          <a class:list={['area-card', `area-card--${i % 3}`]} href={`/areas/${a.slug}`}>
+            <span class="area-card__region">{a.region}</span>
+            <H class="area-card__name">{a.name}</H>
+            <span class="area-card__line">{a.cardLine}</span>
+            <span class="area-card__status">
+              <span class="chip chip--dot">Boards: {statusLabels[a.status.boards]}</span>
+              <span class="chip chip--dot chip--orange">Mailers: {statusLabels[a.status.mailers]}</span>
+            </span>
+            <span class="area-card__go" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  {
+    draftAreas.length > 0 && (
+      <div class="areas__more">
+        <p>
+          <strong>Also accepting enquiries from:</strong>
+        </p>
+        <ul>
+          {draftAreas.map((a) => (
+            <li>
+              <a href={`/contact?area=${a.slug}`}>{a.name}</a>
+            </li>
+          ))}
+        </ul>
+        <p class="areas__note">No placements are confirmed in these areas yet.</p>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .areas__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.1rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .area-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 100%;
+    padding: 1.5rem 1.4rem 1.4rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--paper);
+    text-decoration: none;
+    color: var(--ink);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    overflow: hidden;
+  }
+  .area-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--forest);
+  }
+  .area-card--1::before {
+    background: var(--orange);
+  }
+  .area-card--2::before {
+    background: var(--mustard);
+  }
+  .area-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    color: var(--ink);
+  }
+  .area-card__region {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .area-card__name {
+    margin: 0;
+    font-size: var(--step-3);
+  }
+  .area-card__line {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .area-card__status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: auto;
+    padding-top: 0.6rem;
+  }
+  .area-card__go {
+    position: absolute;
+    top: 1.3rem;
+    right: 1.3rem;
+    font-size: 1.3rem;
+    color: var(--forest);
+  }
+  .areas__more {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 1rem;
+  }
+  .areas__more p {
+    margin: 0;
+  }
+  .areas__more ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+  }
+  .areas__more a {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .areas__more a:hover {
+    border-color: var(--forest);
+  }
+  .areas__note {
+    width: 100%;
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+</style>

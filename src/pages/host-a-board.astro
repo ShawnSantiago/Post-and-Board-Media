@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BoardMockup from '../components/mockups/BoardMockup.astro';
+import ExampleFigure from '../components/mockups/ExampleFigure.astro';
+import SectionHead from '../components/ui/SectionHead.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import HostForm from '../components/forms/HostForm.astro';
+import { faqsFor } from '../content/faqs';
+import { site } from '../config/site';
+
+const suitable = [
+  'Customers spend a few minutes in the space — waiting, ordering or sitting down',
+  'A visible wall or display spot near the counter, entrance or seating',
+  'A customer-facing business with regular local visitors',
+  'Owners or managers who’d genuinely use a board for specials or announcements',
+];
+---
+<BaseLayout
+  title="Host an Advertising Board | Free Specials Board for Venues | Post and Board Media"
+  description="Restaurants, cafés and other local venues can host a branded specials board funded by local advertisers. Learn how hosting works, what you agree to, and how to apply."
+  breadcrumbs={[{ label: 'Host a board' }]}
+>
+  <section class="section--tight">
+    <div class="container grid-2 grid-2--wide-left">
+      <div>
+        <p class="eyebrow">For restaurants, cafés and local venues</p>
+        <h1>Give your specials a better home.</h1>
+        <p class="lede">
+          Host a branded board with a large area for your own specials and announcements. Local advertisers fund their
+          placements in a smaller section, so approved venues receive the board at no upfront cost once the campaign is
+          funded and the placement agreement is confirmed.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="#host-form">Suggest your venue</a>
+          <a class="btn btn--ghost" href="#how-hosting-works">How hosting works</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <ExampleFigure caption="Your area on top. Advertisers in a tidy section below.">
+          <BoardMockup />
+        </ExampleFigure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper" id="how-hosting-works" aria-labelledby="both-title">
+    <div class="container">
+      <SectionHead eyebrow="Both sides of the arrangement" title="How hosting works" id="both-title"
+        lede="It’s a simple exchange, set out in writing before anything is installed." />
+      <div class="sides">
+        <div class="side">
+          <p class="side__who">The venue</p>
+          <h3>Receives a useful branded board</h3>
+          <p>Most of the board is yours for specials, events, hours or announcements.</p>
+        </div>
+        <div class="side side--orange">
+          <p class="side__who">Advertisers</p>
+          <h3>Fund their placements</h3>
+          <p>Local businesses buy defined spaces in a designated section of the board.</p>
+        </div>
+        <div class="side side--mustard">
+          <p class="side__who">Together</p>
+          <h3>Agree the arrangement</h3>
+          <p>You agree to a display position, a term and the advertising rules. We coordinate the rest.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="detail-title">
+    <div class="container">
+      <SectionHead eyebrow="The details" title="What to expect as a host" id="detail-title" />
+      <div class="details">
+        <article>
+          <h3>What makes a suitable placement</h3>
+          <ul class="checklist">
+            {suitable.map((s) => <li>{s}</li>)}
+          </ul>
+          <p class="muted">Not every venue will be the right fit, and we’ll tell you plainly if it isn’t.</p>
+        </article>
+        <article>
+          <h3>Your own content area</h3>
+          <p>The larger part of the board is reserved for you. How you update it — and the format that suits your venue — is agreed before production, so the board is genuinely useful day to day.</p>
+        </article>
+        <article>
+          <h3>Advertising categories and approval</h3>
+          <p>The placement agreement sets out which advertising categories are allowed. We won’t place ads that compete directly with your business or conflict with the agreed rules.</p>
+        </article>
+        <article>
+          <h3>Installation and display</h3>
+          <p>We agree the display position with you and schedule installation at a time that suits your business. You agree to keep the board displayed in that position for the agreed term.</p>
+        </article>
+        <article>
+          <h3>If something needs attention</h3>
+          <p>
+            Contact us directly{site.contact.email ? <> at <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></> : ' through the contact page'}.
+            Maintenance, repair and removal responsibilities are written into the placement agreement.
+          </p>
+        </article>
+        <article>
+          <h3>What hosting isn’t</h3>
+          <p>It isn’t a revenue-share scheme, and it isn’t unconditional free equipment. It’s a practical arrangement: a useful board for you, funded by local advertisers, under terms you agree to in advance.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream" id="host-form" aria-label="Host enquiry">
+    <div class="container host-grid">
+      <div>
+        <h2>Questions from venues</h2>
+        <FaqList items={faqsFor('host', site.features.digitalScreensInterest)} />
+      </div>
+      <HostForm />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-visual {
+    max-width: 340px;
+    width: 100%;
+    margin-inline: auto;
+  }
+  .sides {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  }
+  .side {
+    border-radius: var(--radius);
+    padding: 1.6rem;
+    background: var(--sage);
+  }
+  .side--orange {
+    background: #fbe5cf;
+  }
+  .side--mustard {
+    background: #fbecc4;
+  }
+  .side__who {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+  .side h3 {
+    font-size: var(--step-2);
+  }
+  .side p:last-child {
+    margin: 0;
+  }
+  .details {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .details article {
+    border-top: 3px solid var(--forest);
+    padding-top: 1rem;
+  }
+  .details h3 {
+    font-size: var(--step-1);
+  }
+  .muted {
+    color: var(--muted);
+    font-size: 0.93rem;
+    margin-top: 0.8rem;
+  }
+  .host-grid {
+    display: grid;
+    gap: 3rem;
+  }
+  @media (min-width: 980px) {
+    .host-grid {
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: start;
+    }
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+interface Props {
+  title?: string;
+  text?: string;
+  primary?: { href: string; label: string };
+  secondary?: { href: string; label: string };
+}
+const {
+  title = 'Tell us where you’d like to advertise.',
+  text = 'Share your area and what you have in mind. We’ll reply with options and honest next steps — no sales meeting required.',
+  primary = { href: '/contact', label: 'Check availability' },
+  secondary,
+} = Astro.props;
+---
+<section class="section section--forest cta-band" aria-labelledby="cta-title">
+  <div class="container cta-band__inner">
+    <div>
+      <h2 id="cta-title">{title}</h2>
+      <p class="lede">{text}</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--accent" href={primary.href}>{primary.label}</a>
+      {secondary && <a class="btn btn--ghost" href={secondary.href}>{secondary.label}</a>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-band::before {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: var(--orange);
+    opacity: 0.9;
+  }
+  .cta-band::after {
+    content: '';
+    position: absolute;
+    right: 120px;
+    bottom: -50px;
+    width: 140px;
+    height: 140px;
+    border-radius: 22px;
+    background: var(--mustard);
+    opacity: 0.9;
+  }
+  .cta-band__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 1.5rem;
+    align-items: end;
+  }
+  @media (min-width: 880px) {
+    .cta-band__inner {
+      grid-template-columns: 1.4fr auto;
+    }
+  }
+  .cta-band h2 {
+    max-width: 18ch;
+  }
+  @media (max-width: 879px) {
+    .cta-band::before,
+    .cta-band::after {
+      opacity: 0.25;
+    }
+  }
+</style>

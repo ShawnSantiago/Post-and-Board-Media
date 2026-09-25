@@ -1,0 +1,46 @@
+---
+/** Small, secondary interest-only section. Hidden when the feature flag is off. */
+import { site } from '../../config/site';
+const enabled = site.features.digitalScreensInterest;
+---
+{
+  enabled && (
+    <aside class="digital" aria-labelledby="digital-title">
+      <div>
+        <p class="chip chip--muted">Not available yet</p>
+        <h2 id="digital-title">Interested in future digital screen placements?</h2>
+        <p>
+          We may add digital screens inside host venues later. There are no screens, bookings or prices yet — but you
+          can let us know you’re interested.
+        </p>
+      </div>
+      <a class="btn btn--ghost btn--sm" href="/contact?format=digital-interest">Register interest</a>
+    </aside>
+  )
+}
+
+<style>
+  .digital {
+    display: grid;
+    gap: 1rem 2rem;
+    align-items: center;
+    border: 1px dashed #b3a88f;
+    border-radius: var(--radius);
+    padding: 1.4rem 1.6rem;
+    background: transparent;
+  }
+  @media (min-width: 760px) {
+    .digital {
+      grid-template-columns: 1fr auto;
+    }
+  }
+  .digital h2 {
+    font-size: var(--step-1);
+    margin: 0.6rem 0 0.4rem;
+  }
+  .digital p:last-child {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+</style>

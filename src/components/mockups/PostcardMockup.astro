@@ -1,0 +1,86 @@
+---
+/**
+ * Example shared postcard (one side) with several clearly separated
+ * advertisers. All businesses shown are fictional.
+ */
+interface Props {
+  class?: string;
+  highlight?: number;
+  variant?: 'household' | 'business';
+}
+const { class: className, highlight, variant = 'household' } = Astro.props;
+const uid = `card-${Math.random().toString(36).slice(2, 8)}`;
+
+const householdAds = [
+  { kind: 'LANDSCAPING', name: 'Greenway Yards', line: 'Spring clean-ups', bg: '#dfe7da', fg: '#1e3a2d', dot: '#2a4d3c' },
+  { kind: 'DENTAL', name: 'Brightside', line: 'New patients welcome', bg: '#fffdf8', fg: '#1e3a2d', dot: '#e2772f' },
+  { kind: 'PIZZERIA', name: 'Corner Slice', line: 'Order for pickup', bg: '#f0bf4c', fg: '#16291f', dot: '#a8481a' },
+  { kind: 'PET GROOMING', name: 'Tidy Paws', line: 'Walk-ins on Saturdays', bg: '#fde4d0', fg: '#16291f', dot: '#e2772f' },
+  { kind: 'TUTORING', name: 'Northstar', line: 'Grades 1 to 12', bg: '#fffdf8', fg: '#1e3a2d', dot: '#2a4d3c' },
+  { kind: 'HVAC', name: 'Steadyheat', line: 'Furnace tune-ups', bg: '#1e3a2d', fg: '#fffdf8', dot: '#f0bf4c' },
+];
+const businessAds = [
+  { kind: 'OFFICE CLEANING', name: 'Brightline', line: 'Evening crews', bg: '#dfe7da', fg: '#1e3a2d', dot: '#2a4d3c' },
+  { kind: 'IT SUPPORT', name: 'Keystone IT', line: 'Small-office help', bg: '#fffdf8', fg: '#1e3a2d', dot: '#e2772f' },
+  { kind: 'CATERING', name: 'Longtable', line: 'Team lunches', bg: '#f0bf4c', fg: '#16291f', dot: '#a8481a' },
+  { kind: 'SIGNAGE', name: 'Tallpost Signs', line: 'Storefront signs', bg: '#fde4d0', fg: '#16291f', dot: '#e2772f' },
+  { kind: 'BOOKKEEPING', name: 'Ledgerwise', line: 'Monthly bookkeeping', bg: '#fffdf8', fg: '#1e3a2d', dot: '#2a4d3c' },
+  { kind: 'COURIER', name: 'Quickstep', line: 'Same-day local runs', bg: '#1e3a2d', fg: '#fffdf8', dot: '#f0bf4c' },
+];
+const ads = variant === 'business' ? businessAds : householdAds;
+const heading = variant === 'business' ? 'Local services for your business' : 'Good neighbours, nearby';
+
+const W = 170;
+const H = 118;
+const pos = (i: number) => ({ x: 22 + (i % 3) * (W + 9), y: 88 + Math.floor(i / 3) * (H + 9) });
+---
+<svg class:list={['postcard', className]} viewBox="0 0 576 360" role="img" aria-labelledby={`${uid}-t ${uid}-d`}>
+  <title id={`${uid}-t`}>Example layout of a shared postcard</title>
+  <desc id={`${uid}-d`}>
+    One side of a shared mailer divided into six equal, clearly separated ad spaces for fictional local businesses.
+  </desc>
+  <rect width="576" height="360" rx="10" fill="#fffdf8" stroke="#d9cfbb"></rect>
+  <rect x="0" y="0" width="576" height="70" rx="10" fill="#1e3a2d"></rect>
+  <rect x="0" y="50" width="576" height="20" fill="#1e3a2d"></rect>
+  <text x="22" y="44" class="p-display" font-size="25" fill="#fffdf8">{heading}</text>
+  <text x="554" y="42" text-anchor="end" class="p-body" font-size="11" font-weight="700" letter-spacing="1.6" fill="#f0bf4c">SHARED MAILER</text>
+  {
+    ads.map((ad, i) => {
+      const p = pos(i);
+      const isHi = highlight === i;
+      return (
+        <g transform={`translate(${p.x} ${p.y})`}>
+          <rect width={W} height={H} rx="7" fill={isHi ? '#fffdf8' : ad.bg} stroke={isHi ? '#e2772f' : '#d9cfbb'} stroke-width={isHi ? 3 : 1} stroke-dasharray={isHi ? '8 6' : undefined} />
+          {isHi ? (
+            <>
+              <text x={W / 2} y="56" text-anchor="middle" class="p-display" font-size="20" fill="#1e3a2d">Your ad here</text>
+              <text x={W / 2} y="80" text-anchor="middle" class="p-body" font-size="12" fill="#555a50">One defined space</text>
+            </>
+          ) : (
+            <>
+              <circle cx="20" cy="24" r="8" fill={ad.dot} />
+              <text x="34" y="28" class="p-body" font-size="9.5" font-weight="700" letter-spacing="1.2" fill={ad.fg} opacity="0.75">{ad.kind}</text>
+              <text x="12" y="66" class="p-display" font-size="19" fill={ad.fg}>{ad.name}</text>
+              <text x="12" y="90" class="p-body" font-size="12.5" fill={ad.fg}>{ad.line}</text>
+            </>
+          )}
+        </g>
+      );
+    })
+  }
+</svg>
+
+<style>
+  .postcard {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 14px 26px rgba(30, 58, 45, 0.22));
+  }
+  .p-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .p-body {
+    font-family: var(--font-body);
+  }
+</style>

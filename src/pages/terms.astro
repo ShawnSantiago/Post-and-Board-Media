@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+const updated = 'September 25, 2026';
+---
+<BaseLayout
+  title="Website Terms | Post and Board Media"
+  description="Terms for using the Post and Board Media website, including how enquiries, quotes and listed opportunities work."
+  breadcrumbs={[{ label: 'Terms' }]}
+>
+  <section class="section--tight">
+    <div class="container--narrow prose">
+      <h1>Website terms</h1>
+      <p class="owner-review">
+        <strong>Draft for owner review.</strong> These terms describe how the website works today. They have not been
+        reviewed by a lawyer. Advertising and hosting arrangements are governed by separate written agreements, which
+        still need to be prepared.
+      </p>
+      <p><em>Last updated: {updated}</em></p>
+
+      <h2>About these terms</h2>
+      <p>These terms apply to your use of this website, operated by {site.name}. They don’t cover any advertising or hosting arrangement — those are set out in a separate written quote or agreement.</p>
+      <p class="owner-review">Owner review: confirm the legal entity name and governing law (for example, Ontario).</p>
+
+      <h2>Enquiries aren’t bookings</h2>
+      <p>
+        Sending an enquiry or host application doesn’t reserve, book or guarantee any placement, campaign or space, and
+        doesn’t commit you to buy anything. Availability is confirmed only in our reply, and an arrangement exists only
+        once both sides accept a written quote or agreement.
+      </p>
+
+      <h2>Listed opportunities</h2>
+      <p>
+        We update listings by hand and aim to keep them accurate, but details such as status and available spaces can
+        change. The written quote is the final word on placement, coverage, term, artwork support, scope, total cost and
+        conditions.
+      </p>
+
+      <h2>Prices</h2>
+      <p>Any prices shown on this website are in Canadian dollars. Where no price is shown, pricing is provided on request.</p>
+      <p class="owner-review">Owner review: confirm tax treatment (HST) and payment terms for quotes.</p>
+
+      <h2>No guaranteed results</h2>
+      <p>
+        Advertising results depend on many things outside our control. We don’t promise any particular number of
+        customers, leads, sales, impressions or return on investment.
+      </p>
+
+      <h2>Example layouts</h2>
+      <p>Images labelled “Example layout” show how placements may look. Businesses named in them are fictional.</p>
+
+      {
+        site.features.digitalScreensInterest && (
+          <>
+            <h2>Future services</h2>
+            <p>Digital screen advertising isn’t currently offered. Registering interest doesn’t create a booking or obligation.</p>
+          </>
+        )
+      }
+
+      <h2>Website content</h2>
+      <p>The site’s text, design and brand elements belong to {site.name}. Please don’t reuse them without permission.</p>
+
+      <h2>Questions still to decide</h2>
+      <ul class="owner-review" style="padding-left:2rem">
+        <li>Cancellation and refund policy for placements and campaigns</li>
+        <li>What happens when a campaign doesn’t reach its participation requirements</li>
+        <li>Artwork ownership, approval deadlines and replacement costs</li>
+        <li>Host placement agreement: term, display position, maintenance and removal</li>
+        <li>Advertising content rules and prohibited categories</li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

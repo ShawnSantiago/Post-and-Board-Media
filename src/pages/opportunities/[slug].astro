@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EnquiryForm from '../../components/forms/EnquiryForm.astro';
+import PriceTag from '../../components/ui/PriceTag.astro';
+import { opportunities, isEnquirable } from '../../lib/opportunities';
+import { audienceLabels, opportunityStatusLabels, type Opportunity } from '../../content/opportunities';
+import { getArea } from '../../content/areas';
+import { formatLabels } from '../../content/services';
+import { formatDate, formatNumber } from '../../lib/format';
+import { pricingFallback } from '../../content/pricing';
+
+export function getStaticPaths() {
+  // Only records present in the loaded dataset get a page. In production that
+  // means approved records from src/content/opportunities.ts only.
+  return opportunities.map((o) => ({ params: { slug: o.slug }, props: { opp: o } }));
+}
+
+interface Props {
+  opp: Opportunity;
+}
+const { opp } = Astro.props;
+const area = getArea(opp.area);
+const enquirable = isEnquirable(opp);
+
+const rows: [string, string | undefined][] = [
+  ['Format', formatLabels[opp.format]],
+  ['Area', `${area?.name ?? opp.area}${opp.locality ? ` · ${opp.locality}` : ''}`],
+  ['Venue', opp.venueName],
+  ['Display position', opp.displayPosition],
+  ['Audience', opp.audience ? audienceLabels[opp.audience] : undefined],
+  ['Quantity', opp.quantity != null ? `${formatNumber(opp.quantity)} pieces` : undefined],
+  [opp.format === 'board' ? 'Term' : 'Campaign window', opp.term],
+  ['Ad space', opp.adSpace],
+  ['Artwork deadline', opp.artworkDeadline],
+  ['Artwork help', opp.artworkHelp],
+  ['Installation window', opp.installationWindow],
+  ['Category rules', opp.categoryRules],
+  ['Participation requirements', opp.participationRequirements],
+  ['If the placement becomes unavailable', opp.ifUnavailable],
+  ['Spaces available', opp.spacesAvailable != null ? String(opp.spacesAvailable) : undefined],
+  ['Status', opportunityStatusLabels[opp.status]],
+  ['Last updated', formatDate(opp.lastUpdated)],
+];
+---
+<BaseLayout
+  title={`${opp.title} | ${area?.name ?? ''} ${formatLabels[opp.format]} | Post and Board Media`}
+  description={opp.summary}
+  noindex={opp.isExample}
+  breadcrumbs={[{ label: 'Opportunities', href: '/opportunities' }, { label: opp.title }]}
+>
+  <section class="section--tight">
+    <div class="container detail">
+      <div>
+        {
+          opp.isExample && (
+            <div class="notice notice--warn" style="margin-bottom:1.25rem">
+              <strong>Example only — not a real opportunity.</strong>
+              This fictional listing previews the layout. It can’t be enquired about and never appears in production.
+            </div>
+          )
+        }
+        <div class="chips">
+          <span class="chip">{formatLabels[opp.format]}</span>
+          {opp.audience && <span class="chip chip--orange">{audienceLabels[opp.audience]}</span>}
+          <span class="chip chip--dot chip--mustard">{opportunityStatusLabels[opp.status]}</span>
+        </div>
+        <h1>{opp.title}</h1>
+        <p class="lede">{opp.summary}</p>
+
+        <h2 class="detail__h2">Placement details</h2>
+        <dl class="spec-list">
+          {rows.filter(([, v]) => v).map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+
+        <div class="card price-card">
+          <PriceTag price={opp.price} />
+          {opp.price && <p class="muted">{pricingFallback} Your written quote confirms the final details.</p>}
+        </div>
+      </div>
+
+      <aside class="detail__aside">
+        {
+          opp.isExample ? (
+            <div class="card">
+              <h2 class="detail__h2">Enquiries</h2>
+              <p>This is an example listing, so enquiries are disabled.</p>
+              <a class="btn btn--ghost" href="/contact">Send a general enquiry</a>
+            </div>
+          ) : enquirable ? (
+            <EnquiryForm
+              title="Enquire about this opportunity"
+              intro="Sending an enquiry doesn’t reserve a space. We’ll confirm availability and send a written quote."
+              opportunity={{ slug: opp.slug, title: opp.title, area: opp.area, format: opp.format }}
+              area={opp.area}
+              format={opp.format}
+            />
+          ) : (
+            <div class="card">
+              <h2 class="detail__h2">{opportunityStatusLabels[opp.status]}</h2>
+              <p>This opportunity isn’t taking enquiries. Tell us what you’re looking for and we’ll let you know about similar placements.</p>
+              <a class="btn btn--primary" href={`/contact?area=${opp.area}&format=${opp.format}`}>Ask about similar opportunities</a>
+            </div>
+          )
+        }
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .detail {
+    display: grid;
+    gap: 2.5rem;
+  }
+  @media (min-width: 980px) {
+    .detail {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+    .detail__aside {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .detail__h2 {
+    font-size: var(--step-2);
+    margin-top: 2rem;
+  }
+  .detail__aside .detail__h2 {
+    margin-top: 0;
+  }
+  .price-card {
+    margin-top: 2rem;
+  }
+  .muted {
+    color: var(--muted);
+    font-size: 0.93rem;
+    margin: 0.5rem 0 0;
+  }
+</style>

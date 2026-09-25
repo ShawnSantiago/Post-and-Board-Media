@@ -1,0 +1,127 @@
+---
+import type { Opportunity } from '../../content/opportunities';
+import { audienceLabels, opportunityStatusLabels } from '../../content/opportunities';
+import { getArea } from '../../content/areas';
+import { formatLabels } from '../../content/services';
+import { formatDate, formatNumber } from '../../lib/format';
+import { isEnquirable } from '../../lib/opportunities';
+import PriceTag from '../ui/PriceTag.astro';
+
+interface Props {
+  opp: Opportunity;
+  headingLevel?: 'h2' | 'h3';
+}
+const { opp, headingLevel: H = 'h3' } = Astro.props;
+const area = getArea(opp.area);
+const enquirable = isEnquirable(opp);
+const statusTone =
+  opp.status === 'fully-booked' || opp.status === 'completed' ? 'chip--muted' : opp.status === 'open-for-applications' ? 'chip--mustard' : '';
+const enquireHref = `/contact?opportunity=${encodeURIComponent(opp.slug)}&area=${opp.area}&format=${opp.format}`;
+---
+<article
+  class:list={['opp', { 'opp--example': opp.isExample }]}
+  data-opp
+  data-area={opp.area}
+  data-format={opp.format}
+  data-audience={opp.audience ?? ''}
+>
+  {opp.isExample && <p class="example-label">Example only — not a real opportunity</p>}
+  <div class="opp__chips">
+    <span class="chip">{formatLabels[opp.format]}</span>
+    {opp.audience && <span class="chip chip--orange">{audienceLabels[opp.audience]}</span>}
+    <span class:list={['chip', 'chip--dot', statusTone]}>{opportunityStatusLabels[opp.status]}</span>
+  </div>
+  <H class="opp__title">
+    <a href={`/opportunities/${opp.slug}`}>{opp.title}</a>
+  </H>
+  <p class="opp__summary">{opp.summary}</p>
+  <dl class="opp__facts">
+    <div><dt>Area</dt><dd>{area?.name ?? opp.area}{opp.locality && ` · ${opp.locality}`}</dd></div>
+    {opp.venueName && <div><dt>Venue</dt><dd>{opp.venueName}</dd></div>}
+    {opp.quantity != null && <div><dt>Quantity</dt><dd>{formatNumber(opp.quantity)} pieces</dd></div>}
+    <div><dt>{opp.format === 'board' ? 'Term' : 'Campaign window'}</dt><dd>{opp.term}</dd></div>
+    {opp.spacesAvailable != null && <div><dt>Spaces available</dt><dd>{opp.spacesAvailable}</dd></div>}
+  </dl>
+  <div class="opp__foot">
+    <PriceTag price={opp.price} compact />
+    {
+      opp.isExample ? (
+        <span class="btn btn--ghost btn--sm" aria-disabled="true">Example — not available</span>
+      ) : enquirable ? (
+        <a class="btn btn--primary btn--sm" href={enquireHref}>Enquire about this</a>
+      ) : (
+        <a class="btn btn--ghost btn--sm" href={`/contact?area=${opp.area}&format=${opp.format}`}>Ask about similar</a>
+      )
+    }
+  </div>
+  <p class="opp__updated">Last updated {formatDate(opp.lastUpdated)}</p>
+</article>
+
+<style>
+  .opp {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.4rem;
+    box-shadow: var(--shadow);
+  }
+  .opp--example {
+    border-style: dashed;
+    box-shadow: none;
+    background: repeating-linear-gradient(-45deg, var(--paper), var(--paper) 14px, #f7f1e4 14px, #f7f1e4 28px);
+  }
+  .opp__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .opp__title {
+    font-size: var(--step-2);
+    margin: 0;
+  }
+  .opp__title a {
+    text-decoration: none;
+  }
+  .opp__title a:hover {
+    text-decoration: underline;
+  }
+  .opp__summary {
+    color: var(--muted);
+    margin: 0;
+  }
+  .opp__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.6rem 1rem;
+    margin: 0;
+    padding: 0.9rem 0;
+    border-block: 1px dashed var(--line);
+  }
+  .opp__facts dt {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .opp__facts dd {
+    margin: 0;
+    font-weight: 500;
+  }
+  .opp__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-top: auto;
+  }
+  .opp__updated {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 0;
+  }
+</style>

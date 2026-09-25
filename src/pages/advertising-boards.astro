@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BoardMockup from '../components/mockups/BoardMockup.astro';
+import ExampleFigure from '../components/mockups/ExampleFigure.astro';
+import SectionHead from '../components/ui/SectionHead.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import QuoteIncludes from '../components/sections/QuoteIncludes.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import { faqsFor } from '../content/faqs';
+import { pricing } from '../content/pricing';
+import { site } from '../config/site';
+
+const specs = [
+  ['Venue & position', 'The approved host venue and where the board hangs inside it.'],
+  ['Term', 'How long your placement runs, with start and end dates.'],
+  ['Ad size & artwork', 'Your ad dimensions, file requirements and artwork deadline.'],
+  ['Category rules', 'Whether category exclusivity applies on that board, and what it covers.'],
+  ['Artwork help', 'What design support is included — from layout help to using your finished file.'],
+  ['Installation window', 'When the board is expected to be produced and installed.'],
+  ['If it becomes unavailable', 'What happens if the venue closes or the placement ends early.'],
+];
+---
+<BaseLayout
+  title="Advertising Boards Inside Local Businesses | Post and Board Media"
+  description="Place your ad on a branded specials board inside an approved local venue. Learn how board placements, terms, artwork and category rules work with Post and Board Media."
+  breadcrumbs={[{ label: 'Advertising boards' }]}
+>
+  <section class="section--tight page-hero">
+    <div class="container grid-2 grid-2--wide-left">
+      <div>
+        <p class="eyebrow">Inside local businesses</p>
+        <h1>Advertising boards inside local businesses</h1>
+        <p class="lede">
+          Buy a placement on a branded board inside an approved host venue — a café, restaurant or another
+          customer-facing business. The venue keeps a useful area for its own specials; your ad sits in a designated,
+          clearly separated section.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="/contact?format=board">Ask about board placements</a>
+          <a class="btn btn--ghost" href="/opportunities">See opportunities</a>
+        </div>
+      </div>
+      <div class="page-hero__visual">
+        <ExampleFigure caption="The venue’s specials area on top, advertisers below.">
+          <BoardMockup highlight={2} />
+        </ExampleFigure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="anatomy-title">
+    <div class="container">
+      <SectionHead eyebrow="How a board is laid out" title="A board the venue actually uses" id="anatomy-title"
+        lede="Boards work best when they’re useful to the venue first. That’s why the host keeps the larger share of the space." />
+      <div class="anatomy">
+        <div class="anatomy__item">
+          <span class="anatomy__swatch anatomy__swatch--host" aria-hidden="true"></span>
+          <h3>The host’s area</h3>
+          <p>Specials, events, hours or announcements — the venue decides. It keeps the board relevant, so customers look at it.</p>
+        </div>
+        <div class="anatomy__item">
+          <span class="anatomy__swatch anatomy__swatch--ads" aria-hidden="true"></span>
+          <h3>The advertiser section</h3>
+          <p>A designated band of equal, clearly separated spaces for local businesses. Designed to look tidy — not like a pinboard of business cards.</p>
+        </div>
+        <div class="anatomy__item">
+          <span class="anatomy__swatch anatomy__swatch--brand" aria-hidden="true"></span>
+          <h3>Produced as a printed board</h3>
+          <p>Ads are printed as part of the board, so artwork is approved before production. Changes during a term depend on the format and your agreement, and may involve a replacement cost.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="specs-title">
+    <div class="container grid-2">
+      <div>
+        <SectionHead eyebrow="Before you commit" title="What every board placement spells out" id="specs-title"
+          lede="Each opportunity is confirmed in writing. You’ll know exactly what you’re getting before anything is produced." />
+        <p>
+          We only install boards at venues that have approved the arrangement, so which venues are available depends on
+          what’s confirmed in your area. You can suggest a venue you’d like to be in.
+        </p>
+      </div>
+      <dl class="spec-list">
+        {specs.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <QuoteIncludes price={pricing.board} />
+    </div>
+  </section>
+
+  <HowItWorks title="From enquiry to installed board" />
+
+  <section class="section section--cream" id="combine" aria-labelledby="combine-title">
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Using both formats</p>
+        <h2 id="combine-title">Combine a board with a shared mailer</h2>
+        <p class="lede">When the area and audience fit, a board inside a nearby venue and a shared mailer to the same neighbourhood can work together.</p>
+      </div>
+      <div class="stack">
+        <p>Each piece stays clearly defined: a board placement has its own venue, term and price, and a mailer has its own campaign, space and price. A board purchase doesn’t include a mailing, and there’s no open-ended monthly membership.</p>
+        <a class="text-link" href="/contact?format=combined">Ask about combining formats</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="board-faq">
+    <div class="container--narrow">
+      <h2 id="board-faq">Board placement questions</h2>
+      <FaqList items={faqsFor('boards', site.features.digitalScreensInterest)} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Ask about board placements."
+    text="Tell us the area and the kind of venue your customers visit. We’ll let you know what’s confirmed or coming up."
+    primary={{ href: '/contact?format=board', label: 'Ask about board placements' }}
+    secondary={{ href: '/host-a-board', label: 'Suggest a host venue' }}
+  />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-top: 1rem;
+  }
+  .page-hero__visual {
+    max-width: 360px;
+    width: 100%;
+    margin-inline: auto;
+  }
+  .anatomy {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .anatomy__item {
+    padding: 1.4rem;
+    border-radius: var(--radius);
+    background: var(--ivory);
+    border: 1px solid var(--line);
+  }
+  .anatomy__item h3 {
+    font-size: var(--step-1);
+    margin-top: 0.9rem;
+  }
+  .anatomy__item p {
+    color: var(--muted);
+    margin: 0;
+  }
+  .anatomy__swatch {
+    display: block;
+    width: 3rem;
+    height: 2rem;
+    border-radius: 6px;
+  }
+  .anatomy__swatch--host {
+    background: var(--forest);
+  }
+  .anatomy__swatch--ads {
+    background: linear-gradient(90deg, var(--mustard) 0 32%, transparent 32% 34%, var(--sage) 34% 66%, transparent 66% 68%, var(--orange) 68%);
+  }
+  .anatomy__swatch--brand {
+    background: #4a3c2b;
+  }
+</style>

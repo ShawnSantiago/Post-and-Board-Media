@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+const updated = 'September 25, 2026';
+---
+<BaseLayout
+  title="Privacy Notice | Post and Board Media"
+  description="How Post and Board Media collects and uses the information you send through this website’s enquiry forms."
+  breadcrumbs={[{ label: 'Privacy' }]}
+>
+  <section class="section--tight">
+    <div class="container--narrow prose">
+      <h1>Privacy notice</h1>
+      <p class="owner-review">
+        <strong>Draft for owner review.</strong> This notice describes how the website currently works. It has not been
+        reviewed by a lawyer and does not guarantee compliance with PIPEDA, Ontario law or CASL. Items marked “Owner
+        review” need a decision before launch.
+      </p>
+      <p><em>Last updated: {updated}</em></p>
+
+      <h2>Who we are</h2>
+      <p>
+        This website is operated by {site.name}, an owner-operated business run by {site.owner}.
+        {site.contact.email ? <> You can reach us at <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.</> : ' Contact details are provided on our contact page.'}
+      </p>
+      <p class="owner-review">Owner review: confirm the legal business name, registration and a privacy contact email.</p>
+
+      <h2>What we collect</h2>
+      <p>We only collect what you choose to send us through our forms:</p>
+      <ul>
+        <li><strong>Advertiser enquiries:</strong> your name, business name, email and target area, plus anything optional you add — advertising format, business category, website, phone, budget range, preferred timing, message and any opportunity you selected.</li>
+        <li><strong>Host enquiries:</strong> venue name, contact name, email, area, venue type, and optionally a website and message.</li>
+        <li><strong>Technical context:</strong> the page you sent the form from and the time it was sent.</li>
+      </ul>
+      <p>
+        The website does not use analytics, advertising trackers or marketing cookies. Fonts are served from our own
+        website rather than a third party.
+      </p>
+      <p class="owner-review">Owner review: update this section if analytics, a chat tool or other third-party scripts are added later.</p>
+
+      <h2>How we use it</h2>
+      <ul>
+        <li>To reply to your enquiry and prepare quotes or proposals you ask for.</li>
+        <li>To plan where campaigns and placements are needed.</li>
+        <li>If you tick the optional box, to email you when new opportunities open in your area. You can unsubscribe at any time.</li>
+      </ul>
+      <p>We don’t sell your information, and we don’t add you to marketing emails unless you opt in separately.</p>
+
+      <h2>Where it goes</h2>
+      <p>
+        When you submit a form, the website’s server passes your enquiry to our chosen delivery service — an email
+        provider or a form-processing webhook — so it reaches our inbox. Our hosting provider may keep short-term
+        technical logs, such as IP addresses, for security and troubleshooting.
+      </p>
+      <p class="owner-review">
+        Owner review: name the hosting provider and the form delivery service actually used, and whether they store
+        data outside Canada.
+      </p>
+
+      <h2>How long we keep it</h2>
+      <p class="owner-review">Owner review: set a retention period for enquiries that don’t proceed, and for client records.</p>
+
+      <h2>Your choices</h2>
+      <p>
+        You can ask to see, correct or delete the information you’ve sent us, or withdraw consent to optional emails, by
+        contacting us.
+      </p>
+
+      <h2>Changes</h2>
+      <p>If we change how we handle information, we’ll update this page and the date above.</p>
+    </div>
+  </section>
+</BaseLayout>
