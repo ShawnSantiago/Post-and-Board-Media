@@ -111,7 +111,7 @@ Seamless tileable texture of warm off-white uncoated paper stock, very fine fibr
 Don't generate the whole card with AI, because it would mangle the name and tagline. Instead:
 1. Generate image 4 (flat lay) with empty space on one side.
 2. In Figma or Canva, place it at **1200 × 630**, add the wordmark and *"Shared space. Local reach."* in Fraunces and Inter, and keep text 60 px or more from the edges.
-3. Save as `public/og-image.jpg`. I can add the `og:image` meta tag when it's ready.
+3. Save as `public/og-image.jpg`. It's already referenced by the `og:image` tag on every page.
 
 ---
 

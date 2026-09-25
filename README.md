@@ -179,6 +179,8 @@ src/
 scripts/verify-build.mjs    post-build honesty and indexing checks
 n8n/                        importable n8n workflow for enquiries
 docs/image-prompts.md       prompts and rules for generating site photography
+src/assets/images/          site photos (optimised at build by astro:assets)
+public/og-image.jpg         social share image (1200 × 630)
 ```
 
 ## Launch-blocker checklist
@@ -199,4 +201,4 @@ These are missing real business details. The site deliberately shows nothing whe
 - [ ] **Parkdale Digital line**: confirm wording and relationship before setting `parkdaleDigital.show: true`.
 - [ ] **Brand name check**: confirm "Post and Board Media" is available to use (trade name registration, domain, social handles).
 - [ ] **Area pages**: have someone local review the Hamilton, Burlington and Oakville copy before launch.
-- [ ] **Social preview image**: add an Open Graph image if wanted (none is set).
+- [ ] **Remaining photos**: homepage café hero, straight-on board and paper texture (see `docs/image-prompts.md`).

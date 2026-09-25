@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import BoardMockup from '../components/mockups/BoardMockup.astro';
-import ExampleFigure from '../components/mockups/ExampleFigure.astro';
+import Photo from '../components/ui/Photo.astro';
+import hostBoard from '../assets/images/host-updating-board.webp';
 import SectionHead from '../components/ui/SectionHead.astro';
 import FaqList from '../components/ui/FaqList.astro';
 import HostForm from '../components/forms/HostForm.astro';
@@ -35,11 +35,13 @@ const suitable = [
           <a class="btn btn--ghost" href="#how-hosting-works">How hosting works</a>
         </div>
       </div>
-      <div class="hero-visual">
-        <ExampleFigure caption="Your area on top. Advertisers in a tidy section below.">
-          <BoardMockup />
-        </ExampleFigure>
-      </div>
+      <Photo
+        src={hostBoard}
+        alt="A café worker writing on the large top section of a wall board, with four coloured advertiser panels below."
+        illustrative
+        caption="Your area on top. Advertisers in a tidy section below."
+        loading="eager"
+      />
     </div>
   </section>
 
@@ -117,11 +119,6 @@ const suitable = [
 </BaseLayout>
 
 <style>
-  .hero-visual {
-    max-width: 340px;
-    width: 100%;
-    margin-inline: auto;
-  }
   .sides {
     display: grid;
     gap: 1rem;

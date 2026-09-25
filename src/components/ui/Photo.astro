@@ -1,0 +1,87 @@
+---
+/**
+ * Responsive, optimised photo. Generated or staged images that show a board
+ * or mailer in use must pass `illustrative` so they're captioned as such.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  sizes?: string;
+  illustrative?: boolean;
+  caption?: string;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  ratio?: string;
+}
+const {
+  src,
+  alt,
+  sizes = '(min-width: 1180px) 560px, (min-width: 880px) 46vw, 100vw',
+  illustrative = false,
+  caption,
+  class: className,
+  loading = 'lazy',
+  ratio,
+} = Astro.props;
+---
+<figure class:list={['photo', className]} style={ratio ? `--ratio:${ratio}` : undefined}>
+  <Image
+    src={src}
+    alt={alt}
+    widths={[480, 800, 1200, src.width].filter((w) => w <= src.width)}
+    sizes={sizes}
+    loading={loading}
+    fetchpriority={loading === 'eager' ? 'high' : undefined}
+    format="webp"
+    quality={78}
+  />
+  {
+    (illustrative || caption) && (
+      <figcaption>
+        {illustrative && <span class="photo__tag">Illustrative image</span>}
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .photo {
+    margin: 0;
+  }
+  .photo img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    background: var(--cream);
+  }
+  .photo[style*='--ratio'] img {
+    aspect-ratio: var(--ratio);
+    object-fit: cover;
+  }
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.7rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .photo__tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px dashed currentColor;
+    border-radius: 6px;
+    padding: 0.15rem 0.5rem;
+  }
+  :global(.section--navy) figcaption {
+    color: #c9d1de;
+  }
+</style>

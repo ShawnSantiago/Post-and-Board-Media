@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PostcardMockup from '../components/mockups/PostcardMockup.astro';
 import MailerBackMockup from '../components/mockups/MailerBackMockup.astro';
 import ExampleFigure from '../components/mockups/ExampleFigure.astro';
+import Photo from '../components/ui/Photo.astro';
+import mailerDoor from '../assets/images/mailer-at-door.webp';
+import mailerDesk from '../assets/images/mailer-business-desk.webp';
 import SectionHead from '../components/ui/SectionHead.astro';
 import FaqList from '../components/ui/FaqList.astro';
 import HowItWorks from '../components/sections/HowItWorks.astro';
@@ -81,11 +84,27 @@ const specs = [
         lede="Household and business-address campaigns reach different people, so we plan them as different campaigns and never add them together into one reach number." />
       <div class="aud">
         <article class="aud__card">
+          <Photo
+            class="aud__photo"
+            src={mailerDoor}
+            alt="Hands holding a shared postcard beside a front-door mail slot."
+            illustrative
+            ratio="3 / 2"
+            sizes="(min-width: 760px) 560px, 100vw"
+          />
           <span class="chip chip--brick">Household campaigns</span>
           <h3>For businesses that serve people near home</h3>
           <p>Delivered to residential addresses in a defined neighbourhood or area. A fit for restaurants, trades, clinics, fitness studios, home services and other neighbourhood businesses.</p>
         </article>
         <article class="aud__card aud__card--biz">
+          <Photo
+            class="aud__photo"
+            src={mailerDesk}
+            alt="A shared postcard and other mail on a business reception counter."
+            illustrative
+            ratio="3 / 2"
+            sizes="(min-width: 760px) 560px, 100vw"
+          />
           <span class="chip">Business-address campaigns</span>
           <h3>For businesses that sell to other businesses</h3>
           <p>Delivered to commercial addresses, such as a business district or industrial area. A fit for cleaning, catering, IT, printing, signage, bookkeeping and other B2B services.</p>
@@ -192,6 +211,12 @@ const specs = [
   }
   .aud__card--biz {
     background: var(--mist);
+  }
+  .aud__card .chip {
+    background: var(--paper);
+  }
+  .aud__card :global(.aud__photo) {
+    margin-bottom: 1.25rem;
   }
   .aud__card h3 {
     font-size: var(--step-2);
