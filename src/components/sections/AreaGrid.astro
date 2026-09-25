@@ -16,7 +16,7 @@ const { headingLevel: H = 'h3' } = Astro.props;
             <span class="area-card__line">{a.cardLine}</span>
             <span class="area-card__status">
               <span class="chip chip--dot">Boards: {statusLabels[a.status.boards]}</span>
-              <span class="chip chip--dot chip--orange">Mailers: {statusLabels[a.status.mailers]}</span>
+              <span class="chip chip--dot chip--brick">Mailers: {statusLabels[a.status.mailers]}</span>
             </span>
             <span class="area-card__go" aria-hidden="true">→</span>
           </a>
@@ -74,10 +74,10 @@ const { headingLevel: H = 'h3' } = Astro.props;
     left: 0;
     right: 0;
     height: 6px;
-    background: var(--forest);
+    background: var(--navy);
   }
   .area-card--1::before {
-    background: var(--orange);
+    background: var(--brick);
   }
   .area-card--2::before {
     background: var(--mustard);
@@ -114,7 +114,7 @@ const { headingLevel: H = 'h3' } = Astro.props;
     top: 1.3rem;
     right: 1.3rem;
     font-size: 1.3rem;
-    color: var(--forest);
+    color: var(--navy);
   }
   .areas__more {
     margin-top: 1.75rem;
@@ -144,7 +144,7 @@ const { headingLevel: H = 'h3' } = Astro.props;
     font-weight: 500;
   }
   .areas__more a:hover {
-    border-color: var(--forest);
+    border-color: var(--navy);
   }
   .areas__note {
     width: 100%;

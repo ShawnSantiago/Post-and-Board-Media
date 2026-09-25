@@ -73,8 +73,8 @@ const orgLd: Record<string, unknown>[] = siteOrigin
           </div>
         </ExampleFigure>
         <ul class="hero__legend" aria-label="What the example shows">
-          <li><span class="dot dot--forest"></span>Board inside a local business</li>
-          <li><span class="dot dot--orange"></span>Shared mailer with several advertisers</li>
+          <li><span class="dot dot--navy"></span>Board inside a local business</li>
+          <li><span class="dot dot--brick"></span>Shared mailer with several advertisers</li>
         </ul>
       </div>
     </div>
@@ -195,7 +195,7 @@ const orgLd: Record<string, unknown>[] = siteOrigin
   </section>
 
   <!-- HOST -->
-  <section class="section section--forest" aria-labelledby="host-title">
+  <section class="section section--navy" aria-labelledby="host-title">
     <div class="container grid-2">
       <div class="host__visual">
         <ExampleFigure><BoardMockup /></ExampleFigure>
@@ -250,7 +250,7 @@ const orgLd: Record<string, unknown>[] = siteOrigin
   .hero {
     padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 7vw, 5.5rem);
     background:
-      radial-gradient(circle at 85% 20%, rgba(240, 191, 76, 0.22), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(233, 185, 73, 0.2), transparent 40%),
       linear-gradient(var(--ivory), var(--ivory));
     overflow: hidden;
   }
@@ -281,7 +281,7 @@ const orgLd: Record<string, unknown>[] = siteOrigin
   }
   .hero__geo svg {
     flex: none;
-    color: var(--orange-deep);
+    color: var(--brick-deep);
     margin-top: 0.15rem;
   }
   .hero__stack {
@@ -319,11 +319,11 @@ const orgLd: Record<string, unknown>[] = siteOrigin
     height: 0.7rem;
     border-radius: 3px;
   }
-  .dot--forest {
-    background: var(--forest);
+  .dot--navy {
+    background: var(--navy);
   }
-  .dot--orange {
-    background: var(--orange);
+  .dot--brick {
+    background: var(--brick);
   }
 
   .options {
@@ -351,13 +351,13 @@ const orgLd: Record<string, unknown>[] = siteOrigin
     min-height: 330px;
   }
   .option__visual--board {
-    background: var(--sage);
+    background: var(--mist);
   }
   .option__visual--board :global(figure) {
     width: min(62%, 260px);
   }
   .option__visual--mailer {
-    background: #fbe5cf;
+    background: #f4ddd5;
   }
   .option__visual--mailer :global(figure) {
     width: 100%;
@@ -398,7 +398,7 @@ const orgLd: Record<string, unknown>[] = siteOrigin
     }
   }
   .why li {
-    border-top: 3px solid var(--forest);
+    border-top: 3px solid var(--navy);
     padding-top: 0.9rem;
   }
   .why h3 {

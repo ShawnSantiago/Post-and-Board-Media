@@ -12,20 +12,20 @@ const { class: className, highlight, variant = 'household' } = Astro.props;
 const uid = `card-${Math.random().toString(36).slice(2, 8)}`;
 
 const householdAds = [
-  { kind: 'LANDSCAPING', name: 'Greenway Yards', line: 'Spring clean-ups', bg: '#dfe7da', fg: '#1e3a2d', dot: '#2a4d3c' },
-  { kind: 'DENTAL', name: 'Brightside', line: 'New patients welcome', bg: '#fffdf8', fg: '#1e3a2d', dot: '#e2772f' },
-  { kind: 'PIZZERIA', name: 'Corner Slice', line: 'Order for pickup', bg: '#f0bf4c', fg: '#16291f', dot: '#a8481a' },
-  { kind: 'PET GROOMING', name: 'Tidy Paws', line: 'Walk-ins on Saturdays', bg: '#fde4d0', fg: '#16291f', dot: '#e2772f' },
-  { kind: 'TUTORING', name: 'Northstar', line: 'Grades 1 to 12', bg: '#fffdf8', fg: '#1e3a2d', dot: '#2a4d3c' },
-  { kind: 'HVAC', name: 'Steadyheat', line: 'Furnace tune-ups', bg: '#1e3a2d', fg: '#fffdf8', dot: '#f0bf4c' },
+  { kind: 'LANDSCAPING', name: 'Greenway Yards', line: 'Spring clean-ups', bg: '#dde4ee', fg: '#1c2a44', dot: '#2c3f63' },
+  { kind: 'DENTAL', name: 'Brightside', line: 'New patients welcome', bg: '#fffcf6', fg: '#1c2a44', dot: '#c8452f' },
+  { kind: 'PIZZERIA', name: 'Corner Slice', line: 'Order for pickup', bg: '#e9b949', fg: '#121c30', dot: '#a33624' },
+  { kind: 'PET GROOMING', name: 'Tidy Paws', line: 'Walk-ins on Saturdays', bg: '#f6dcd5', fg: '#121c30', dot: '#c8452f' },
+  { kind: 'TUTORING', name: 'Northstar', line: 'Grades 1 to 12', bg: '#fffcf6', fg: '#1c2a44', dot: '#2c3f63' },
+  { kind: 'HVAC', name: 'Steadyheat', line: 'Furnace tune-ups', bg: '#1c2a44', fg: '#fffcf6', dot: '#e9b949' },
 ];
 const businessAds = [
-  { kind: 'OFFICE CLEANING', name: 'Brightline', line: 'Evening crews', bg: '#dfe7da', fg: '#1e3a2d', dot: '#2a4d3c' },
-  { kind: 'IT SUPPORT', name: 'Keystone IT', line: 'Small-office help', bg: '#fffdf8', fg: '#1e3a2d', dot: '#e2772f' },
-  { kind: 'CATERING', name: 'Longtable', line: 'Team lunches', bg: '#f0bf4c', fg: '#16291f', dot: '#a8481a' },
-  { kind: 'SIGNAGE', name: 'Tallpost Signs', line: 'Storefront signs', bg: '#fde4d0', fg: '#16291f', dot: '#e2772f' },
-  { kind: 'BOOKKEEPING', name: 'Ledgerwise', line: 'Monthly bookkeeping', bg: '#fffdf8', fg: '#1e3a2d', dot: '#2a4d3c' },
-  { kind: 'COURIER', name: 'Quickstep', line: 'Same-day local runs', bg: '#1e3a2d', fg: '#fffdf8', dot: '#f0bf4c' },
+  { kind: 'OFFICE CLEANING', name: 'Brightline', line: 'Evening crews', bg: '#dde4ee', fg: '#1c2a44', dot: '#2c3f63' },
+  { kind: 'IT SUPPORT', name: 'Keystone IT', line: 'Small-office help', bg: '#fffcf6', fg: '#1c2a44', dot: '#c8452f' },
+  { kind: 'CATERING', name: 'Longtable', line: 'Team lunches', bg: '#e9b949', fg: '#121c30', dot: '#a33624' },
+  { kind: 'SIGNAGE', name: 'Tallpost Signs', line: 'Storefront signs', bg: '#f6dcd5', fg: '#121c30', dot: '#c8452f' },
+  { kind: 'BOOKKEEPING', name: 'Ledgerwise', line: 'Monthly bookkeeping', bg: '#fffcf6', fg: '#1c2a44', dot: '#2c3f63' },
+  { kind: 'COURIER', name: 'Quickstep', line: 'Same-day local runs', bg: '#1c2a44', fg: '#fffcf6', dot: '#e9b949' },
 ];
 const ads = variant === 'business' ? businessAds : householdAds;
 const heading = variant === 'business' ? 'Local services for your business' : 'Good neighbours, nearby';
@@ -39,22 +39,22 @@ const pos = (i: number) => ({ x: 22 + (i % 3) * (W + 9), y: 88 + Math.floor(i / 
   <desc id={`${uid}-d`}>
     One side of a shared mailer divided into six equal, clearly separated ad spaces for fictional local businesses.
   </desc>
-  <rect width="576" height="360" rx="10" fill="#fffdf8" stroke="#d9cfbb"></rect>
-  <rect x="0" y="0" width="576" height="70" rx="10" fill="#1e3a2d"></rect>
-  <rect x="0" y="50" width="576" height="20" fill="#1e3a2d"></rect>
-  <text x="22" y="44" class="p-display" font-size="25" fill="#fffdf8">{heading}</text>
-  <text x="554" y="42" text-anchor="end" class="p-body" font-size="11" font-weight="700" letter-spacing="1.6" fill="#f0bf4c">SHARED MAILER</text>
+  <rect width="576" height="360" rx="10" fill="#fffcf6" stroke="#d7cfbf"></rect>
+  <rect x="0" y="0" width="576" height="70" rx="10" fill="#1c2a44"></rect>
+  <rect x="0" y="50" width="576" height="20" fill="#1c2a44"></rect>
+  <text x="22" y="44" class="p-display" font-size="25" fill="#fffcf6">{heading}</text>
+  <text x="554" y="42" text-anchor="end" class="p-body" font-size="11" font-weight="700" letter-spacing="1.6" fill="#e9b949">SHARED MAILER</text>
   {
     ads.map((ad, i) => {
       const p = pos(i);
       const isHi = highlight === i;
       return (
         <g transform={`translate(${p.x} ${p.y})`}>
-          <rect width={W} height={H} rx="7" fill={isHi ? '#fffdf8' : ad.bg} stroke={isHi ? '#e2772f' : '#d9cfbb'} stroke-width={isHi ? 3 : 1} stroke-dasharray={isHi ? '8 6' : undefined} />
+          <rect width={W} height={H} rx="7" fill={isHi ? '#fffcf6' : ad.bg} stroke={isHi ? '#c8452f' : '#d7cfbf'} stroke-width={isHi ? 3 : 1} stroke-dasharray={isHi ? '8 6' : undefined} />
           {isHi ? (
             <>
-              <text x={W / 2} y="56" text-anchor="middle" class="p-display" font-size="20" fill="#1e3a2d">Your ad here</text>
-              <text x={W / 2} y="80" text-anchor="middle" class="p-body" font-size="12" fill="#555a50">One defined space</text>
+              <text x={W / 2} y="56" text-anchor="middle" class="p-display" font-size="20" fill="#1c2a44">Your ad here</text>
+              <text x={W / 2} y="80" text-anchor="middle" class="p-body" font-size="12" fill="#525866">One defined space</text>
             </>
           ) : (
             <>
@@ -74,7 +74,7 @@ const pos = (i: number) => ({ x: 22 + (i % 3) * (W + 9), y: 88 + Math.floor(i / 
   .postcard {
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 14px 26px rgba(30, 58, 45, 0.22));
+    filter: drop-shadow(0 14px 26px rgba(28, 42, 68, 0.22));
   }
   .p-display {
     font-family: var(--font-display);
