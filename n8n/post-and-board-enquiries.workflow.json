@@ -1,0 +1,47 @@
+{
+  "name": "Post and Board Media — website enquiries",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "post-and-board-enquiry",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Website enquiry",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "5f0c2d1e-7b3a-4c8e-9a61-2d4e8f1b7c30"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"ok\": true } }}",
+        "options": {}
+      },
+      "name": "Confirm to website",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [520, 0]
+    },
+    {
+      "parameters": {
+        "content": "## Post and Board Media enquiries\n\n1. **Website enquiry**: set Header Auth credential to the same name/value as `ENQUIRY_WEBHOOK_HEADER_NAME` / `ENQUIRY_WEBHOOK_HEADER_VALUE`.\n2. Add your actions **between** the two nodes (Gmail/Send Email, Google Sheets, Slack…). Useful fields:\n   - `{{ $json.body.subject }}`\n   - `{{ $json.body.summaryText }}`\n   - `{{ $json.body.replyTo }}`\n   - `{{ $json.body.type }}` → `advertiser` or `host`\n   - `{{ $json.body.fields.* }}`\n3. **Activate** the workflow and copy the *Production URL* into `ENQUIRY_WEBHOOK_URL`.\n\nThe site only shows \"sent\" when this workflow responds 2xx — if a node fails, the visitor sees an error instead.",
+        "height": 420,
+        "width": 460
+      },
+      "name": "Setup notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [0, 180]
+    }
+  ],
+  "connections": {
+    "Website enquiry": {
+      "main": [[{ "node": "Confirm to website", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" }
+}

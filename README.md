@@ -36,33 +36,58 @@ Set environment variables **before building**. `SITE_URL` controls canonicals, t
 | Variable | Purpose |
 | --- | --- |
 | `SITE_URL` | The production domain you own, e.g. `https://www.example.com`. **Leave empty for previews.** Without it, every page is `noindex`, there are no canonicals, the sitemap is empty and `robots.txt` disallows crawling. Never set it to a domain you don't own. |
-| `ENQUIRY_WEBHOOK_URL` | Option A for form delivery: any HTTPS endpoint that accepts a JSON POST (Make, Zapier, n8n, Google Apps Script, your own). |
-| `RESEND_API_KEY`, `ENQUIRY_EMAIL_TO`, `ENQUIRY_EMAIL_FROM` | Option B: email each enquiry via [Resend](https://resend.com). `FROM` must use a domain verified in Resend. `TO` can be a comma-separated list. |
+| `ENQUIRY_WEBHOOK_URL` | Form delivery: the n8n Webhook node's Production URL (see below). Any HTTPS endpoint that accepts a JSON POST also works. |
+| `ENQUIRY_WEBHOOK_HEADER_NAME`, `ENQUIRY_WEBHOOK_HEADER_VALUE` | Optional shared-secret header sent with every webhook call. Match it with n8n *Header Auth*. |
+| `RESEND_API_KEY`, `ENQUIRY_EMAIL_TO`, `ENQUIRY_EMAIL_FROM` | Optional: also, or instead, email each enquiry via [Resend](https://resend.com). `FROM` must use a domain verified in Resend. `TO` can be a comma-separated list. |
 | `DEMO_OPPORTUNITIES` | `true` shows fictional example listings, for development only. The build **fails** if this is combined with `SITE_URL`. |
 
 Secrets are read only on the server (`astro:env/server`) and never reach the browser. `npm run verify` checks this too.
 
-### Connecting the forms
+### Connecting the forms to n8n
 
-1. Set `ENQUIRY_WEBHOOK_URL`, or the three Resend variables. You can set both; an enquiry counts as sent if either succeeds.
-2. Redeploy.
-3. Send a test enquiry from `/contact` and from `/host-a-board`, and confirm both arrive.
+The forms post to an [n8n](https://n8n.io) Webhook node. From there you can route enquiries anywhere: email, Google Sheets, Slack or a CRM.
 
-With no destination configured, the forms show *"Preview: this form isn't connected yet"*. Submitting returns an error. The site never shows a fake "sent" message. Pages confirm the real status with `GET /api/enquiry`, so the notice stays accurate even when env vars are only set at runtime.
+1. **Import the workflow.** In n8n, go to *Workflows → Import from File* and choose `n8n/post-and-board-enquiries.workflow.json`. It contains a **Website enquiry** webhook (`POST /webhook/post-and-board-enquiry`), a **Confirm to website** response node, and setup notes.
+2. **Secure it.** In the webhook node, create a *Header Auth* credential. Use a header name such as `X-Post-And-Board-Key` and a long random value.
+3. **Add your actions** between the two nodes, for example Gmail or *Send Email*. Handy expressions:
+   - `{{ $json.body.subject }}`, e.g. "Advertiser enquiry: Jo's Bakery — Dundas (Hamilton)"
+   - `{{ $json.body.summaryText }}`, every field as readable lines
+   - `{{ $json.body.replyTo }}`, the enquirer's email, for *Reply-To*
+   - `{{ $json.body.type }}`, `advertiser` or `host`, for routing with an IF or Switch node
+   - `{{ $json.body.fields.business }}`, `{{ $json.body.fields.areaName }}` and so on
+4. **Activate** the workflow and copy the webhook's **Production URL**. It contains `/webhook/`, not `/webhook-test/`.
+5. **Set the environment variables** on the site host (e.g. Vercel → Settings → Environment Variables), then redeploy:
 
-The webhook payload looks like this:
+   ```
+   ENQUIRY_WEBHOOK_URL=https://your-n8n.example.com/webhook/post-and-board-enquiry
+   ENQUIRY_WEBHOOK_HEADER_NAME=X-Post-And-Board-Key
+   ENQUIRY_WEBHOOK_HEADER_VALUE=<the same secret as the n8n credential>
+   ```
+
+6. **Test** by sending an enquiry from `/contact` and from `/host-a-board`. Each should appear under *Executions* in n8n.
+
+The site shows "sent" only when n8n answers with a 2xx status. Because the workflow responds from the last node, a failing email or Sheets step makes the visitor see "not sent — please try again" instead of a false confirmation. An inactive workflow (404) or a wrong secret (403) is treated the same way, and the error is logged on the server.
+
+With no destination configured, the forms show *"Preview: this form isn't connected yet"*. Pages confirm the real status with `GET /api/enquiry`, so the notice stays accurate even when env vars are only set at runtime.
+
+**Email instead of, or as well as, n8n.** Set `RESEND_API_KEY`, `ENQUIRY_EMAIL_TO` and `ENQUIRY_EMAIL_FROM` to email each enquiry through [Resend](https://resend.com). If both are configured, an enquiry counts as sent when either one succeeds.
+
+The payload n8n receives:
 
 ```json
 {
   "type": "advertiser",
-  "submittedAt": "2026-09-25T19:52:43.682Z",
-  "sourcePage": "/contact?area=burlington&format=mailer",
-  "fields": { "name": "…", "business": "…", "email": "…", "area": "burlington", "areaName": "Burlington", "format": "mailer", "opportunity": "…" },
-  "updatesOptIn": false
+  "submittedAt": "2026-09-25T20:05:12.657Z",
+  "sourcePage": "/areas/hamilton",
+  "fields": { "name": "Jo", "business": "Jo's Bakery", "email": "jo@example.com", "area": "hamilton-dundas", "areaName": "Dundas (Hamilton)", "format": "board", "opportunity": "…" },
+  "updatesOptIn": false,
+  "subject": "Advertiser enquiry: Jo's Bakery — Dundas (Hamilton)",
+  "replyTo": "jo@example.com",
+  "summaryText": "Name: Jo\nBusiness name: Jo's Bakery\n…"
 }
 ```
 
-`type` is `"advertiser"` or `"host"`. Host enquiries carry `venueName`, `name`, `email`, `area`, `venueType`, `website` and `message`. `updatesOptIn` records the separate, unticked-by-default checkbox for opportunity updates. Nobody is subscribed automatically.
+Host enquiries carry `venueName`, `name`, `email`, `area`, `venueType`, `website` and `message`. `updatesOptIn` records the separate, unticked-by-default checkbox for opportunity updates; nobody is subscribed automatically. If you store enquiries in n8n (for example in Sheets), mention that in the privacy notice.
 
 Spam protection is a hidden honeypot field plus Astro's built-in origin check on POSTs. If spam becomes a problem, add a CAPTCHA or rate limiting in `src/pages/api/enquiry.ts`.
 
@@ -152,6 +177,7 @@ src/
   lib/                      seo, opportunities loader, enquiry validation and delivery, form JS
   pages/                    one file per route; api/enquiry.ts is the only server route
 scripts/verify-build.mjs    post-build honesty and indexing checks
+n8n/                        importable n8n workflow for enquiries
 ```
 
 ## Launch-blocker checklist
@@ -159,7 +185,7 @@ scripts/verify-build.mjs    post-build honesty and indexing checks
 These are missing real business details. The site deliberately shows nothing where these would go.
 
 - [ ] **Production domain** registered and set as `SITE_URL`. Until then the site is noindex.
-- [ ] **Form destination** configured (`ENQUIRY_WEBHOOK_URL` or Resend variables) and tested end to end.
+- [ ] **n8n workflow** imported, secured with Header Auth, given a real action (email, Sheets…), activated, and its Production URL and secret set on the site host. Test both forms end to end.
 - [ ] **Public contact email** (and a phone number, if wanted) added in `src/config/site.ts`.
 - [ ] **Legal business name and registration** confirmed for Privacy and Terms.
 - [ ] **Privacy notice reviewed**: hosting provider, form delivery service, data location, retention period, privacy contact.
