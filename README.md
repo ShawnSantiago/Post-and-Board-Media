@@ -178,6 +178,7 @@ src/
   pages/                    one file per route; api/enquiry.ts is the only server route
 scripts/verify-build.mjs    post-build honesty and indexing checks
 n8n/                        importable n8n workflow for enquiries
+docs/image-prompts.md       prompts and rules for generating site photography
 ```
 
 ## Launch-blocker checklist
