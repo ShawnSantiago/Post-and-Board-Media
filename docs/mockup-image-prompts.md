@@ -2,6 +2,8 @@
 
 The site's example layouts are drawn in code, as SVG and CSS: the specials board, the shared postcards, the mailer back and the homepage hero stack. This file has prompts to recreate each one as a realistic AI-generated product image. For real-world scene photography (cafés, doorsteps, desks), see `image-prompts.md`.
 
+> **Status:** images 2, 3, 5 and 6 are in use (`src/assets/images/examples/`), with live text overlaid on the blank panels. Image 1 isn't needed, because the homepage hero stacks the board and postcard photos. Image 4 is optional, since the business postcard reuses image 3 with its own text. If you regenerate an image, its panel coordinates in `BoardMockup.astro`, `PostcardMockup.astro` or `MailerBackMockup.astro` must be re-measured.
+
 ---
 
 ## What gets replaced
