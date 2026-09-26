@@ -2,6 +2,8 @@
 
 Prompts for generating photography-style images for the website. They work with most tools (Midjourney, DALL·E / ChatGPT, Imagen, Firefly, Ideogram, Flux). Paste the **style block** and the **negative prompt** alongside each image prompt.
 
+To replace the drawn example layouts themselves, see `mockup-image-prompts.md`.
+
 The site currently uses drawn SVG mockups (`src/components/mockups/`). These images add real-world warmth around them. They don't replace the labelled example layouts.
 
 ---

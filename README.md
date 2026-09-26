@@ -179,6 +179,7 @@ src/
 scripts/verify-build.mjs    post-build honesty and indexing checks
 n8n/                        importable n8n workflow for enquiries
 docs/image-prompts.md       prompts and rules for generating site photography
+docs/mockup-image-prompts.md prompts to replace the drawn "Example layout" visuals
 src/assets/images/          site photos (optimised at build by astro:assets)
 public/og-image.jpg         social share image (1200 × 630)
 ```
