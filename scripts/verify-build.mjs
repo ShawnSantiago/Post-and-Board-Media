@@ -56,9 +56,16 @@ const banned = [
   /\b\d+(\.\d+)?\s?% (off|savings|cheaper)/i,
   /free trial/i,
   /(only|just) \d+ (spots|spaces) left/i,
+  // The board product is a storefront/sidewalk sign, never an interior board.
+  /advertising boards? inside|inside (the|a|an|approved) (local )?(venue|business)|in-venue|hangs? (inside|on the wall)/i,
 ];
 
-const draftAreas = ['milton', 'grimsby', 'brantford', 'mississauga'];
+// Internal or unfinished wording that must never reach the production site.
+const internalWording = [/owner review/i, /preview build/i, /\bdraft\b/i, /not been (legally )?reviewed/i, /isn[’']t connected/i, /launch blocker/i];
+
+const draftAreas = ['burlington', 'oakville', 'milton', 'grimsby', 'brantford', 'mississauga'];
+// Old URLs kept as redirects to the renamed pages.
+const redirects = ['/advertising-boards', '/host-a-board'];
 const alwaysNoindex = ['/enquiry-received', '/enquiry-not-sent', '/404', ...draftAreas.map((a) => `/areas/${a}`)];
 
 for (const file of htmlFiles) {
@@ -73,7 +80,9 @@ for (const file of htmlFiles) {
   const price = text.match(/\$\s?\d[\d,]*(\.\d{2})?/);
   if (price) fail(`${route}: dollar amount in copy ("${price[0]}") — prices must come from approved pricing records`);
 
+  if (redirects.includes(route)) continue;
   for (const re of banned) if (re.test(text)) fail(`${route}: banned phrase matched ${re}`);
+  if (production) for (const re of internalWording) if (re.test(text)) fail(`${route}: internal wording in production (${re})`);
 
   // Structured data must not invent local businesses, reviews or addresses.
   for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
@@ -129,6 +138,11 @@ if (production) {
 for (const f of walk(root).filter((f) => f.endsWith('.js'))) {
   const js = fs.readFileSync(f, 'utf8');
   if (/RESEND_API_KEY|ENQUIRY_WEBHOOK_(URL|HEADER)|api\.resend\.com/.test(js)) fail(`${f}: server delivery code or secret name in a client bundle`);
+}
+
+// Production forms must have somewhere to deliver enquiries.
+if (production && !(env.ENQUIRY_WEBHOOK_URL || (env.RESEND_API_KEY && env.ENQUIRY_EMAIL_TO && env.ENQUIRY_EMAIL_FROM))) {
+  fail('production build has no form destination: set ENQUIRY_WEBHOOK_URL (n8n) before launch');
 }
 
 console.log(`Checked ${htmlFiles.length} pages in ${root} (${production ? `production: ${SITE_URL}` : 'preview: no SITE_URL'}).`);

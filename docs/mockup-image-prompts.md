@@ -4,6 +4,27 @@ The site's example layouts are drawn in code, as SVG and CSS: the specials board
 
 > **Status:** images 2, 3, 5 and 6 are in use (`src/assets/images/examples/`), with live text overlaid on the blank panels. Image 1 isn't needed, because the homepage hero stacks the board and postcard photos. Image 4 is optional, since the business postcard reuses image 3 with its own text. If you regenerate an image, its panel coordinates in `BoardMockup.astro`, `PostcardMockup.astro` or `MailerBackMockup.astro` must be re-measured.
 
+## New: storefront sign (A-frame) images — needed after the repositioning
+
+The board product is now a **sidewalk or A-frame sign outside a storefront**, not a board on an interior wall. The current `example-board.webp` still works as a flat "sign face" layout, but these three images would show the real product. Use the master style block below, the same negative prompt, and add *"no readable text, logos or brand names; no real storefronts"*.
+
+**S1. Sign face, straight on (replaces `example-board.webp`, text overlaid in code)** · portrait 3:4, 1536 × 2048
+```
+Straight-on product photograph of the front face of a sturdy A-frame sidewalk sign standing on a clean concrete sidewalk, camera exactly perpendicular to the sign face at its centre height, no perspective or tilt, whole sign visible with even margin, soft overcast daylight, blurred warm storefront and brick wall behind. The sign has a slim dark walnut frame and legs. Inside the frame, one printed matte panel: the top two-thirds solid ink navy (#1C2A44), empty except for one thin row of small mustard (#E9B949) dots about 15% down from its top edge; the bottom third a warm off-white (#FFFCF6) band with four equal rounded rectangles in a 2 × 2 grid — mustard, off-white with a hairline border, pale blue-grey (#DDE4EE), brick red (#C8452F). No text anywhere.
+```
+
+**S2. Street scene (homepage and Storefront signs page)** · 3:2, 2000 px wide
+```
+Morning street scene on a walkable neighbourhood main street in a mid-sized Canadian city: an A-frame sidewalk sign stands outside an independent café's open door, angled toward passers-by. Its face has a large ink-navy upper area and a lower band of four small coloured panels (mustard, off-white, pale blue-grey, brick red), all blank. Two or three pedestrians walk past, softly out of focus, faces not identifiable. Brick storefronts, planters, warm early light. No readable signage, shop names or logos anywhere.
+```
+
+**S3. Host putting the sign out (Host a sign page)** · 4:3, 1600 px wide
+```
+A café owner, seen from the side and behind (face not visible), wearing an apron, setting an A-frame sidewalk sign down on the sidewalk beside the café's front door at opening time. The sign's face has a large ink-navy upper area with abstract chalk-marker strokes (not readable words) and a lower band of four blank coloured panels. Warm morning light, brick storefront, a potted plant. No readable text, logos or shop names.
+```
+
+S1 lets me swap the drawn sign for a real one with live text, as with the postcards. S2 and S3 are captioned "Illustrative image" until you have photos of your first real sign.
+
 ---
 
 ## What gets replaced
@@ -11,11 +32,11 @@ The site's example layouts are drawn in code, as SVG and CSS: the specials board
 | # | Replaces | Component | Where it appears | New file (`src/assets/images/examples/`) |
 |---|---|---|---|---|
 | 1 | Homepage hero stack (board + postcard) | `BoardMockup` + `PostcardMockup` | `/` hero | `hero-board-and-postcard.webp` |
-| 2 | Specials board | `BoardMockup` | `/` options card, `/` host section, `/advertising-boards` hero | `example-board.webp` |
+| 2 | Specials board | `BoardMockup` | `/` options card, `/` host section, `/storefront-signs` hero | `example-board.webp` |
 | 3 | Household postcard, front | `PostcardMockup` | `/` options card, `/shared-mailers` hero and front/back | `example-postcard-household.webp` |
 | 4 | Business postcard, front | `PostcardMockup variant="business"` | `/` "Why shared advertising" | `example-postcard-business.webp` |
 | 5 | Postcard, back | `MailerBackMockup` | `/shared-mailers` front/back | `example-postcard-back.webp` |
-| 6 | "How a board is laid out" swatches | CSS `.anatomy__swatch` | `/advertising-boards` | `anatomy-host.webp`, `anatomy-ads.webp`, `anatomy-print.webp` |
+| 6 | "How a board is laid out" swatches | CSS `.anatomy__swatch` | `/storefront-signs` | `anatomy-host.webp`, `anatomy-ads.webp`, `anatomy-print.webp` |
 
 **Keep in CSS, don't generate:** the brand mark and favicon (a logo must be exact vector), the CTA band's circle and square, the numbered step badges, chips and buttons. They're brand shapes, cost nothing to load, and stay sharp at any size.
 
@@ -105,7 +126,7 @@ Straight-on product photograph of a portrait wall board in a dark walnut wooden 
 
 <details><summary>Text to render (approach B)</summary>
 
-Use the **board** lines from image 1. For a "Your ad here" variant, replace one panel with: *a white panel with a dashed brick-red outline, centred serif "Your ad here", small grey "One defined space"*. Generate one variant per position you need: the homepage uses the top-right panel, `/advertising-boards` the bottom-left.
+Use the **board** lines from image 1. For a "Your ad here" variant, replace one panel with: *a white panel with a dashed brick-red outline, centred serif "Your ad here", small grey "One defined space"*. Generate one variant per position you need: the homepage uses the top-right panel, `/storefront-signs` the bottom-left.
 </details>
 
 ---

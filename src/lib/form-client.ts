@@ -13,13 +13,9 @@ const messages: Record<string, string> = {
 };
 
 const errorCopy: Record<string, string> = {
-  not_configured:
-    'Your enquiry was not sent: this form isn’t connected to a delivery destination yet. Please try again later.',
-  delivery_failed:
-    'Your enquiry was not sent because of a problem on our side. Please try again in a few minutes.',
-  validation: 'Your enquiry was not sent. Please check the highlighted fields.',
-  network: 'Your enquiry was not sent — we couldn’t reach the server. Check your connection and try again.',
-  default: 'Your enquiry was not sent. Please try again.',
+  validation: 'Please check the highlighted fields and try again.',
+  network: 'We couldn’t send that — please check your connection and try again.',
+  default: 'Sorry, something went wrong sending your message. Please try again in a moment.',
 };
 
 function fieldError(el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): string {
@@ -182,7 +178,9 @@ export function enhanceEnquiryForms() {
       {
         const div = document.createElement('div');
         div.className = 'notice notice--error';
-        div.textContent = errorCopy[errorKey] ?? errorCopy.default;
+        const email = (wrap as HTMLElement).dataset.contactEmail;
+        div.textContent =
+          (errorCopy[errorKey] ?? errorCopy.default) + (email && errorKey !== 'validation' ? ` You can also email us at ${email}.` : '');
         status.replaceChildren(div);
       }
     });

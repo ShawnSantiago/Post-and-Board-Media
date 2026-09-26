@@ -6,19 +6,16 @@ import aboutDesk from '../assets/images/about-desk.webp';
 import { site } from '../config/site';
 ---
 <BaseLayout
-  title="About Post and Board Media | Owner-Operated Local Advertising"
-  description="Post and Board Media is an owner-operated business helping local businesses take part in organized advertising — shared mailers and boards inside local venues."
+  title="About Post and Board Media | Hamilton Local Advertising"
+  description="Post and Board Media is a Hamilton-based local advertising company run by Shawn Santiago, organizing shared neighbourhood mailers and sponsored storefront signs for small businesses."
   breadcrumbs={[{ label: 'About' }]}
 >
   <section class="section--tight">
     <div class="container about">
       <div>
         <p class="eyebrow">About</p>
-        <h1>Real advertising in real places, organized by a real person.</h1>
-        <p class="lede">
-          Post and Board Media is an owner-operated business being developed by {site.owner}. The idea is practical:
-          help local businesses take part in organized advertising without having to run a whole campaign themselves.
-        </p>
+        <h1>Local advertising that small businesses can share.</h1>
+        <p class="lede">{site.description}</p>
       </div>
       <Photo
         class="about__photo"
@@ -31,29 +28,28 @@ import { site } from '../config/site';
 
   <section class="section section--paper">
     <div class="container--narrow prose">
-      <h2>Why shared formats</h2>
+      <h2>What we do</h2>
       <p>
-        Organizing a mailing or finding a spot inside a busy local venue takes time most small businesses don’t have.
-        Shared formats spread that work — and the campaign costs — across several advertisers, while each business keeps
-        its own clearly defined space.
+        We create local advertising space — a sign outside a storefront, a postcard to a neighbourhood — and divide it into
+        affordable spots for local businesses. You get neighbourhood reach without paying for, or organizing, a whole
+        campaign.
       </p>
-      <p>
-        So we focus on two things: <a href="/advertising-boards">advertising boards</a> inside approved local businesses,
-        and <a href="/shared-mailers">shared mailers</a> sent to a defined area. We’re not a full-service digital
-        marketing agency, and we don’t try to be.
-      </p>
+      <ul class="checklist">
+        <li><a href="/storefront-signs">Storefront signs</a>: sponsor panels on the sidewalk signs local businesses put out every day.</li>
+        <li><a href="/shared-mailers">Shared mailers</a>: one spot on a postcard to local homes or businesses.</li>
+      </ul>
 
       <h2>How we work</h2>
       <ul class="checklist">
-        <li>Campaigns are organized by hand. You deal with a person, not a booking engine.</li>
-        <li>Every placement and campaign is confirmed in a written quote before you commit.</li>
-        <li>We say what’s confirmed and what isn’t — no invented availability, reach figures or promises of results.</li>
-        <li>Printing and distribution are coordinated through appropriate providers.</li>
+        <li>One contact from booking to launch — you deal with {site.owner} directly.</li>
+        <li>Clear listings: every sign and mailer shows its location, reach and open categories.</li>
+        <li>We handle hosts, design help, printing and distribution.</li>
       </ul>
 
-      <h2>Where we’re starting</h2>
+      <h2>Starting in Hamilton</h2>
       <p>
-        {site.launchLine} See <a href="/areas">areas</a> for what’s happening where.
+        We’re building our network street by street in <a href="/areas/hamilton">Hamilton</a> before expanding to nearby
+        cities.
       </p>
 
       {
@@ -67,10 +63,10 @@ import { site } from '../config/site';
   </section>
 
   <CtaBand
-    title="Have a question before you enquire?"
-    text="Send a short note with your area and what you have in mind. We’ll reply personally."
-    primary={{ href: '/contact', label: 'Get in touch' }}
-    secondary={{ href: '/host-a-board', label: 'Host a board' }}
+    title="Let’s get your business on the street."
+    text="Browse open spots, or tell us your neighbourhood and we’ll find the right placement."
+    primary={{ href: '/opportunities', label: 'View opportunities' }}
+    secondary={{ href: '/host-a-sign', label: 'Host a sign' }}
   />
 </BaseLayout>
 

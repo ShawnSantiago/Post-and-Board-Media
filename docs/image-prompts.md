@@ -4,6 +4,8 @@ Prompts for generating photography-style images for the website. They work with 
 
 To replace the drawn example layouts themselves, see `mockup-image-prompts.md`.
 
+> **Superseded:** prompts 1, 2 and 6 below show a board **inside** a venue. The product is now a sidewalk sign **outside** a storefront, so use prompts S1–S3 in `mockup-image-prompts.md` instead.
+
 The site currently uses drawn SVG mockups (`src/components/mockups/`). These images add real-world warmth around them. They don't replace the labelled example layouts.
 
 ---
@@ -52,7 +54,7 @@ Interior of a small independent neighbourhood café in the morning, a wall-mount
 - **Alt text:** "Illustrative image of a café with a specials board beside the counter, with a section for local advertisers."
 
 ### 2. Board close-up, straight on
-- **File:** `board-straight-on.jpg` · **Ratio:** 3:4 portrait · **Where:** `/advertising-boards` hero or the "How a board is laid out" section.
+- **File:** `board-straight-on.jpg` · **Ratio:** 3:4 portrait · **Where:** `/storefront-signs` hero or the "How a board is laid out" section.
 
 ```
 Straight-on, front-facing photo of a framed rectangular board mounted on a painted plaster wall inside a small restaurant. Dark walnut wooden frame. Top two-thirds is a smooth matte deep navy surface, bottom third split into four equal blank rectangular panels in mustard, warm white, pale blue-grey and brick red, separated by thin gaps. No writing on any surface. Soft side light from a window, a pendant lamp edge at the top of the frame, a sliver of a wooden counter at the bottom. Perfectly level, minimal perspective distortion.
@@ -85,7 +87,7 @@ A small stack of postcards and envelopes resting on the reception counter of a l
 - **Alt text:** "Illustrative image of mail, including a shared postcard, on a business reception counter."
 
 ### 6. Host venue: owner's hand updating the specials area
-- **File:** `host-updating-board.jpg` · **Ratio:** 4:3 · **Where:** `/host-a-board` hero, or the homepage "Give your specials a better home" section.
+- **File:** `host-updating-board.jpg` · **Ratio:** 4:3 · **Where:** `/host-a-sign` hero, or the homepage "Give your specials a better home" section.
 
 ```
 Behind-the-counter view in a neighbourhood café: a café owner's hand, apron visible, writing on the upper navy section of a wall-mounted board with a white liquid chalk marker, the stroke still abstract (no readable words). The lower section of the board has four blank coloured advertiser panels. Pastry case and coffee grinder softly blurred. Warm, unhurried, early morning before opening.

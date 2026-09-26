@@ -11,6 +11,7 @@
  * set (enforced in src/lib/opportunities.ts).
  */
 
+/** 'board' = storefront sign placement. */
 export type OpportunityFormat = 'board' | 'mailer';
 export type Audience = 'household' | 'business';
 
@@ -20,6 +21,12 @@ export type OpportunityStatus =
   | 'fully-booked'
   | 'completed';
 
+export interface CategorySlot {
+  /** e.g. "Real estate", "Restaurant", "Dental". */
+  name: string;
+  status: 'open' | 'filled';
+}
+
 export interface Opportunity {
   slug: string;
   title: string;
@@ -28,10 +35,14 @@ export interface Opportunity {
   area: string;
   /** Optional finer location, e.g. "Dundas" or "Downtown Burlington". */
   locality?: string;
-  /** Boards only — the verified host venue name, when the host agreed to be named. */
+  /** Signs only — the host business name, when the host agreed to be named. */
   venueName?: string;
-  /** Boards only — where the board hangs inside the venue. */
-  displayPosition?: string;
+  /** Signs only — street location, e.g. "King Street West, Westdale". */
+  location?: string;
+  /** Signs only — when the sign is usually out, e.g. "Daily, 8 am – 6 pm". */
+  displayHours?: string;
+  /** Print format, e.g. "9 × 12 postcard" or "A-frame, 4 sponsor panels". */
+  specs?: string;
   /** Mailers only. */
   audience?: Audience;
   /** Mailers only — confirmed quantity. */
@@ -46,10 +57,14 @@ export interface Opportunity {
   categoryRules?: string;
   participationRequirements?: string;
   ifUnavailable?: string;
-  /** Leave undefined unless an approved price exists — then "Request pricing" shows. */
+  /** Exact price per spot. Leave undefined to fall back to the format's "from" anchor. */
   price?: { amountCad: number; basis: string; notes?: string };
-  /** Only set if maintained accurately. Otherwise omitted from the page. */
-  spacesAvailable?: number;
+  /** Total advertiser spots. Shown with spotsBooked as "4 of 6 booked". */
+  spotsTotal?: number;
+  /** Keep accurate — update as spots sell. */
+  spotsBooked?: number;
+  /** Per-category availability, shown as a table. */
+  categories?: CategorySlot[];
   status: OpportunityStatus;
   /** ISO date, e.g. "2026-10-01". */
   lastUpdated: string;
@@ -58,8 +73,8 @@ export interface Opportunity {
 }
 
 export const opportunityStatusLabels: Record<OpportunityStatus, string> = {
-  'accepting-enquiries': 'Accepting enquiries',
-  'open-for-applications': 'Open for applications',
+  'accepting-enquiries': 'Spots available',
+  'open-for-applications': 'Founding spots open',
   'fully-booked': 'Fully booked',
   completed: 'Completed',
 };

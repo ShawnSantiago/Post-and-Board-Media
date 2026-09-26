@@ -6,13 +6,13 @@ interface Props {
 }
 const {
   title = 'How it works',
-  lede = 'A straightforward, person-to-person process. Sending an enquiry doesn’t book anything — it starts a conversation.',
+  lede = 'Four steps from picking a spot to seeing your ad out in the neighbourhood.',
 } = Astro.props;
 const steps = [
-  { t: 'Tell us where and who you want to reach.', d: 'Choose an area and, if you know it, a format. A short enquiry is enough.' },
-  { t: 'We confirm suitable opportunities and pricing.', d: 'You get a written quote listing the placement or coverage, term, space and total cost.' },
-  { t: 'You approve your advertising artwork.', d: 'Send finished artwork, or your logo and text for us to lay out. Nothing prints until you approve it.' },
-  { t: 'We coordinate production and placement or distribution.', d: 'We handle printing, installation or mailing through appropriate providers, and keep you updated.' },
+  { t: 'Pick your spot.', d: 'Choose an open sign placement or mailer, or tell us the neighbourhood you want to reach.' },
+  { t: 'Confirm and book.', d: 'We confirm your category and send a short quote. Your spot is booked once you accept.' },
+  { t: 'Approve your ad.', d: 'Send your artwork, or your logo and a few lines and we’ll design it for you.' },
+  { t: 'See it out in the neighbourhood.', d: 'We print and place your sign panel or mail your campaign, and send you confirmation.' },
 ];
 ---
 <section class="section section--paper" aria-labelledby="how-title">

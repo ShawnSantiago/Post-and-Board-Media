@@ -1,36 +1,38 @@
 ---
-/** Honest empty state — shown when no opportunities are published. */
-import { publishedAreas } from '../../content/areas';
+/** Shown while no opportunities are published: invite founding advertisers. */
+import { site } from '../../config/site';
+import { pricing } from '../../content/pricing';
+import PriceTag from '../ui/PriceTag.astro';
 interface Props {
   headingLevel?: 'h2' | 'h3';
 }
 const { headingLevel: H = 'h2' } = Astro.props;
+const H3 = H === 'h2' ? 'h3' : 'h4';
 ---
 <div class="launch">
-  <div class="launch__text">
-    <p class="chip chip--mustard chip--dot">Launch stage</p>
-    <H>We’re organizing our first placements.</H>
+  <div class="launch__intro">
+    <p class="chip chip--mustard chip--dot">Founding spots</p>
+    <H>We’re lining up the first {site.launchCity} signs and mailers.</H>
     <p>
-      Tell us your preferred area and advertising format. Your enquiry helps decide where the first boards go and which
-      mailer campaigns we plan first — and we’ll contact you when something suitable is confirmed.
+      Tell us your neighbourhood and category to get first pick of a founding spot. We’ll send you the details as soon as
+      each campaign is listed.
     </p>
-    <div class="btn-row">
-      <a class="btn btn--primary" href="/contact">Tell us your area</a>
-      <a class="btn btn--ghost" href="/host-a-board">Suggest a host venue</a>
-    </div>
   </div>
-  <div class="launch__quick">
-    <p class="launch__label" id="quick-label">Start with an area</p>
-    <ul aria-labelledby="quick-label">
-      {
-        publishedAreas.map((a) => (
-          <li>
-            <a href={`/contact?area=${a.slug}`}>{a.name}</a>
-          </li>
-        ))
-      }
-      <li><a href="/contact?area=other">Somewhere else</a></li>
-    </ul>
+  <div class="launch__cards">
+    <div class="launch__card">
+      <p class="eyebrow">Storefront signs</p>
+      <H3>Founding sign sponsors</H3>
+      <p>A sponsor panel on a sidewalk sign outside a {site.launchCity} storefront.</p>
+      <PriceTag anchor={pricing.board} />
+      <a class="btn btn--primary btn--sm" href={`/contact?format=board&area=hamilton`}>Get first pick</a>
+    </div>
+    <div class="launch__card launch__card--mailer">
+      <p class="eyebrow">Shared mailers</p>
+      <H3>Founding mailer advertisers</H3>
+      <p>One spot on a shared postcard to {site.launchCity} homes or businesses.</p>
+      <PriceTag anchor={pricing.mailer} />
+      <a class="btn btn--primary btn--sm" href={`/contact?format=mailer&area=hamilton`}>Get first pick</a>
+    </div>
   </div>
 </div>
 
@@ -39,47 +41,56 @@ const { headingLevel: H = 'h2' } = Astro.props;
     display: grid;
     gap: 2rem;
     background: var(--paper);
-    border: 2px dashed var(--line);
+    border: 1px solid var(--line);
     border-radius: calc(var(--radius) + 4px);
-    padding: clamp(1.5rem, 4vw, 2.75rem);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
   }
-  @media (min-width: 880px) {
+  @media (min-width: 960px) {
     .launch {
-      grid-template-columns: 1.5fr 1fr;
+      grid-template-columns: 1fr 1.4fr;
       align-items: center;
     }
   }
-  .launch h2,
-  .launch h3 {
+  .launch__intro :is(h2, h3) {
     margin-top: 0.9rem;
   }
-  .launch__label {
-    font-weight: 600;
-    color: var(--navy);
-    margin-bottom: 0.6rem;
-  }
-  .launch__quick ul {
-    list-style: none;
-    padding: 0;
+  .launch__intro p:last-child {
+    color: var(--muted);
     margin: 0;
+  }
+  .launch__cards {
     display: grid;
-    gap: 0.5rem;
+    gap: 1rem;
   }
-  .launch__quick a {
+  @media (min-width: 620px) {
+    .launch__cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .launch__card {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.8rem 1rem;
-    border-radius: var(--radius-sm);
-    background: var(--cream);
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .launch__quick a::after {
-    content: '→';
-  }
-  .launch__quick a:hover {
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.3rem;
+    border-radius: var(--radius);
     background: var(--mist);
-    color: var(--navy);
+  }
+  .launch__card--mailer {
+    background: #f4ddd5;
+  }
+  .launch__card .eyebrow {
+    margin: 0;
+  }
+  .launch__card :is(h3, h4) {
+    font-size: var(--step-1);
+    margin: 0;
+  }
+  .launch__card p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  .launch__card .btn {
+    align-self: flex-start;
+    margin-top: 0.4rem;
   }
 </style>

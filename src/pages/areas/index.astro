@@ -6,18 +6,17 @@ import { getArea } from '../../content/areas';
 const hamilton = getArea('hamilton');
 ---
 <BaseLayout
-  title="Areas We Serve | Hamilton, Burlington, Oakville & Nearby | Post and Board Media"
-  description="Post and Board Media is launching in Hamilton and accepting enquiries from Burlington, Oakville and surrounding communities. See what’s available in each area."
+  title="Where We Advertise | Hamilton First | Post and Board Media"
+  description="Post and Board Media is launching in Hamilton, with storefront signs and shared mailers across the city. Nearby cities follow once Hamilton is established."
   breadcrumbs={[{ label: 'Areas' }]}
 >
   <section class="section--tight">
     <div class="container">
       <p class="eyebrow">Cities and communities</p>
-      <h1>Where we’re organizing local advertising</h1>
+      <h1>Starting in Hamilton</h1>
       <p class="lede">
-        We’re launching in Hamilton and accepting enquiries from surrounding communities. Each area page explains what you
-        can enquire about there and where things stand. An area listed here doesn’t mean placements are already
-        available — it means we want to hear from you.
+        We’re building our network street by street in Hamilton first. Burlington, Oakville and other nearby cities come
+        next — tell us if you’d like to be first when they open.
       </p>
     </div>
   </section>
@@ -40,7 +39,7 @@ const hamilton = getArea('hamilton');
       }
     </div>
   </section>
-  <CtaBand title="Somewhere else in mind?" text="Tell us the area you want to reach. It helps us decide where to plan next." primary={{ href: '/contact?area=other', label: 'Tell us your area' }} />
+  <CtaBand title="Want to be first in your city?" text="Tell us where you want to advertise and we’ll let you know when signs and mailers open there." primary={{ href: '/contact?area=other', label: 'Tell us your area' }} />
 </BaseLayout>
 
 <style>

@@ -24,7 +24,7 @@ interface Props {
 
 const {
   title = 'Tell us where you’d like to advertise',
-  intro = 'A few details are enough to start. We’ll reply with suitable options — an enquiry doesn’t book or commit you to anything.',
+  intro = 'A few details are enough. We’ll reply by email with open spots and prices for your area.',
   headingLevel: H = 'h2',
   area,
   format,
@@ -40,7 +40,7 @@ const oppMap = Object.fromEntries(
   opportunities.filter(isEnquirable).map((o) => [o.slug, { title: o.title, area: o.area, format: o.format }]),
 );
 ---
-<div class="enquiry" data-enquiry-wrap>
+<div class="enquiry" data-enquiry-wrap data-contact-email={site.contact.email ?? undefined}>
   <div class="enquiry__head">
     <H id={id('title')}>{title}</H>
     <p>{intro}</p>
@@ -94,7 +94,7 @@ const oppMap = Object.fromEntries(
         <p class="field__error" id={id('area-err')}></p>
       </div>
       <div class="field field--full">
-        <label for={id('areaDetail')}>Neighbourhoods, streets or venues <span class="opt">(optional)</span></label>
+        <label for={id('areaDetail')}>Neighbourhood or street <span class="opt">(optional)</span></label>
         <input id={id('areaDetail')} name="areaDetail" type="text" maxlength="200" aria-describedby={id('areaDetail-hint')} />
         <p class="hint" id={id('areaDetail-hint')}>For example “Dundas downtown” or “homes near Brant Street”.</p>
       </div>
@@ -157,11 +157,8 @@ const oppMap = Object.fromEntries(
   </form>
 
   <div class="enquiry__success" tabindex="-1" hidden data-success>
-    <H>Thanks — your enquiry has been sent.</H>
-    <p>
-      We’ll review it and reply by email with suitable options. Nothing is booked yet; any placement or campaign is
-      confirmed only once you accept a written quote.
-    </p>
+    <H>Thanks — we’ve got your enquiry.</H>
+    <p>We’ll reply by email with open spots and pricing. Your spot is booked once you accept the quote.</p>
     <a class="text-link" href="/opportunities">Browse opportunities</a>
   </div>
 </div>

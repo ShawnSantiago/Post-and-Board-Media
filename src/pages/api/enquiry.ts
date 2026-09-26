@@ -27,7 +27,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const type: EnquiryType = form.get('formType') === 'host' ? 'host' : 'advertiser';
-  const back = type === 'host' ? '/host-a-board' : '/contact';
+  const back = type === 'host' ? '/host-a-sign' : '/contact';
 
   // Honeypot: bots fill hidden fields. Respond neutrally without sending.
   if (typeof form.get('company_url') === 'string' && (form.get('company_url') as string).length > 0) {

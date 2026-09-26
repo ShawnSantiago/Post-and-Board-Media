@@ -33,7 +33,7 @@ const neighbours = area.neighbours.map((s) => getArea(s)).filter((a): a is Area 
         <h2 id="status-title" class="status__title">Where things stand in {area.name}</h2>
         <div class="status__grid">
           <div>
-            <p class="status__label">Advertising boards</p>
+            <p class="status__label">Storefront signs</p>
             <p class="chip chip--dot">{statusLabels[area.status.boards]}</p>
           </div>
           <div>
@@ -51,10 +51,10 @@ const neighbours = area.neighbours.map((s) => getArea(s)).filter((a): a is Area 
       <h2 id="services-title">What you can enquire about in {area.name}</h2>
       <div class="svc">
         <a class="svc__card" href={`/contact?area=${area.slug}&format=board`}>
-          <span class="eyebrow">Inside local businesses</span>
-          <strong>Advertising boards</strong>
-          <span>A placement on a board inside an approved {area.name} venue.</span>
-          <span class="text-link">Ask about board placements</span>
+          <span class="eyebrow">On the street</span>
+          <strong>Storefront signs</strong>
+          <span>A sponsor panel on a sidewalk sign outside a {area.name} storefront.</span>
+          <span class="text-link">View sign placements</span>
         </a>
         <a class="svc__card svc__card--mailer" href={`/contact?area=${area.slug}&format=mailer`}>
           <span class="eyebrow">Delivered to a defined area</span>
@@ -64,7 +64,7 @@ const neighbours = area.neighbours.map((s) => getArea(s)).filter((a): a is Area 
         </a>
       </div>
       <p class="svc__more">
-        New to these formats? Read how <a href="/advertising-boards">advertising boards</a> and
+        New to these formats? Read how <a href="/storefront-signs">storefront signs</a> and
         <a href="/shared-mailers">shared mailers</a> work.
       </p>
     </div>
@@ -143,8 +143,8 @@ const neighbours = area.neighbours.map((s) => getArea(s)).filter((a): a is Area 
         )
       }
       <p class="host-line">
-        Know a {area.name} café, restaurant or shop that could host a board?
-        <a href="/host-a-board">Suggest a host venue</a>.
+        Run a {area.name} café, shop or salon that puts a sign out?
+        <a href="/host-a-sign">Host a sign</a>.
       </p>
     </div>
   </section>
@@ -187,7 +187,7 @@ const neighbours = area.neighbours.map((s) => getArea(s)).filter((a): a is Area 
       </div>
       <EnquiryForm
         title={`Ask about advertising in ${area.name}`}
-        intro="Your area is already selected. Add any neighbourhoods or streets you care about — an enquiry doesn’t book anything."
+        intro="Your area is already selected. Add the neighbourhood or street you care about and we’ll reply with open spots."
         area={area.slug}
         idPrefix={`enq-${area.slug}`}
       />

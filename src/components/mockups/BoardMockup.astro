@@ -1,7 +1,7 @@
 ---
 /**
- * Example specials board: a large host area for the venue's own specials and
- * a smaller, tidy advertiser section. A photo of the blank printed board with
+ * Example storefront (sidewalk) sign: a large host area for the business's own
+ * specials and a smaller sponsor section. A photo of the blank printed board with
  * live text laid over it (coordinates in the photo's pixel space, 1086 × 1448).
  * All businesses shown are fictional.
  */
@@ -18,8 +18,8 @@ const uid = `board-${Math.random().toString(36).slice(2, 8)}`;
 const photo = await getImage({ src: boardPhoto, width: 1000, format: 'webp', quality: 80 });
 
 const specials = [
+  ['Lunch combo', 'Until 2 pm'],
   ['Soup of the day', 'Squash & ginger'],
-  ['Breakfast wrap', 'Until 11 am'],
   ['Iced maple latte', 'Seasonal'],
   ['Trivia night', 'Thursdays'],
 ];
@@ -38,10 +38,10 @@ const panels = [
 ];
 ---
 <svg class:list={['board', className]} viewBox="113 150 860 1120" role="img" aria-labelledby={`${uid}-t ${uid}-d`}>
-  <title id={`${uid}-t`}>Example layout of an advertising board</title>
+  <title id={`${uid}-t`}>Example layout of a storefront sign</title>
   <desc id={`${uid}-d`}>
-    A specials board. The top two-thirds shows the venue’s own specials. The bottom section holds four clearly separated
-    ads from fictional local businesses.
+    A sidewalk sign outside a café. The top two-thirds shows the host’s own specials. The bottom sponsor section holds
+    four clearly separated ads from fictional local businesses.
   </desc>
   <image href={photo.src} x="0" y="0" width="1086" height="1448" preserveAspectRatio="none"></image>
 
@@ -57,10 +57,10 @@ const panels = [
       ))
     }
   </g>
-  <text x="543" y="728" text-anchor="middle" class="b-display b-italic" font-size="30" fill="#c9d1de">Ask us about catering</text>
+  <text x="543" y="728" text-anchor="middle" class="b-display b-italic" font-size="30" fill="#c9d1de">Come inside →</text>
 
   <!-- advertiser band -->
-  <text x="212" y="824" class="b-body" font-size="14" font-weight="700" letter-spacing="2.4" fill="#525866">LOCAL BUSINESSES</text>
+  <text x="212" y="824" class="b-body" font-size="14" font-weight="700" letter-spacing="2.4" fill="#525866">LOCAL SPONSORS</text>
   <text x="874" y="824" text-anchor="end" class="b-body" font-size="14" fill="#525866">Post &amp; Board Media</text>
   {
     ads.map((ad, i) => {

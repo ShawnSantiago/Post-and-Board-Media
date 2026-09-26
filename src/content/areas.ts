@@ -56,9 +56,9 @@ export interface Area {
 
 export const statusLabels: Record<ServiceStatus, string> = {
   'accepting-enquiries': 'Accepting enquiries',
-  'recruiting-hosts': 'Recruiting host venues',
-  planning: 'Planning first campaigns',
-  'enquiries-only': 'Enquiries welcome',
+  'recruiting-hosts': 'Founding host storefronts wanted',
+  planning: 'Founding spots open',
+  'enquiries-only': 'Coming later',
 };
 
 export const areas: Area[] = [
@@ -67,277 +67,126 @@ export const areas: Area[] = [
     name: 'Hamilton',
     region: 'City of Hamilton',
     readiness: 'published',
-    cardLine: 'Our launch area — including Ancaster, Dundas, Stoney Creek, Waterdown and Binbrook.',
+    cardLine: 'Our launch market — sidewalk signs on walkable Hamilton streets and shared mailers across the city.',
     seo: {
-      title: 'Local Advertising in Hamilton | Boards & Shared Mailers | Post and Board Media',
+      title: 'Local Advertising in Hamilton | Storefront Signs & Shared Mailers | Post and Board',
       description:
-        'Explore physical advertising boards and shared mailer campaigns for Hamilton businesses. Ask Post and Board Media about areas, artwork, and upcoming opportunities.',
+        'Advertise on sidewalk signs outside Hamilton storefronts or join a shared neighbourhood mailer. Post and Board Media organizes affordable, shared local advertising in Hamilton.',
     },
     h1: 'Local advertising in Hamilton',
     intro:
-      'Hamilton is where Post and Board Media is starting. We’re organizing the first advertising boards inside local businesses and planning the first shared mailers — and we’d like to hear which parts of the city you want to reach.',
+      'Hamilton is our home market. We place sponsor ads on the sidewalk signs outside local storefronts and organize shared mailers to Hamilton homes and businesses — so you can reach a neighbourhood without paying for a whole campaign.',
     status: {
       boards: 'recruiting-hosts',
       mailers: 'planning',
       summary:
-        'We’re looking for the first host venues and gathering advertiser interest for the first campaigns. No placements are confirmed yet, so every enquiry helps shape where the first boards and mailers go.',
+        'We’re lining up the first host storefronts and shared mailers now. Claim a founding spot in your category before the first campaigns are listed.',
     },
     sections: [
       {
-        heading: 'Planning a Hamilton campaign',
+        heading: 'Where storefront signs work in Hamilton',
         body: [
-          'Hamilton covers a lot of ground — the lower city, the Mountain above the escarpment, and former municipalities that each have their own main streets and shopping areas. A campaign works best when it’s planned around the specific part of the city your customers come from, rather than “all of Hamilton.”',
-          'When you enquire, tell us the neighbourhoods, streets or communities you care about. For a board, that helps us look for a host venue your customers actually visit. For a mailer, it helps us define a distribution area that matches your service radius.',
+          'Sidewalk signs work best on streets people walk: Locke Street South, James Street North, Ottawa Street North, Westdale Village, Concession Street, King Street West in Dundas and Wilson Street in Ancaster. Those are the kinds of streets where we look for host storefronts — cafés, bakeries, barbers, independent shops — that already put a sign out every day.',
+          'A sponsor spot puts your business in front of people walking, shopping and eating on that street, including customers heading into the host business and people who live and work nearby.',
         ],
       },
       {
-        heading: 'Advertising boards in Hamilton',
+        heading: 'Shared mailers across Hamilton',
         body: [
-          'We’re looking for customer-facing host venues — restaurants, cafés and similar businesses — where a specials board would be genuinely useful. Each approved board has a large area for the venue’s own specials and a designated section for local advertisers.',
-          'If you advertise, your placement is tied to a specific approved venue and display position, confirmed in writing before anything is produced.',
+          'Mailers reach a defined part of the city — for example West Hamilton, the Mountain or Stoney Creek — and go either to households or to business addresses. Each campaign lists its area, quantity, format and open categories, so you can see exactly who you’ll reach before you book.',
         ],
       },
       {
-        heading: 'Shared mailers in Hamilton',
+        heading: 'Pair a sign with a mailer',
         body: [
-          'Shared mailers are organized as individual campaigns. Each one has its own distribution area, recipient type (households or business addresses), quantity, artwork deadline and mailing window. You buy a defined space in a campaign — you don’t need to find the other advertisers.',
+          'A sponsor spot on a sign on your street plus a mailer to the surrounding homes is a strong local combination: people see you on their walk and in their mailbox.',
         ],
       },
     ],
     communities: {
       heading: 'Communities within Hamilton',
-      intro:
-        'These communities are part of the City of Hamilton, and each has its own character. Mention the one you’re interested in when you enquire.',
+      intro: 'Each community has its own main street and its own customers. Tell us which ones matter to you.',
       items: [
         {
           name: 'Ancaster',
           slug: 'ancaster',
-          body: 'Centred on the Wilson Street village core, with residential areas spreading across the escarpment. A good fit for businesses serving nearby households.',
+          body: 'The Wilson Street village core is walkable and busy with independent shops and restaurants — a natural fit for storefront signs, with established neighbourhoods around it for mailers.',
         },
         {
           name: 'Dundas',
           slug: 'dundas',
-          body: 'A walkable downtown along King Street West with many independent shops and restaurants — the kind of setting where an in-venue board can suit local service businesses.',
+          body: 'King Street West is one of the region’s best-known walkable downtowns, full of independent businesses and foot traffic — ideal for sidewalk sign placements.',
         },
         {
           name: 'Stoney Creek',
           slug: 'stoney-creek',
-          body: 'Stretches from the lakeshore up above the escarpment, so “Stoney Creek” can mean quite different areas. Tell us whether you mean lower or upper Stoney Creek.',
+          body: 'Stretches from the lakeshore to above the escarpment, so campaigns are planned around specific neighbourhoods. A strong area for household mailers.',
         },
         {
           name: 'Waterdown',
           slug: 'waterdown',
-          body: 'In Flamborough, with its village area along Dundas Street. Useful for businesses serving north-west Hamilton and nearby rural areas.',
+          body: 'The village area along Dundas Street is walkable and local, with growing residential neighbourhoods around it for mailers.',
         },
         {
           name: 'Binbrook',
           slug: 'binbrook',
-          body: 'A growing community in Glanbrook, south of the Hamilton Mountain. Mailer campaigns here would be planned around specific residential areas.',
+          body: 'A growing residential community in Glanbrook, south of the Mountain — best reached with household mailers.',
         },
       ],
     },
     audiences: {
       household:
-        'Household campaigns go to residential addresses in a defined part of the city. Useful for trades, home services, restaurants, clinics and other businesses that serve people near where they live.',
+        'Household mailers reach residential addresses in a defined part of Hamilton — ideal for restaurants, trades, clinics, fitness studios and other businesses that serve people near home.',
       business:
-        'Business-address campaigns go to commercial addresses — for example, a business district or an industrial area. Useful for B2B services such as cleaning, catering, printing or IT support. These are separate campaigns from household mailers.',
+        'Business-address mailers reach commercial addresses, such as a business district or industrial area — ideal for cleaning, catering, IT, printing and other B2B services.',
     },
     neighbours: ['burlington', 'grimsby', 'brantford'],
     faqs: [
       {
-        q: 'Can I choose a specific Hamilton neighbourhood?',
-        a: 'Yes — tell us which neighbourhoods or communities you want to reach. Each mailer campaign has a defined distribution area, and each board is at a specific venue. We’ll tell you honestly if we don’t have something suitable there yet.',
+        q: 'Can I choose a specific street or neighbourhood?',
+        a: 'Yes. Each sign is on a specific street and each mailer covers a defined area. Tell us where your customers are and we’ll match you with the right placement.',
       },
       {
-        q: 'Are there Hamilton boards available right now?',
-        a: 'Not yet. We’re looking for the first host venues. If you enquire now, we’ll contact you as suitable placements are confirmed.',
+        q: 'How do I get a founding spot?',
+        a: 'Send an enquiry with your neighbourhood and business category. Founding advertisers get first pick of categories on the first Hamilton signs and mailers.',
       },
     ],
   },
-  {
-    slug: 'burlington',
-    name: 'Burlington',
-    region: 'Halton Region',
-    readiness: 'published',
-    cardLine: 'Accepting advertiser enquiries and suggestions for host venues.',
-    seo: {
-      title: 'Shared Mailers & Advertising Boards in Burlington | Post and Board Media',
-      description:
-        'Ask about shared mailer campaigns and in-venue advertising boards for Burlington businesses. Tell Post and Board Media which parts of Burlington you want to reach.',
-    },
-    h1: 'Shared mailers and advertising boards in Burlington',
-    intro:
-      'Post and Board Media is launching in Hamilton, right next door, and we’re accepting enquiries from Burlington businesses now. Tell us who you want to reach and we’ll let you know when a suitable campaign or placement comes together.',
-    status: {
-      boards: 'enquiries-only',
-      mailers: 'enquiries-only',
-      summary:
-        'No Burlington campaigns are confirmed yet. We’re gathering advertiser interest and host-venue suggestions to decide where the first Burlington placements make sense.',
-    },
-    sections: [
-      {
-        heading: 'Planning around Burlington’s areas',
-        body: [
-          'Burlington sits between Hamilton and Oakville, with the downtown around Brant Street near the waterfront, established neighbourhoods like Aldershot in the west, and newer residential areas to the north. A campaign aimed at downtown foot traffic looks very different from one aimed at households in north Burlington.',
-          'When you enquire, name the neighbourhoods or streets that matter to your business. If your customers also come from Hamilton or Oakville, say so — a combined plan may make more sense than one city on its own.',
-        ],
-      },
-      {
-        heading: 'Shared mailers for Burlington businesses',
-        body: [
-          'A shared mailer lets several non-competing businesses split the cost of printing and distribution. Each campaign lists its distribution area, whether it goes to households or business addresses, the quantity, your ad space, the artwork deadline and the mailing window — before you commit.',
-          'Where category exclusivity is offered, it applies to that one campaign. For example, a campaign might include only one landscaper — but that doesn’t cover every Post and Board product or all of Burlington.',
-        ],
-      },
-      {
-        heading: 'Know a Burlington venue that could host a board?',
-        body: [
-          'If you run — or regularly visit — a restaurant, café or other customer-facing business in Burlington that could use a better specials board, suggest it. Hosting is subject to approval and a written placement agreement.',
-        ],
-      },
-    ],
-    audiences: {
-      household:
-        'Household campaigns reach residential addresses in a defined part of Burlington. Most useful for businesses that serve people close to home.',
-      business:
-        'Business-address campaigns reach commercial addresses, such as those in a business park or along a commercial corridor. They’re planned separately from household mailers, and we never combine the two into one reach figure.',
-    },
-    neighbours: ['hamilton', 'oakville', 'milton'],
-  },
-  {
-    slug: 'oakville',
-    name: 'Oakville',
-    region: 'Halton Region',
-    readiness: 'published',
-    cardLine: 'Accepting advertiser enquiries for boards and shared mailers.',
-    seo: {
-      title: 'Advertising Boards in Oakville | Shared Mailers | Post and Board Media',
-      description:
-        'Enquire about advertising boards inside Oakville businesses and shared mailer campaigns. Post and Board Media helps local businesses advertise in a defined area.',
-    },
-    h1: 'Advertising boards and shared mailers in Oakville',
-    intro:
-      'Oakville businesses can enquire now about in-venue advertising boards and shared mailers. We’re launching in Hamilton first, and we’ll build Oakville campaigns around real advertiser interest and suitable host venues.',
-    status: {
-      boards: 'enquiries-only',
-      mailers: 'enquiries-only',
-      summary:
-        'We don’t have confirmed Oakville placements yet. Enquiries help us decide which parts of Oakville to plan for first.',
-    },
-    sections: [
-      {
-        heading: 'Choosing where in Oakville',
-        body: [
-          'Oakville has several distinct commercial areas — Downtown Oakville along Lakeshore Road, Kerr Village, Bronte Village, and plazas across the north and west of town. A board inside a venue in one of these areas reaches a different crowd than a mailer to nearby homes.',
-          'Tell us where your customers are. If you serve all of Oakville, we can still talk about which area makes sense for a first placement rather than trying to cover everything at once.',
-        ],
-      },
-      {
-        heading: 'Advertising boards inside Oakville venues',
-        body: [
-          'Boards are installed only at approved host venues. The venue keeps most of the board for its own specials or announcements, and advertisers share a smaller, clearly designed section. Each placement specifies the venue, display position, term, ad size and artwork requirements in writing.',
-        ],
-      },
-      {
-        heading: 'Shared mailers in Oakville',
-        body: [
-          'Mailer campaigns are planned one at a time, each with a defined area and recipient type. You join a campaign and buy a defined space; we coordinate the artwork, printing and distribution through appropriate providers.',
-        ],
-      },
-    ],
-    audiences: {
-      household:
-        'Household campaigns reach residential addresses within a defined part of Oakville — useful for local services, restaurants, fitness, health and home businesses.',
-      business:
-        'Business-address campaigns reach commercial addresses and are planned as separate campaigns, for businesses that sell to other businesses.',
-    },
-    neighbours: ['burlington', 'milton', 'mississauga'],
-  },
-  {
-    slug: 'milton',
-    name: 'Milton',
-    region: 'Halton Region',
-    readiness: 'draft',
-    cardLine: 'Enquiries welcome.',
-    seo: {
-      title: 'Local Advertising in Milton | Post and Board Media',
-      description: 'Enquire about advertising boards and shared mailers in Milton.',
-    },
-    h1: 'Local advertising in Milton',
-    intro:
-      'We’re accepting enquiries from Milton businesses while we launch in Hamilton. Tell us where you want to advertise and we’ll be in touch when something suitable is planned.',
-    status: { boards: 'enquiries-only', mailers: 'enquiries-only', summary: 'No Milton campaigns are planned yet.' },
-    sections: [],
-    audiences: {
-      household: 'Household campaigns reach residential addresses in a defined area.',
-      business: 'Business-address campaigns reach commercial addresses and are planned separately.',
-    },
-    neighbours: ['oakville', 'burlington'],
-  },
-  {
-    slug: 'grimsby',
-    name: 'Grimsby',
-    region: 'Niagara Region',
-    readiness: 'draft',
-    cardLine: 'Enquiries welcome.',
-    seo: {
-      title: 'Local Advertising in Grimsby | Post and Board Media',
-      description: 'Enquire about advertising boards and shared mailers in Grimsby.',
-    },
-    h1: 'Local advertising in Grimsby',
-    intro:
-      'We’re accepting enquiries from Grimsby businesses while we launch in Hamilton. Tell us where you want to advertise and we’ll be in touch when something suitable is planned.',
-    status: { boards: 'enquiries-only', mailers: 'enquiries-only', summary: 'No Grimsby campaigns are planned yet.' },
-    sections: [],
-    audiences: {
-      household: 'Household campaigns reach residential addresses in a defined area.',
-      business: 'Business-address campaigns reach commercial addresses and are planned separately.',
-    },
-    neighbours: ['hamilton'],
-  },
-  {
-    slug: 'brantford',
-    name: 'Brantford',
-    region: 'Brant',
-    readiness: 'draft',
-    cardLine: 'Enquiries welcome.',
-    seo: {
-      title: 'Local Advertising in Brantford | Post and Board Media',
-      description: 'Enquire about advertising boards and shared mailers in Brantford.',
-    },
-    h1: 'Local advertising in Brantford',
-    intro:
-      'We’re accepting enquiries from Brantford businesses while we launch in Hamilton. Tell us where you want to advertise and we’ll be in touch when something suitable is planned.',
-    status: { boards: 'enquiries-only', mailers: 'enquiries-only', summary: 'No Brantford campaigns are planned yet.' },
-    sections: [],
-    audiences: {
-      household: 'Household campaigns reach residential addresses in a defined area.',
-      business: 'Business-address campaigns reach commercial addresses and are planned separately.',
-    },
-    neighbours: ['hamilton'],
-  },
-  {
-    slug: 'mississauga',
-    name: 'Mississauga',
-    region: 'Peel Region',
-    readiness: 'draft',
-    cardLine: 'Enquiries welcome.',
-    seo: {
-      title: 'Local Advertising in Mississauga | Post and Board Media',
-      description: 'Enquire about advertising boards and shared mailers in Mississauga.',
-    },
-    h1: 'Local advertising in Mississauga',
-    intro:
-      'We’re accepting enquiries from Mississauga businesses while we launch in Hamilton. Tell us where you want to advertise and we’ll be in touch when something suitable is planned.',
-    status: { boards: 'enquiries-only', mailers: 'enquiries-only', summary: 'No Mississauga campaigns are planned yet.' },
-    sections: [],
-    audiences: {
-      household: 'Household campaigns reach residential addresses in a defined area.',
-      business: 'Business-address campaigns reach commercial addresses and are planned separately.',
-    },
-    neighbours: ['oakville'],
-  },
+  comingLater('burlington', 'Burlington', 'Halton Region', ['hamilton', 'oakville', 'milton']),
+  comingLater('oakville', 'Oakville', 'Halton Region', ['burlington', 'milton', 'mississauga']),
+  comingLater('milton', 'Milton', 'Halton Region', ['oakville', 'burlington']),
+  comingLater('grimsby', 'Grimsby', 'Niagara Region', ['hamilton']),
+  comingLater('brantford', 'Brantford', 'Brant', ['hamilton']),
+  comingLater('mississauga', 'Mississauga', 'Peel Region', ['oakville']),
 ];
+
+/**
+ * Short noindex preview for areas we'll expand into after Hamilton. Promote an
+ * area by replacing its line with a full record (see Hamilton) and setting
+ * readiness to 'published' once it has real inventory.
+ */
+function comingLater(slug: string, name: string, region: string, neighbours: string[]): Area {
+  return {
+    slug,
+    name,
+    region,
+    readiness: 'draft',
+    cardLine: 'Coming after Hamilton.',
+    seo: {
+      title: `Local Advertising in ${name} | Post and Board Media`,
+      description: `Storefront sign placements and shared mailers are coming to ${name}. Tell Post and Board Media you’re interested.`,
+    },
+    h1: `Local advertising in ${name}`,
+    intro: `We’re launching in Hamilton first, and ${name} is on our list for what comes next. Tell us where you want to advertise and you’ll be first to hear when ${name} signs and mailers open.`,
+    status: { boards: 'enquiries-only', mailers: 'enquiries-only', summary: `${name} campaigns will follow our Hamilton launch.` },
+    sections: [],
+    audiences: {
+      household: 'Household mailers reach residential addresses in a defined area.',
+      business: 'Business-address mailers reach commercial addresses and are planned separately.',
+    },
+    neighbours,
+  };
+}
 
 export const publishedAreas = areas.filter((a) => a.readiness === 'published');
 export const draftAreas = areas.filter((a) => a.readiness === 'draft');

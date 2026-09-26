@@ -20,10 +20,10 @@ export function absoluteUrl(path: string): string | null {
 export function indexableRoutes(): string[] {
   const staticRoutes = [
     '/',
-    '/advertising-boards',
+    '/storefront-signs',
     '/shared-mailers',
     '/opportunities',
-    '/host-a-board',
+    '/host-a-sign',
     '/areas',
     '/about',
     '/contact',

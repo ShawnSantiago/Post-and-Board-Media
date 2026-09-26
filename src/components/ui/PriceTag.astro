@@ -1,41 +1,45 @@
 ---
 /**
- * Shows a price only when it's approved. Otherwise shows "Request pricing".
- * Monthly equivalents are always shown beside the upfront payment and commitment.
+ * Price display. Exact opportunity prices win; otherwise a format's "from"
+ * anchor; otherwise "Ask for current rates". Monthly equivalents always show
+ * the upfront payment and commitment beside them.
  */
 import type { PriceRecord } from '../../content/pricing';
-import { pricingFallback } from '../../content/pricing';
 import { formatCad } from '../../lib/format';
 
 interface Props {
-  price?: PriceRecord | { amountCad: number; basis: string; notes?: string } | null;
-  compact?: boolean;
+  /** Exact price for a specific opportunity. */
+  exact?: { amountCad: number; basis: string; notes?: string } | null;
+  /** Format-level "from" anchor. */
+  anchor?: PriceRecord | null;
+  size?: 'sm' | 'lg';
 }
-const { price, compact = false } = Astro.props;
-const approved =
-  price && price.amountCad != null && (!('approved' in price) || price.approved === true);
-const rec = price as PriceRecord | undefined;
+const { exact, anchor, size = 'sm' } = Astro.props;
 ---
-<div class="price-tag">
+<div class:list={['price-tag', `price-tag--${size}`]}>
   {
-    approved && rec ? (
+    exact ? (
       <>
         <p class="price-tag__amount">
-          {formatCad(rec.amountCad!)} <span>{rec.basis}</span>
+          {formatCad(exact.amountCad)} <span>{exact.basis}</span>
         </p>
-        {rec.monthlyEquivalentCad != null && rec.upfrontCad != null && (
+        {exact.notes && <p class="price-tag__detail">{exact.notes}</p>}
+      </>
+    ) : anchor?.fromCad != null ? (
+      <>
+        <p class="price-tag__amount">
+          <span>From</span> {formatCad(anchor.fromCad)} <span>{anchor.basis}</span>
+        </p>
+        {anchor.monthlyEquivalentCad != null && anchor.upfrontCad != null && (
           <p class="price-tag__detail">
-            Equivalent to {formatCad(rec.monthlyEquivalentCad)}/month · Paid upfront: {formatCad(rec.upfrontCad)}
-            {rec.commitment && ` · ${rec.commitment}`}
+            Equivalent to {formatCad(anchor.monthlyEquivalentCad)}/month · Paid upfront: {formatCad(anchor.upfrontCad)}
+            {anchor.commitment && ` · ${anchor.commitment}`}
           </p>
         )}
-        {rec.notes && <p class="price-tag__detail">{rec.notes}</p>}
+        {anchor.note && <p class="price-tag__detail">{anchor.note}</p>}
       </>
     ) : (
-      <>
-        <p class="price-tag__amount">Request pricing</p>
-        {!compact && <p class="price-tag__detail">{pricingFallback}</p>}
-      </>
+      <p class="price-tag__amount">Ask for current rates</p>
     )
   }
 </div>
@@ -47,6 +51,9 @@ const rec = price as PriceRecord | undefined;
     font-weight: 600;
     color: var(--navy);
     margin: 0;
+  }
+  .price-tag--lg .price-tag__amount {
+    font-size: var(--step-3);
   }
   .price-tag__amount span {
     font-family: var(--font-body);

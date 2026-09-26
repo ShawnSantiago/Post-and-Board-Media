@@ -3,11 +3,11 @@ import Wordmark from '../ui/Wordmark.astro';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const is = (prefix: string) => path === prefix || path.startsWith(`${prefix}/`);
-const optionsActive = is('/advertising-boards') || is('/shared-mailers');
+const optionsActive = is('/storefront-signs') || is('/shared-mailers');
 
 const links = [
   { href: '/opportunities', label: 'Opportunities' },
-  { href: '/host-a-board', label: 'Host a board' },
+  { href: '/host-a-sign', label: 'Host a sign' },
   { href: '/areas', label: 'Areas' },
   { href: '/about', label: 'About' },
 ];
@@ -32,21 +32,21 @@ const links = [
           </button>
           <ul class="nav__sub" id="nav-options">
             <li>
-              <a href="/advertising-boards" aria-current={is('/advertising-boards') ? 'page' : undefined}>
-                <strong>Advertising boards</strong>
-                <span>Inside local businesses</span>
+              <a href="/storefront-signs" aria-current={is('/storefront-signs') ? 'page' : undefined}>
+                <strong>Storefront signs</strong>
+                <span>Sidewalk signs outside local businesses</span>
               </a>
             </li>
             <li>
               <a href="/shared-mailers" aria-current={is('/shared-mailers') ? 'page' : undefined}>
                 <strong>Shared mailers</strong>
-                <span>Delivered to a defined area</span>
+                <span>Shared postcards to local homes or businesses</span>
               </a>
             </li>
             <li>
-              <a href="/advertising-boards#combine">
-                <strong>Using both</strong>
-                <span>When the area and audience fit</span>
+              <a href="/storefront-signs#combine">
+                <strong>Signs + mailers</strong>
+                <span>On their street and in their mailbox</span>
               </a>
             </li>
           </ul>

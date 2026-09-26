@@ -1,73 +1,70 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../config/site';
-const updated = 'September 25, 2026';
+const updated = 'September 26, 2026';
+const contactLine = site.contact.email;
 ---
 <BaseLayout
-  title="Privacy Notice | Post and Board Media"
-  description="How Post and Board Media collects and uses the information you send through this website’s enquiry forms."
+  title="Privacy Policy | Post and Board Media"
+  description="How Post and Board Media collects, uses and protects the information you share through this website."
   breadcrumbs={[{ label: 'Privacy' }]}
 >
   <section class="section--tight">
     <div class="container--narrow prose">
-      <h1>Privacy notice</h1>
-      <p class="owner-review">
-        <strong>Draft for owner review.</strong> This notice describes how the website currently works. It has not been
-        reviewed by a lawyer and does not guarantee compliance with PIPEDA, Ontario law or CASL. Items marked “Owner
-        review” need a decision before launch.
-      </p>
+      <h1>Privacy policy</h1>
       <p><em>Last updated: {updated}</em></p>
 
-      <h2>Who we are</h2>
       <p>
-        This website is operated by {site.name}, an owner-operated business run by {site.owner}.
-        {site.contact.email ? <> You can reach us at <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.</> : ' Contact details are provided on our contact page.'}
+        {site.name} (“we”, “us”) respects your privacy. This policy explains what information we collect through this
+        website, how we use it, and the choices you have.
       </p>
-      <p class="owner-review">Owner review: confirm the legal business name, registration and a privacy contact email.</p>
 
-      <h2>What we collect</h2>
-      <p>We only collect what you choose to send us through our forms:</p>
+      <h2>Information we collect</h2>
+      <p>We collect only the information you choose to send us through our forms:</p>
       <ul>
-        <li><strong>Advertiser enquiries:</strong> your name, business name, email and target area, plus anything optional you add — advertising format, business category, website, phone, budget range, preferred timing, message and any opportunity you selected.</li>
-        <li><strong>Host enquiries:</strong> venue name, contact name, email, area, venue type, and optionally a website and message.</li>
-        <li><strong>Technical context:</strong> the page you sent the form from and the time it was sent.</li>
+        <li><strong>Advertiser enquiries:</strong> your name, business name, email address and target area, plus any optional details you add, such as advertising format, business category, website, phone number, budget range, timing, message and the opportunity you selected.</li>
+        <li><strong>Host applications:</strong> your business name, contact name, email address, area, type of business, and any optional details you add.</li>
+        <li><strong>Submission details:</strong> the page you sent the form from and the date and time it was sent.</li>
       </ul>
       <p>
-        The website does not use analytics, advertising trackers or marketing cookies. Fonts are served from our own
-        website rather than a third party.
+        This website does not use advertising trackers or marketing cookies, and our fonts are served from our own
+        website.
       </p>
-      <p class="owner-review">Owner review: update this section if analytics, a chat tool or other third-party scripts are added later.</p>
 
       <h2>How we use it</h2>
       <ul>
-        <li>To reply to your enquiry and prepare quotes or proposals you ask for.</li>
-        <li>To plan where campaigns and placements are needed.</li>
-        <li>If you tick the optional box, to email you when new opportunities open in your area. You can unsubscribe at any time.</li>
+        <li>To respond to your enquiry or application and prepare quotes.</li>
+        <li>To plan and run the campaigns and sign placements you book.</li>
+        <li>If you opt in, to email you when new opportunities open in your area. You can unsubscribe at any time.</li>
       </ul>
-      <p>We don’t sell your information, and we don’t add you to marketing emails unless you opt in separately.</p>
+      <p>We do not sell or rent your personal information.</p>
 
-      <h2>Where it goes</h2>
+      <h2>How it’s handled</h2>
       <p>
-        When you submit a form, the website’s server passes your enquiry to our workflow automation service (n8n), which
-        forwards it to our inbox or records. Our hosting provider may keep short-term
-        technical logs, such as IP addresses, for security and troubleshooting.
-      </p>
-      <p class="owner-review">
-        Owner review: name the hosting provider, where the n8n instance is hosted, which services the workflow sends
-        enquiries to (e.g. email, spreadsheets), and whether any of them store data outside Canada.
+        Form submissions are sent securely from our website to our business workflow tools, which deliver them to our
+        inbox and records. Our website host may keep short-term technical logs, such as IP addresses, for security and
+        reliability. Service providers we use may process information outside Canada.
       </p>
 
       <h2>How long we keep it</h2>
-      <p class="owner-review">Owner review: set a retention period for enquiries that don’t proceed, and for client records.</p>
+      <p>
+        We keep enquiry and customer information only as long as we need it to serve you and to meet our business and
+        legal record-keeping obligations.
+      </p>
 
       <h2>Your choices</h2>
       <p>
-        You can ask to see, correct or delete the information you’ve sent us, or withdraw consent to optional emails, by
-        contacting us.
+        You can ask to see, correct or delete the personal information we hold about you, or withdraw consent to
+        marketing emails, at any time by contacting us.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy? {contactLine ? <>Email us at <a href={`mailto:${contactLine}`}>{contactLine}</a>.</> : <>Reach us through our <a href="/contact">contact page</a>.</>}
       </p>
 
       <h2>Changes</h2>
-      <p>If we change how we handle information, we’ll update this page and the date above.</p>
+      <p>We may update this policy from time to time. The date above shows when it last changed.</p>
     </div>
   </section>
 </BaseLayout>

@@ -35,11 +35,12 @@ export const advertiserFields: Record<string, FieldRule> = {
 };
 
 export const hostFields: Record<string, FieldRule> = {
-  venueName: { label: 'Venue name', required: true, max: 160 },
+  venueName: { label: 'Business name', required: true, max: 160 },
   name: { label: 'Contact name', required: true, max: 120 },
   email: { label: 'Email', required: true, max: 200, kind: 'email' },
   area: { label: 'Area', required: true, max: 80 },
-  venueType: { label: 'Venue type', required: true, max: 80 },
+  venueType: { label: 'Type of business', required: true, max: 80 },
+  hasSign: { label: 'Puts a sign out now', max: 60 },
   website: { label: 'Website', max: 300, kind: 'url' },
   message: { label: 'Message', max: 3000 },
 };
