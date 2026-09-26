@@ -26,6 +26,9 @@ export default defineConfig({
       SITE_URL: envField.string({ context: 'server', access: 'public', optional: true }),
       DEMO_OPPORTUNITIES: envField.boolean({ context: 'server', access: 'public', default: false }),
       ENQUIRY_WEBHOOK_URL: envField.string({ context: 'server', access: 'secret', optional: true }),
+      // Optional header sent with every webhook call, e.g. for n8n "Header Auth".
+      ENQUIRY_WEBHOOK_HEADER_NAME: envField.string({ context: 'server', access: 'secret', optional: true }),
+      ENQUIRY_WEBHOOK_HEADER_VALUE: envField.string({ context: 'server', access: 'secret', optional: true }),
       RESEND_API_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
       ENQUIRY_EMAIL_TO: envField.string({ context: 'server', access: 'secret', optional: true }),
       ENQUIRY_EMAIL_FROM: envField.string({ context: 'server', access: 'secret', optional: true }),

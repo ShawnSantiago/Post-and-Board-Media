@@ -6,9 +6,9 @@ interface Props {
 const { class: className } = Astro.props;
 const uid = `back-${Math.random().toString(36).slice(2, 8)}`;
 const ads = [
-  { kind: 'FLORIST', name: 'Petal & Stem', line: 'Same-week bouquets', bg: '#fde4d0', fg: '#16291f' },
-  { kind: 'FITNESS', name: 'Upstairs Studio', line: 'Beginner classes', bg: '#dfe7da', fg: '#1e3a2d' },
-  { kind: 'BAKERY', name: 'Maple & Rye', line: 'Weekend pastries', bg: '#f0bf4c', fg: '#16291f' },
+  { kind: 'FLORIST', name: 'Petal & Stem', line: 'Same-week bouquets', bg: '#f6dcd5', fg: '#121c30' },
+  { kind: 'FITNESS', name: 'Upstairs Studio', line: 'Beginner classes', bg: '#dde4ee', fg: '#1c2a44' },
+  { kind: 'BAKERY', name: 'Maple & Rye', line: 'Weekend pastries', bg: '#e9b949', fg: '#121c30' },
 ];
 ---
 <svg class:list={['mailer-back', className]} viewBox="0 0 576 360" role="img" aria-labelledby={`${uid}-t ${uid}-d`}>
@@ -16,34 +16,34 @@ const ads = [
   <desc id={`${uid}-d`}>
     The back of a shared mailer with three more ad spaces on the left and a blank address and postage area on the right.
   </desc>
-  <rect width="576" height="360" rx="10" fill="#fffdf8" stroke="#d9cfbb"></rect>
+  <rect width="576" height="360" rx="10" fill="#fffcf6" stroke="#d7cfbf"></rect>
   {
     ads.map((ad, i) => (
       <g transform={`translate(20 ${20 + i * 110})`}>
-        <rect width="290" height="100" rx="7" fill={ad.bg} stroke="#d9cfbb" />
+        <rect width="290" height="100" rx="7" fill={ad.bg} stroke="#d7cfbf" />
         <text x="14" y="26" class="m-body" font-size="9.5" font-weight="700" letter-spacing="1.2" fill={ad.fg} opacity="0.75">{ad.kind}</text>
         <text x="14" y="60" class="m-display" font-size="22" fill={ad.fg}>{ad.name}</text>
         <text x="14" y="84" class="m-body" font-size="13" fill={ad.fg}>{ad.line}</text>
       </g>
     ))
   }
-  <line x1="332" y1="24" x2="332" y2="336" stroke="#d9cfbb" stroke-width="1.5" stroke-dasharray="4 5"></line>
+  <line x1="332" y1="24" x2="332" y2="336" stroke="#d7cfbf" stroke-width="1.5" stroke-dasharray="4 5"></line>
   <rect x="478" y="24" width="76" height="62" rx="4" fill="none" stroke="#a9a08c" stroke-dasharray="4 4"></rect>
-  <text x="516" y="59" text-anchor="middle" class="m-body" font-size="10" fill="#555a50">Postage</text>
+  <text x="516" y="59" text-anchor="middle" class="m-body" font-size="10" fill="#525866">Postage</text>
   <g stroke="#cfc5b0" stroke-width="2">
     <line x1="356" y1="210" x2="552" y2="210"></line>
     <line x1="356" y1="240" x2="552" y2="240"></line>
     <line x1="356" y1="270" x2="500" y2="270"></line>
   </g>
-  <text x="356" y="190" class="m-body" font-size="11" font-weight="700" letter-spacing="1.4" fill="#555a50">ADDRESS AREA</text>
-  <text x="356" y="320" class="m-body" font-size="10.5" fill="#555a50">Organized by Post &amp; Board Media</text>
+  <text x="356" y="190" class="m-body" font-size="11" font-weight="700" letter-spacing="1.4" fill="#525866">ADDRESS AREA</text>
+  <text x="356" y="320" class="m-body" font-size="10.5" fill="#525866">Organized by Post &amp; Board Media</text>
 </svg>
 
 <style>
   .mailer-back {
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 14px 26px rgba(30, 58, 45, 0.22));
+    filter: drop-shadow(0 14px 26px rgba(28, 42, 68, 0.22));
   }
   .m-display {
     font-family: var(--font-display);

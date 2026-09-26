@@ -7,10 +7,10 @@ interface Props {
   tone?: 'default' | 'light';
 }
 const { size = 36, class: className, tone = 'default' } = Astro.props;
-const panel = tone === 'light' ? '#fffdf8' : '#1e3a2d';
+const panel = tone === 'light' ? '#fffcf6' : '#1c2a44';
 ---
 <svg class={className} width={size} height={size} viewBox="0 0 40 40" aria-hidden="true" focusable="false">
   <rect x="1.5" y="1.5" width="20" height="37" rx="4.5" fill={panel}></rect>
-  <circle cx="30.5" cy="10.5" r="8.5" fill="#e2772f"></circle>
-  <rect x="22.5" y="21.5" width="16" height="17" rx="4.5" fill="#f0bf4c"></rect>
+  <circle cx="30.5" cy="10.5" r="8.5" fill="#c8452f"></circle>
+  <rect x="22.5" y="21.5" width="16" height="17" rx="4.5" fill="#e9b949"></rect>
 </svg>

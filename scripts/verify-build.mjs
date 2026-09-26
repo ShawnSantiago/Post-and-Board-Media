@@ -128,7 +128,7 @@ if (production) {
 // Client bundles must not contain server secrets' names wired to values.
 for (const f of walk(root).filter((f) => f.endsWith('.js'))) {
   const js = fs.readFileSync(f, 'utf8');
-  if (/RESEND_API_KEY|ENQUIRY_WEBHOOK_URL|api\.resend\.com/.test(js)) fail(`${f}: server delivery code or secret name in a client bundle`);
+  if (/RESEND_API_KEY|ENQUIRY_WEBHOOK_(URL|HEADER)|api\.resend\.com/.test(js)) fail(`${f}: server delivery code or secret name in a client bundle`);
 }
 
 console.log(`Checked ${htmlFiles.length} pages in ${root} (${production ? `production: ${SITE_URL}` : 'preview: no SITE_URL'}).`);

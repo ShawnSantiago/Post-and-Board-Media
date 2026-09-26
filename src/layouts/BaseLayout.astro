@@ -21,6 +21,8 @@ const { title, description, noindex = false, breadcrumbs, jsonLd = [] } = Astro.
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
 const robotsNoindex = noindex || isPreview;
 const canonical = !robotsNoindex ? absoluteUrl(path) : null;
+// Social preview image (public/og-image.jpg). Absolute when a domain is set.
+const ogImage = absoluteUrl('/og-image.jpg') ?? '/og-image.jpg';
 
 const structured: Record<string, unknown>[] = [...jsonLd];
 if (breadcrumbs && siteOrigin) {
@@ -47,13 +49,18 @@ if (breadcrumbs && siteOrigin) {
     {robotsNoindex && <meta name="robots" content="noindex, follow" />}
     {canonical && <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#1e3a2d" />
+    <meta name="theme-color" content="#1c2a44" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="en_CA" />
     {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Post and Board Media — Shared space. Local reach." />
+    <meta name="twitter:card" content="summary_large_image" />
     {structured.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
   </head>
   <body>

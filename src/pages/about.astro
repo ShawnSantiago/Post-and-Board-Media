@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/sections/CtaBand.astro';
-import BrandMark from '../components/ui/BrandMark.astro';
+import Photo from '../components/ui/Photo.astro';
+import aboutDesk from '../assets/images/about-desk.webp';
 import { site } from '../config/site';
 ---
 <BaseLayout
@@ -19,9 +20,12 @@ import { site } from '../config/site';
           help local businesses take part in organized advertising without having to run a whole campaign themselves.
         </p>
       </div>
-      <div class="about__mark" aria-hidden="true">
-        <BrandMark size={220} />
-      </div>
+      <Photo
+        class="about__photo"
+        src={aboutDesk}
+        alt="A desk with postcard layout proofs, colour swatches, a ruler and a cup of tea, with a hand sketching on a proof."
+        loading="eager"
+      />
     </div>
   </section>
 
@@ -78,23 +82,11 @@ import { site } from '../config/site';
   }
   @media (min-width: 880px) {
     .about {
-      grid-template-columns: 1.5fr 1fr;
+      grid-template-columns: 1.1fr 1fr;
     }
   }
   .about h1 {
     max-width: 18ch;
-  }
-  .about__mark {
-    justify-self: center;
-    padding: 2.5rem;
-    border-radius: 28px;
-    background: var(--cream);
-    border: 1px solid var(--line);
-  }
-  @media (max-width: 879px) {
-    .about__mark {
-      display: none;
-    }
   }
   .aside {
     font-size: 0.95rem;

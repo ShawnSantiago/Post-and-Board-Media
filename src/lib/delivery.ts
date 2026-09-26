@@ -2,7 +2,8 @@
  * Server-side enquiry delivery. Credentials are read from server-only env
  * vars and never reach the browser.
  *
- *   ENQUIRY_WEBHOOK_URL                           → JSON POST to any webhook
+ *   ENQUIRY_WEBHOOK_URL                           → JSON POST to a webhook (e.g. n8n)
+ *   ENQUIRY_WEBHOOK_HEADER_NAME/VALUE             → optional auth header for it
  *   RESEND_API_KEY + ENQUIRY_EMAIL_TO/FROM        → email via Resend
  *
  * If both are configured, both are attempted; the enquiry counts as sent
@@ -11,10 +12,13 @@
 import {
   ENQUIRY_EMAIL_FROM,
   ENQUIRY_EMAIL_TO,
+  ENQUIRY_WEBHOOK_HEADER_NAME,
+  ENQUIRY_WEBHOOK_HEADER_VALUE,
   ENQUIRY_WEBHOOK_URL,
   RESEND_API_KEY,
 } from 'astro:env/server';
 import { labelFor, type Enquiry } from './enquiry';
+import { formatOptions } from '../content/services';
 
 export function deliveryConfigured(): boolean {
   return Boolean(ENQUIRY_WEBHOOK_URL || (RESEND_API_KEY && ENQUIRY_EMAIL_TO && ENQUIRY_EMAIL_FROM));
@@ -25,28 +29,55 @@ const escapeHtml = (s: string) =>
 
 function summaryLines(e: Enquiry): [string, string][] {
   return [
-    ...Object.entries(e.fields).map(([k, v]) => [labelFor(e.type, k), v] as [string, string]),
-    ['Wants updates about new opportunities', e.updatesOptIn ? 'Yes' : 'No'],
+    ...Object.entries(e.fields)
+      .filter(([k]) => k !== 'areaName')
+      .map(([k, v]) => {
+        // Show readable names rather than internal slugs.
+        if (k === 'area') v = e.fields.areaName ?? v;
+        if (k === 'format') v = formatOptions.find((f) => f.id === v)?.label ?? v;
+        return [labelFor(e.type, k), v] as [string, string];
+      }),
+    ...(e.type === 'advertiser'
+      ? [['Wants updates about new opportunities', e.updatesOptIn ? 'Yes' : 'No'] as [string, string]]
+      : []),
     ['Submitted from', e.sourcePage],
     ['Submitted at', e.submittedAt],
   ];
 }
 
+function subjectFor(e: Enquiry): string {
+  return e.type === 'host'
+    ? `Host enquiry: ${e.fields.venueName ?? 'venue'}`
+    : `Advertiser enquiry: ${e.fields.business ?? 'business'} — ${e.fields.areaName ?? e.fields.area ?? 'area'}`;
+}
+
 async function sendWebhook(url: string, e: Enquiry) {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (ENQUIRY_WEBHOOK_HEADER_NAME && ENQUIRY_WEBHOOK_HEADER_VALUE) {
+    headers[ENQUIRY_WEBHOOK_HEADER_NAME] = ENQUIRY_WEBHOOK_HEADER_VALUE;
+  }
+  // `subject` and `summaryText` are ready to drop into an email or chat node.
+  const body = {
+    ...e,
+    subject: subjectFor(e),
+    replyTo: e.fields.email,
+    summaryText: summaryLines(e)
+      .map(([k, v]) => `${k}: ${v}`)
+      .join('\n'),
+  };
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(e),
-    signal: AbortSignal.timeout(10_000),
+    headers,
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(15_000),
   });
+  // n8n answers 2xx once the workflow accepts the request; anything else
+  // (inactive workflow, wrong path, failed auth, a failing node) is an error.
   if (!res.ok) throw new Error(`Webhook responded ${res.status}`);
 }
 
 async function sendResend(e: Enquiry) {
-  const subject =
-    e.type === 'host'
-      ? `Host enquiry: ${e.fields.venueName ?? 'venue'}`
-      : `Advertiser enquiry: ${e.fields.business ?? 'business'} (${e.fields.area ?? 'area'})`;
+  const subject = subjectFor(e);
   const lines = summaryLines(e);
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',

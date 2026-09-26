@@ -48,13 +48,13 @@ const updated = 'September 25, 2026';
 
       <h2>Where it goes</h2>
       <p>
-        When you submit a form, the website’s server passes your enquiry to our chosen delivery service — an email
-        provider or a form-processing webhook — so it reaches our inbox. Our hosting provider may keep short-term
+        When you submit a form, the website’s server passes your enquiry to our workflow automation service (n8n), which
+        forwards it to our inbox or records. Our hosting provider may keep short-term
         technical logs, such as IP addresses, for security and troubleshooting.
       </p>
       <p class="owner-review">
-        Owner review: name the hosting provider and the form delivery service actually used, and whether they store
-        data outside Canada.
+        Owner review: name the hosting provider, where the n8n instance is hosted, which services the workflow sends
+        enquiries to (e.g. email, spreadsheets), and whether any of them store data outside Canada.
       </p>
 
       <h2>How long we keep it</h2>

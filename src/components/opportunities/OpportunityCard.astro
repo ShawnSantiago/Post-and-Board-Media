@@ -28,7 +28,7 @@ const enquireHref = `/contact?opportunity=${encodeURIComponent(opp.slug)}&area=$
   {opp.isExample && <p class="example-label">Example only — not a real opportunity</p>}
   <div class="opp__chips">
     <span class="chip">{formatLabels[opp.format]}</span>
-    {opp.audience && <span class="chip chip--orange">{audienceLabels[opp.audience]}</span>}
+    {opp.audience && <span class="chip chip--brick">{audienceLabels[opp.audience]}</span>}
     <span class:list={['chip', 'chip--dot', statusTone]}>{opportunityStatusLabels[opp.status]}</span>
   </div>
   <H class="opp__title">
@@ -71,7 +71,7 @@ const enquireHref = `/contact?opportunity=${encodeURIComponent(opp.slug)}&area=$
   .opp--example {
     border-style: dashed;
     box-shadow: none;
-    background: repeating-linear-gradient(-45deg, var(--paper), var(--paper) 14px, #f7f1e4 14px, #f7f1e4 28px);
+    background: repeating-linear-gradient(-45deg, var(--paper), var(--paper) 14px, #f3eee3 14px, #f3eee3 28px);
   }
   .opp__chips {
     display: flex;

@@ -38,7 +38,7 @@ const neighbours = area.neighbours.map((s) => getArea(s)).filter((a): a is Area 
           </div>
           <div>
             <p class="status__label">Shared mailers</p>
-            <p class="chip chip--dot chip--orange">{statusLabels[area.status.mailers]}</p>
+            <p class="chip chip--dot chip--brick">{statusLabels[area.status.mailers]}</p>
           </div>
           <p class="status__summary">{area.status.summary}</p>
         </div>
@@ -241,12 +241,12 @@ const neighbours = area.neighbours.map((s) => getArea(s)).filter((a): a is Area 
     gap: 0.4rem;
     padding: 1.5rem;
     border-radius: var(--radius);
-    background: var(--sage);
+    background: var(--mist);
     text-decoration: none;
     color: var(--ink);
   }
   .svc__card--mailer {
-    background: #fbe5cf;
+    background: #f4ddd5;
   }
   .svc__card .eyebrow {
     margin: 0;
@@ -254,7 +254,7 @@ const neighbours = area.neighbours.map((s) => getArea(s)).filter((a): a is Area 
   .svc__card strong {
     font-family: var(--font-display);
     font-size: var(--step-2);
-    color: var(--forest);
+    color: var(--navy);
     font-weight: 600;
   }
   .svc__card:hover {

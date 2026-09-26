@@ -12,10 +12,10 @@ const { class: className, highlight } = Astro.props;
 const uid = `board-${Math.random().toString(36).slice(2, 8)}`;
 
 const ads = [
-  { name: 'Maple & Rye', kind: 'BAKERY', line: 'Fresh bread daily', bg: '#f0bf4c', fg: '#16291f', accent: '#a8481a' },
-  { name: 'Northend Bikes', kind: 'REPAIR SHOP', line: 'Tune-ups & repairs', bg: '#fffdf8', fg: '#1e3a2d', accent: '#e2772f' },
-  { name: 'Clearview', kind: 'EYE CARE', line: 'Booking eye exams', bg: '#dfe7da', fg: '#1e3a2d', accent: '#2a4d3c' },
-  { name: 'Harbourline', kind: 'PLUMBING', line: 'Licensed & local', bg: '#e2772f', fg: '#16291f', accent: '#fffdf8' },
+  { name: 'Maple & Rye', kind: 'BAKERY', line: 'Fresh bread daily', bg: '#e9b949', fg: '#121c30', accent: '#a33624' },
+  { name: 'Northend Bikes', kind: 'REPAIR SHOP', line: 'Tune-ups & repairs', bg: '#fffcf6', fg: '#1c2a44', accent: '#c8452f' },
+  { name: 'Clearview', kind: 'EYE CARE', line: 'Booking eye exams', bg: '#dde4ee', fg: '#1c2a44', accent: '#2c3f63' },
+  { name: 'Harbourline', kind: 'PLUMBING', line: 'Licensed & local', bg: '#c8452f', fg: '#fffcf6', accent: '#e9b949' },
 ];
 const cell = { w: 202, h: 112 };
 const pos = (i: number) => ({ x: 34 + (i % 2) * (cell.w + 8), y: 402 + Math.floor(i / 2) * (cell.h + 8) });
@@ -30,36 +30,36 @@ const pos = (i: number) => ({ x: 34 + (i % 2) * (cell.w + 8), y: 402 + Math.floo
   <rect x="0" y="0" width="480" height="680" rx="20" fill="#3a2f22"></rect>
   <rect x="10" y="10" width="460" height="660" rx="13" fill="#4a3c2b"></rect>
   <!-- host area -->
-  <rect x="22" y="22" width="436" height="356" rx="8" fill="#1f3a2d"></rect>
-  <text x="240" y="82" text-anchor="middle" class="b-display" font-size="40" fill="#fffdf8">Today’s Specials</text>
-  <line x1="150" y1="100" x2="330" y2="100" stroke="#f0bf4c" stroke-width="2" stroke-dasharray="3 6"></line>
-  <g class="b-body" fill="#eef1ea" font-size="19">
+  <rect x="22" y="22" width="436" height="356" rx="8" fill="#1c2a44"></rect>
+  <text x="240" y="82" text-anchor="middle" class="b-display" font-size="40" fill="#fffcf6">Today’s Specials</text>
+  <line x1="150" y1="100" x2="330" y2="100" stroke="#e9b949" stroke-width="2" stroke-dasharray="3 6"></line>
+  <g class="b-body" fill="#eef1f6" font-size="19">
     <text x="60" y="150">Soup of the day</text>
-    <text x="420" y="150" text-anchor="end" fill="#f0bf4c" font-size="16">Squash &amp; ginger</text>
+    <text x="420" y="150" text-anchor="end" fill="#e9b949" font-size="16">Squash &amp; ginger</text>
     <text x="60" y="196">Breakfast wrap</text>
-    <text x="420" y="196" text-anchor="end" fill="#f0bf4c" font-size="16">Until 11 am</text>
+    <text x="420" y="196" text-anchor="end" fill="#e9b949" font-size="16">Until 11 am</text>
     <text x="60" y="242">Iced maple latte</text>
-    <text x="420" y="242" text-anchor="end" fill="#f0bf4c" font-size="16">Seasonal</text>
+    <text x="420" y="242" text-anchor="end" fill="#e9b949" font-size="16">Seasonal</text>
     <text x="60" y="288">Trivia night</text>
-    <text x="420" y="288" text-anchor="end" fill="#f0bf4c" font-size="16">Thursdays</text>
+    <text x="420" y="288" text-anchor="end" fill="#e9b949" font-size="16">Thursdays</text>
   </g>
-  <text x="240" y="350" text-anchor="middle" class="b-display b-italic" font-size="18" fill="#cfd8cc">Ask us about catering</text>
+  <text x="240" y="350" text-anchor="middle" class="b-display b-italic" font-size="18" fill="#c9d1de">Ask us about catering</text>
 
   <!-- advertiser band -->
-  <rect x="22" y="378" width="436" height="270" fill="#faf6ee"></rect>
-  <text x="34" y="396" class="b-body" font-size="11" font-weight="700" letter-spacing="2" fill="#555a50">LOCAL BUSINESSES</text>
-  <text x="446" y="396" text-anchor="end" class="b-body" font-size="11" fill="#555a50">Post &amp; Board Media</text>
+  <rect x="22" y="378" width="436" height="270" fill="#f7f3ea"></rect>
+  <text x="34" y="396" class="b-body" font-size="11" font-weight="700" letter-spacing="2" fill="#525866">LOCAL BUSINESSES</text>
+  <text x="446" y="396" text-anchor="end" class="b-body" font-size="11" fill="#525866">Post &amp; Board Media</text>
   {
     ads.map((ad, i) => {
       const p = pos(i);
       const isHi = highlight === i;
       return (
         <g transform={`translate(${p.x} ${p.y})`}>
-          <rect width={cell.w} height={cell.h} rx="8" fill={isHi ? '#fffdf8' : ad.bg} stroke={isHi ? '#e2772f' : '#d9cfbb'} stroke-width={isHi ? 3 : 1} stroke-dasharray={isHi ? '8 6' : undefined} />
+          <rect width={cell.w} height={cell.h} rx="8" fill={isHi ? '#fffcf6' : ad.bg} stroke={isHi ? '#c8452f' : '#d7cfbf'} stroke-width={isHi ? 3 : 1} stroke-dasharray={isHi ? '8 6' : undefined} />
           {isHi ? (
             <>
-              <text x={cell.w / 2} y="52" text-anchor="middle" class="b-display" font-size="22" fill="#1e3a2d">Your ad here</text>
-              <text x={cell.w / 2} y="78" text-anchor="middle" class="b-body" font-size="13" fill="#555a50">One defined space</text>
+              <text x={cell.w / 2} y="52" text-anchor="middle" class="b-display" font-size="22" fill="#1c2a44">Your ad here</text>
+              <text x={cell.w / 2} y="78" text-anchor="middle" class="b-body" font-size="13" fill="#525866">One defined space</text>
             </>
           ) : (
             <>
@@ -79,7 +79,7 @@ const pos = (i: number) => ({ x: 34 + (i % 2) * (cell.w + 8), y: 402 + Math.floo
   .board {
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 18px 30px rgba(30, 58, 45, 0.25));
+    filter: drop-shadow(0 18px 30px rgba(28, 42, 68, 0.25));
   }
   .b-display {
     font-family: var(--font-display);

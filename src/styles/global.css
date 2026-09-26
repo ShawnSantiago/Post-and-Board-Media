@@ -1,24 +1,25 @@
 /* ─────────────────────────────────────────────────────────────
    Post and Board Media — design tokens & base styles
+   Palette: ink navy, brick red and mustard on warm paper.
    Fonts: Fraunces (display) + Inter (text). Two families only.
    ───────────────────────────────────────────────────────────── */
 
 :root {
   /* Palette */
-  --ivory: #faf6ee;
-  --paper: #fffdf8;
-  --cream: #f3ecdd;
-  --sand: #e8dfcc;
-  --forest: #1e3a2d;
-  --forest-2: #2a4d3c;
-  --forest-ink: #16291f;
-  --ink: #23261f;
-  --muted: #555a50;
-  --line: #d9cfbb;
-  --orange: #e2772f;
-  --orange-deep: #a8481a; /* text-safe on ivory (AA) */
-  --mustard: #f0bf4c;
-  --sage: #dfe7da;
+  --ivory: #f7f3ea;
+  --paper: #fffcf6;
+  --cream: #efe8da;
+  --sand: #e6ddcc;
+  --navy: #1c2a44;
+  --navy-2: #2c3f63;
+  --navy-ink: #121c30;
+  --ink: #1f2430;
+  --muted: #525866;
+  --line: #d7cfbf;
+  --brick: #c8452f;
+  --brick-deep: #a33624; /* text-safe on ivory (AA) */
+  --mustard: #e9b949;
+  --mist: #dde4ee;
   --danger: #a3261b;
   --success: #25623f;
 
@@ -38,9 +39,9 @@
   --section: clamp(3.5rem, 8vw, 6.5rem);
   --radius: 14px;
   --radius-sm: 8px;
-  --shadow: 0 1px 0 rgba(30, 58, 45, 0.06), 0 12px 32px -18px rgba(30, 58, 45, 0.35);
+  --shadow: 0 1px 0 rgba(28, 42, 68, 0.06), 0 12px 32px -18px rgba(28, 42, 68, 0.35);
   --max: 1180px;
-  --focus: 0 0 0 3px var(--paper), 0 0 0 6px var(--orange-deep);
+  --focus: 0 0 0 3px var(--paper), 0 0 0 6px var(--brick-deep);
 }
 
 *,
@@ -85,7 +86,7 @@ h4 {
   font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.12;
-  color: var(--forest);
+  color: var(--navy);
   margin: 0 0 0.6em;
   letter-spacing: -0.01em;
   font-variation-settings: 'SOFT' 50, 'WONK' 0;
@@ -111,12 +112,12 @@ p {
 }
 
 a {
-  color: var(--forest);
+  color: var(--navy);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
 }
 a:hover {
-  color: var(--orange-deep);
+  color: var(--brick-deep);
 }
 
 :focus-visible {
@@ -132,7 +133,7 @@ ol {
 
 ::selection {
   background: var(--mustard);
-  color: var(--forest-ink);
+  color: var(--navy-ink);
 }
 
 [hidden] {
@@ -156,7 +157,7 @@ ol {
   left: 1rem;
   top: -4rem;
   z-index: 100;
-  background: var(--forest);
+  background: var(--navy);
   color: var(--paper);
   padding: 0.7rem 1rem;
   border-radius: var(--radius-sm);
@@ -188,15 +189,15 @@ ol {
 .section--paper {
   background: var(--paper);
 }
-.section--forest {
-  background: var(--forest);
-  color: #eef1ea;
+.section--navy {
+  background: var(--navy);
+  color: #eef1f6;
 }
-.section--forest h2,
-.section--forest h3 {
+.section--navy h2,
+.section--navy h3 {
   color: var(--paper);
 }
-.section--forest a:not(.btn) {
+.section--navy a:not(.btn) {
   color: var(--mustard);
 }
 
@@ -227,7 +228,7 @@ ol {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--orange-deep);
+  color: var(--brick-deep);
   margin-bottom: 0.9rem;
 }
 .eyebrow::before {
@@ -235,13 +236,13 @@ ol {
   width: 0.7rem;
   height: 0.7rem;
   border-radius: 50%;
-  background: var(--orange);
+  background: var(--brick);
   flex: none;
 }
-.section--forest .eyebrow {
+.section--navy .eyebrow {
   color: var(--mustard);
 }
-.section--forest .eyebrow::before {
+.section--navy .eyebrow::before {
   background: var(--mustard);
 }
 
@@ -250,8 +251,8 @@ ol {
   color: var(--muted);
   max-width: 62ch;
 }
-.section--forest .lede {
-  color: #d5ddd2;
+.section--navy .lede {
+  color: #d3dae6;
 }
 
 .section-head {
@@ -282,37 +283,37 @@ ol {
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 .btn--primary {
-  background: var(--forest);
+  background: var(--navy);
   color: var(--paper);
 }
 .btn--primary:hover {
-  background: var(--forest-ink);
+  background: var(--navy-ink);
   color: var(--paper);
 }
 .btn--accent {
-  background: var(--orange);
-  color: var(--forest-ink);
+  background: var(--brick);
+  color: var(--paper);
 }
 .btn--accent:hover {
-  background: var(--mustard);
-  color: var(--forest-ink);
+  background: var(--brick-deep);
+  color: var(--paper);
 }
 .btn--ghost {
   background: transparent;
-  color: var(--forest);
-  border-color: var(--forest);
+  color: var(--navy);
+  border-color: var(--navy);
 }
 .btn--ghost:hover {
-  background: var(--forest);
+  background: var(--navy);
   color: var(--paper);
 }
-.section--forest .btn--ghost {
+.section--navy .btn--ghost {
   color: var(--paper);
-  border-color: rgba(255, 253, 248, 0.7);
+  border-color: rgba(255, 252, 246, 0.7);
 }
-.section--forest .btn--ghost:hover {
+.section--navy .btn--ghost:hover {
   background: var(--paper);
-  color: var(--forest);
+  color: var(--navy);
 }
 .btn--sm {
   min-height: 40px;
@@ -363,16 +364,16 @@ ol {
   line-height: 1.2;
   padding: 0.35rem 0.7rem;
   border-radius: 999px;
-  background: var(--sage);
-  color: var(--forest);
+  background: var(--mist);
+  color: var(--navy);
   border: 1px solid transparent;
 }
-.chip--orange {
-  background: #fde4d0;
-  color: #7a3413;
+.chip--brick {
+  background: #f6dcd5;
+  color: #842b1c;
 }
 .chip--mustard {
-  background: #fbecc4;
+  background: #f8ebc6;
   color: #5d4410;
 }
 .chip--muted {
@@ -423,11 +424,11 @@ ol {
   width: 1.15rem;
   height: 1.15rem;
   border-radius: 5px;
-  background: var(--sage)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%231e3a2d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+  background: var(--mist)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%231c2a44' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
     center/80% no-repeat;
 }
-.section--forest .checklist li::before {
+.section--navy .checklist li::before {
   background-color: var(--mustard);
 }
 
@@ -447,7 +448,7 @@ ol {
 }
 .spec-list dt {
   font-weight: 600;
-  color: var(--forest);
+  color: var(--navy);
 }
 .spec-list dd {
   margin: 0;
