@@ -2,6 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BoardMockup from '../components/mockups/BoardMockup.astro';
 import ExampleFigure from '../components/mockups/ExampleFigure.astro';
+import { Image } from 'astro:assets';
+import anatomyHost from '../assets/images/examples/anatomy-host.webp';
+import anatomyAds from '../assets/images/examples/anatomy-ads.webp';
+import anatomyPrint from '../assets/images/examples/anatomy-print.webp';
 import SectionHead from '../components/ui/SectionHead.astro';
 import FaqList from '../components/ui/FaqList.astro';
 import HowItWorks from '../components/sections/HowItWorks.astro';
@@ -55,17 +59,17 @@ const specs = [
         lede="Boards work best when they’re useful to the venue first. That’s why the host keeps the larger share of the space." />
       <div class="anatomy">
         <div class="anatomy__item">
-          <span class="anatomy__swatch anatomy__swatch--host" aria-hidden="true"></span>
+          <Image class="anatomy__img" src={anatomyHost} alt="" widths={[400, 700]} sizes="(min-width: 900px) 360px, 100vw" format="webp" quality={78} />
           <h3>The host’s area</h3>
           <p>Specials, events, hours or announcements — the venue decides. It keeps the board relevant, so customers look at it.</p>
         </div>
         <div class="anatomy__item">
-          <span class="anatomy__swatch anatomy__swatch--ads" aria-hidden="true"></span>
+          <Image class="anatomy__img" src={anatomyAds} alt="" widths={[400, 700]} sizes="(min-width: 900px) 360px, 100vw" format="webp" quality={78} />
           <h3>The advertiser section</h3>
           <p>A designated band of equal, clearly separated spaces for local businesses. Designed to look tidy — not like a pinboard of business cards.</p>
         </div>
         <div class="anatomy__item">
-          <span class="anatomy__swatch anatomy__swatch--brand" aria-hidden="true"></span>
+          <Image class="anatomy__img" src={anatomyPrint} alt="" widths={[400, 700]} sizes="(min-width: 900px) 360px, 100vw" format="webp" quality={78} />
           <h3>Produced as a printed board</h3>
           <p>Ads are printed as part of the board, so artwork is approved before production. Changes during a term depend on the format and your agreement, and may involve a replacement cost.</p>
         </div>
@@ -148,25 +152,18 @@ const specs = [
   }
   .anatomy__item h3 {
     font-size: var(--step-1);
-    margin-top: 0.9rem;
+    margin-top: 1.1rem;
   }
   .anatomy__item p {
     color: var(--muted);
     margin: 0;
   }
-  .anatomy__swatch {
+  .anatomy__item :global(.anatomy__img) {
     display: block;
-    width: 3rem;
-    height: 2rem;
-    border-radius: 6px;
-  }
-  .anatomy__swatch--host {
-    background: var(--navy);
-  }
-  .anatomy__swatch--ads {
-    background: linear-gradient(90deg, var(--mustard) 0 32%, transparent 32% 34%, var(--mist) 34% 66%, transparent 66% 68%, var(--brick) 68%);
-  }
-  .anatomy__swatch--brand {
-    background: #4a3c2b;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
   }
 </style>
