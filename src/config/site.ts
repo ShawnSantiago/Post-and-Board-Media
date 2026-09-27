@@ -7,8 +7,10 @@ export const site = {
   name: 'Post and Board Media',
   shortName: 'Post and Board',
   tagline: 'Shared space. Local reach.',
-  positioning:
-    'We bring businesses together on shared mailers and advertising boards, making local advertising easier to organize.',
+  positioning: 'Post and Board Media helps local businesses share the cost of neighbourhood advertising.',
+  /** One-paragraph company description (About page, structured data). */
+  description:
+    'Post and Board Media is a Hamilton-based local advertising company run by Shawn Santiago. We organize shared advertising campaigns for small businesses, including neighbourhood mailers and sponsored storefront signs.',
   owner: 'Shawn Santiago',
   locale: 'en-CA',
   currency: 'CAD',
@@ -18,7 +20,7 @@ export const site = {
     email: null as string | null,
     phone: null as string | null,
     /** Shown as a region, never a street address. */
-    serviceRegion: 'Hamilton and surrounding communities, Ontario',
+    serviceRegion: 'Hamilton, Ontario',
   },
 
   /**
@@ -32,7 +34,9 @@ export const site = {
   },
 
   /** Launch-stage line used on the homepage hero and elsewhere. */
-  launchLine: 'Launching in Hamilton and accepting enquiries from surrounding communities.',
+  launchLine: 'Launching in Hamilton.',
+  /** Launch city. Other areas stay as noindex previews until they have real inventory. */
+  launchCity: 'Hamilton',
 
   features: {
     /**

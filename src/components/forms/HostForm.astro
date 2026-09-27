@@ -1,5 +1,6 @@
 ---
 import '../../styles/forms.css';
+import { site } from '../../config/site';
 import { areaOptions } from '../../content/areas';
 import { venueTypes } from '../../content/services';
 import { deliveryConfigured } from '../../lib/delivery';
@@ -13,10 +14,10 @@ const { area, idPrefix = 'host' } = Astro.props;
 const id = (name: string) => `${idPrefix}-${name}`;
 const connected = deliveryConfigured();
 ---
-<div class="enquiry" data-enquiry-wrap>
+<div class="enquiry" data-enquiry-wrap data-contact-email={site.contact.email ?? undefined}>
   <div class="enquiry__head">
-    <h2 id={id('title')}>Suggest your venue</h2>
-    <p>Tell us a little about your business. We’ll follow up to talk about display position, term and the advertising rules — there’s no obligation.</p>
+    <h2 id={id('title')}>Apply to host a sign</h2>
+    <p>Tell us about your storefront. We’ll follow up to check the spot outside your door and walk you through the host agreement.</p>
   </div>
 
   <FormConnectionNotice connected={connected} />
@@ -31,7 +32,7 @@ const connected = deliveryConfigured();
 
     <div class="form-grid">
       <div class="field">
-        <label for={id('venueName')}>Venue name <span class="req" aria-hidden="true">*</span></label>
+        <label for={id('venueName')}>Business name <span class="req" aria-hidden="true">*</span></label>
         <input id={id('venueName')} name="venueName" type="text" autocomplete="organization" required maxlength="160" aria-describedby={id('venueName-err')} />
         <p class="field__error" id={id('venueName-err')}></p>
       </div>
@@ -54,7 +55,7 @@ const connected = deliveryConfigured();
         <p class="field__error" id={id('area-err')}></p>
       </div>
       <div class="field">
-        <label for={id('venueType')}>Venue type <span class="req" aria-hidden="true">*</span></label>
+        <label for={id('venueType')}>Type of business <span class="req" aria-hidden="true">*</span></label>
         <select id={id('venueType')} name="venueType" required aria-describedby={id('venueType-err')}>
           <option value="">Choose a type</option>
           {venueTypes.map((v) => <option value={v}>{v}</option>)}
@@ -66,27 +67,36 @@ const connected = deliveryConfigured();
         <input id={id('website')} name="website" type="text" inputmode="url" maxlength="300" aria-describedby={id('website-err')} />
         <p class="field__error" id={id('website-err')}></p>
       </div>
+      <div class="field">
+        <label for={id('hasSign')}>Do you put a sign out now? <span class="opt">(optional)</span></label>
+        <select id={id('hasSign')} name="hasSign">
+          <option value="">Choose one</option>
+          <option>Yes, every day</option>
+          <option>Sometimes</option>
+          <option>No, but I’d like to</option>
+        </select>
+      </div>
       <div class="field field--full">
-        <label for={id('message')}>Where might a board go? <span class="opt">(optional)</span></label>
-        <textarea id={id('message')} name="message" rows="4" maxlength="3000" placeholder="e.g. Wall beside the counter, visible from the line-up"></textarea>
+        <label for={id('message')}>Your street and where the sign would go <span class="opt">(optional)</span></label>
+        <textarea id={id('message')} name="message" rows="4" maxlength="3000" placeholder="e.g. On the sidewalk beside our front door"></textarea>
       </div>
     </div>
 
     <div class="enquiry__footer">
       <button class="btn btn--primary" type="submit" data-submit>
         <span class="spinner" aria-hidden="true"></span>
-        <span data-submit-label>Send venue details</span>
+        <span data-submit-label>Send application</span>
       </button>
       <p class="enquiry__privacy">
-        We use these details only to follow up about hosting. See our <a href="/privacy">privacy notice</a>.
+        We use these details only to follow up about hosting a sign. See our <a href="/privacy">privacy notice</a>.
       </p>
     </div>
     <div class="enquiry__status" role="status" aria-live="polite" data-status></div>
   </form>
 
   <div class="enquiry__success" tabindex="-1" hidden data-success>
-    <h2>Thanks — your venue details have been sent.</h2>
-    <p>We’ll be in touch by email. Sending details doesn’t commit you to hosting; any arrangement is set out in a written placement agreement first.</p>
+    <h2>Thanks — your application has been sent.</h2>
+    <p>We’ll be in touch by email to arrange a quick look at your storefront and talk through the sign.</p>
   </div>
 </div>
 

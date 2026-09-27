@@ -1,6 +1,6 @@
 # Post and Board Media — website
 
-Marketing site for **Post and Board Media** (*Shared space. Local reach.*): advertising boards inside local businesses and shared mailers. It's for advertiser enquiries and host-venue applications. It is not a booking platform.
+Website for **Post and Board Media** (*Shared space. Local reach.*), a Hamilton local advertising company. It sells sponsor spots on **storefront (sidewalk) signs** outside local businesses and spots on **shared neighbourhood mailers**. Businesses browse open opportunities and request a spot; storefronts apply to host a sign. Booking and payment are handled manually for now: request, quote, accept.
 
 - **Stack:** [Astro](https://astro.build). Every page is pre-rendered to static HTML. Only `/api/enquiry` runs on the server.
 - **Hosting:** Vercel works out of the box. Any Node 22+ host also works, using `npm start`.
@@ -64,7 +64,7 @@ The forms post to an [n8n](https://n8n.io) Webhook node. From there you can rout
    ENQUIRY_WEBHOOK_HEADER_VALUE=<the same secret as the n8n credential>
    ```
 
-6. **Test** by sending an enquiry from `/contact` and from `/host-a-board`. Each should appear under *Executions* in n8n.
+6. **Test** by sending an enquiry from `/contact` and from `/host-a-sign`. Each should appear under *Executions* in n8n.
 
 The site shows "sent" only when n8n answers with a 2xx status. Because the workflow responds from the last node, a failing email or Sheets step makes the visitor see "not sent — please try again" instead of a false confirmation. An inactive workflow (404) or a wrong secret (403) is treated the same way, and the error is logged on the server.
 
@@ -108,50 +108,72 @@ All business content lives in plain TypeScript files. There's no CMS.
 
 ### Publishing an opportunity
 
-Only add a record once the placement or campaign is genuinely approved and every field is accurate.
+Opportunities drive the homepage "Available now" section and `/opportunities`. Add one as soon as a campaign or sign placement is real: dates can be approximate, but spots and categories must be accurate.
 
-1. Open `src/content/opportunities.ts` and add an object to `publishedOpportunities`:
+1. Open `src/content/opportunities.ts` and add objects to `publishedOpportunities`:
 
    ```ts
+   // A shared mailer
    {
-     slug: 'dundas-cafe-board-2027',            // becomes /opportunities/dundas-cafe-board-2027
-     title: 'Café specials board — Dundas',
-     format: 'board',                           // 'board' | 'mailer'
-     area: 'hamilton',                          // an area slug
-     locality: 'Dundas',
-     venueName: 'Verified Venue Name',          // only if the host agreed to be named
-     displayPosition: 'Beside the order counter',
-     term: '12 months from installation',
-     summary: 'One-sentence description.',
-     adSpace: 'One of four advertiser panels',
-     artworkHelp: 'Layout from your logo and text',
-     installationWindow: 'Early March 2027',
-     categoryRules: 'One advertiser per category on this board',
-     ifUnavailable: 'Explained in the placement agreement',
-     // audience: 'household' | 'business', quantity: 5000 — for mailers only
-     // price: { amountCad: 000, basis: 'per placement, 12-month term' } — only once approved
-     // spacesAvailable: 2 — only if you'll keep it accurate
-     status: 'accepting-enquiries',             // | 'open-for-applications' | 'fully-booked' | 'completed'
-     lastUpdated: '2027-01-15',
+     slug: 'west-hamilton-household-mailer-oct-2026',   // → /opportunities/west-hamilton-household-mailer-oct-2026
+     title: 'West Hamilton household mailer',
+     format: 'mailer',
+     area: 'hamilton',
+     locality: 'West Hamilton',
+     audience: 'household',                 // or 'business'
+     quantity: 5000,
+     specs: '9 × 12 postcard',
+     term: 'Mailing October 2026',
+     summary: 'One spot on a shared postcard to 5,000 West Hamilton homes.',
+     artworkDeadline: 'September 30, 2026',
+     price: { amountCad: 000, basis: 'per spot' },
+     spotsTotal: 6,
+     spotsBooked: 0,                        // update as spots sell
+     categories: [
+       { name: 'Real estate', status: 'open' },
+       { name: 'Restaurant', status: 'open' },
+       // …
+     ],
+     status: 'open-for-applications',       // 'accepting-enquiries' | 'open-for-applications' | 'fully-booked' | 'completed'
+     lastUpdated: '2026-09-26',
+   },
+   // A storefront sign
+   {
+     slug: 'westdale-cafe-sidewalk-sign',
+     title: 'Westdale café sidewalk sign',
+     format: 'board',                       // 'board' = storefront sign
+     area: 'hamilton',
+     locality: 'Westdale',
+     venueName: 'Host name',                // only if the host agreed to be named
+     location: 'King Street West',
+     displayHours: 'During business hours',
+     specs: 'A-frame sign, 4 sponsor panels',
+     term: '6-month placement',
+     summary: 'A sponsor panel on the sidewalk sign outside a busy Westdale café.',
+     price: { amountCad: 000, basis: 'per panel, 6 months' },
+     spotsTotal: 4,
+     spotsBooked: 0,
+     status: 'accepting-enquiries',
+     lastUpdated: '2026-09-26',
    },
    ```
 
-2. Build and deploy. The detail page, the directory filters, the area page listing and the sitemap entry are all generated from the record. **Enquire** links prefill the contact form with the opportunity, area and format.
-3. When it fills up, change `status` and `lastUpdated` rather than deleting the record. Enquiry buttons turn off automatically for `fully-booked` and `completed`.
+2. Build and deploy. The card, detail page (with the category table), filters, Hamilton page listing and sitemap entry are all generated. **Request this spot** prefills the enquiry form.
+3. As spots sell, update `spotsBooked`, category statuses and `lastUpdated`. When it's full, set `status: 'fully-booked'` rather than deleting it.
 
-Optional fields are hidden when empty, so leave out anything you haven't confirmed.
+Optional fields are hidden when empty. To preview a populated directory locally, run with `DEMO_OPPORTUNITIES=true` (clearly labelled examples, never in production).
 
 ### Adding or publishing a service area
 
 1. Add a record to `areas` in `src/content/areas.ts`, or edit an existing one. Give it a slug, name, region, SEO title and description, H1, intro, status, `sections`, audience notes and `neighbours`.
-2. Keep `readiness: 'draft'` until the page has genuinely useful, verified local content. Draft pages build as short **noindex** previews, are left out of the sitemap and aren't linked from area cards (visitors are sent to a prefilled enquiry instead).
+2. Hamilton is the only published area. Other cities are short `comingLater(...)` records: noindex previews that say they're coming after Hamilton. Keep `readiness: 'draft'` until an area has real inventory. Draft pages build as short **noindex** previews, are left out of the sitemap and aren't linked from area cards (visitors are sent to a prefilled enquiry instead).
 3. Switch to `readiness: 'published'` when it's ready. It then appears in navigation, the footer, the homepage and the sitemap, and gets a canonical URL.
 
 Don't add household counts, foot traffic, demographics, postal routes or partnerships unless you've verified them. Don't copy one city's page and swap the name.
 
 ### Pricing
 
-Everything in `src/content/pricing.ts` stays hidden, showing "Request pricing", until `approved: true` and `amountCad` are both set. If you show a monthly equivalent for an annual commitment, you must also set `upfrontCad` and `commitment`; they're displayed beside it. Prices are formatted as CAD.
+Set `fromCad` in `src/content/pricing.ts` for storefront signs and mailers, for example `fromCad: 250`. The format pages, homepage and opportunity cards then show "From $250 per spot…". Leave it `null` to show "Ask for current rates". Individual opportunities can carry an exact `price`. If you show a monthly equivalent, also set `upfrontCad` and `commitment`; they're displayed beside it.
 
 ### Future digital screens
 
@@ -179,26 +201,20 @@ src/
 scripts/verify-build.mjs    post-build honesty and indexing checks
 n8n/                        importable n8n workflow for enquiries
 docs/image-prompts.md       prompts and rules for generating site photography
+docs/mockup-image-prompts.md prompts to replace the drawn "Example layout" visuals
 src/assets/images/          site photos (optimised at build by astro:assets)
 public/og-image.jpg         social share image (1200 × 630)
 ```
 
-## Launch-blocker checklist
+## Launch checklist
 
-These are missing real business details. The site deliberately shows nothing where these would go.
+The full list of business decisions and legal reviews still needed is in [`docs/launch-checklist.md`](docs/launch-checklist.md). It's private and not published.
 
-- [ ] **Production domain** registered and set as `SITE_URL`. Until then the site is noindex.
-- [ ] **n8n workflow** imported, secured with Header Auth, given a real action (email, Sheets…), activated, and its Production URL and secret set on the site host. Test both forms end to end.
-- [ ] **Public contact email** (and a phone number, if wanted) added in `src/config/site.ts`.
-- [ ] **Legal business name and registration** confirmed for Privacy and Terms.
-- [ ] **Privacy notice reviewed**: hosting provider, form delivery service, data location, retention period, privacy contact.
-- [ ] **Terms reviewed**: governing law, HST and payment terms, and cancellation and refund policy.
-- [ ] **Written agreements drafted**: advertiser quote and terms, and the host placement agreement (term, position, maintenance, removal, ad category rules).
-- [ ] **Campaign policies decided**: what happens when a campaign doesn't fill, artwork deadlines and replacement costs, category-exclusivity wording.
-- [ ] **Distribution provider(s)** chosen for mailers. Don't reference Canada Post or use its marks without authorization.
-- [ ] **Pricing** approved before any value is set to `approved: true`.
-- [ ] **First real opportunities** added, only when confirmed.
-- [ ] **Parkdale Digital line**: confirm wording and relationship before setting `parkdaleDigital.show: true`.
-- [ ] **Brand name check**: confirm "Post and Board Media" is available to use (trade name registration, domain, social handles).
-- [ ] **Area pages**: have someone local review the Hamilton, Burlington and Oakville copy before launch.
-- [ ] **Remaining photos**: homepage café hero, straight-on board and paper texture (see `docs/image-prompts.md`).
+The biggest items:
+- [ ] **Forms live**: n8n workflow active (acknowledgement, notification, lead stored) and `ENQUIRY_WEBHOOK_URL` set. `npm run verify` fails a production build without it.
+- [ ] **Production domain** set as `SITE_URL`.
+- [ ] **Price anchors** (`fromCad`) and the **first real opportunities**.
+- [ ] **Terms and Privacy** reviewed by a lawyer; payment, cancellation and refund terms decided.
+- [ ] **Hamilton sidewalk-sign rules** checked for each host location.
+- [ ] **Real photos**: the first sign outside its host (#001), the first printed mailer, and an owner photo for About. Generated images are placeholders; see `docs/mockup-image-prompts.md` for storefront-sign prompts.
+- [ ] **Brand check**: "Post and Board Media" trade name, domain and social handles.

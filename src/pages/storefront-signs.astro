@@ -1,0 +1,205 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BoardMockup from '../components/mockups/BoardMockup.astro';
+import ExampleFigure from '../components/mockups/ExampleFigure.astro';
+import { Image } from 'astro:assets';
+import anatomyHost from '../assets/images/examples/anatomy-host.webp';
+import anatomyAds from '../assets/images/examples/anatomy-ads.webp';
+import anatomyPrint from '../assets/images/examples/anatomy-print.webp';
+import SectionHead from '../components/ui/SectionHead.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import QuoteIncludes from '../components/sections/QuoteIncludes.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import { faqsFor } from '../content/faqs';
+import { pricing } from '../content/pricing';
+import { site } from '../config/site';
+
+const audience = [
+  ['People walking by', 'Shoppers, diners and neighbours on foot — the people most likely to visit a local business.'],
+  ['Customers going in', 'Everyone heading into the host business passes your ad on the way.'],
+  ['People who live and work nearby', 'The same street, day after day, builds familiarity with your name.'],
+  ['Passing traffic', 'Signs face the street, so people waiting, cycling or driving slowly past see them too.'],
+];
+const specs = [
+  ['Location', 'The host business and the street the sign is on.'],
+  ['When it’s out', 'Usual display hours — typically whenever the host is open.'],
+  ['Term', 'How long your sponsor spot runs, such as six months.'],
+  ['Your panel', 'Sponsor panel size and position on the sign.'],
+  ['Category', 'The category you hold on that sign.'],
+  ['Artwork', 'Send your own, or we design it with you.'],
+];
+---
+<BaseLayout
+  title="Storefront Sign Advertising in Hamilton | Sidewalk Signs | Post and Board Media"
+  description="Advertise on sidewalk signs outside local Hamilton businesses. Your ad appears in a sponsor section on the signs storefronts put out every day — seen by people walking, shopping and eating nearby."
+  breadcrumbs={[{ label: 'Storefront signs' }]}
+>
+  <section class="section--tight page-hero">
+    <div class="container grid-2 grid-2--wide-left">
+      <div>
+        <p class="eyebrow">Storefront signs</p>
+        <h1>Advertise on signs outside local businesses</h1>
+        <p class="lede">
+          Local storefronts put a sidewalk sign out every day. We give them a better one: the host promotes its own
+          specials on most of the sign, and a clean sponsor section carries a few local advertisers — seen by everyone
+          walking, shopping and eating on that street.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="/opportunities?format=board">View sign placements</a>
+          <a class="btn btn--ghost" href="/host-a-sign">Host a sign</a>
+        </div>
+      </div>
+      <div class="page-hero__visual">
+        <ExampleFigure caption="The host’s specials on top, local sponsors below.">
+          <BoardMockup highlight={2} />
+        </ExampleFigure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="who-title">
+    <div class="container">
+      <SectionHead eyebrow="Who sees it" title="Seen on the street, not just inside" id="who-title"
+        lede="A sign on the sidewalk reaches everyone moving along a walkable street — not only the customers already inside." />
+      <ul class="who">
+        {audience.map(([t, d]) => <li><h3>{t}</h3><p>{d}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="anatomy-title">
+    <div class="container">
+      <SectionHead eyebrow="How a sign is laid out" title="Most of the sign is the host’s. The rest is yours." id="anatomy-title" />
+      <div class="anatomy">
+        <div class="anatomy__item">
+          <Image class="anatomy__img" src={anatomyHost} alt="" widths={[400, 700]} sizes="(min-width: 900px) 360px, 100vw" format="webp" quality={78} />
+          <h3>The host’s section</h3>
+          <p>Daily specials, menus, sales or events. Because the host uses it every day, people keep reading the sign.</p>
+        </div>
+        <div class="anatomy__item">
+          <Image class="anatomy__img" src={anatomyAds} alt="" widths={[400, 700]} sizes="(min-width: 900px) 360px, 100vw" format="webp" quality={78} />
+          <h3>The sponsor section</h3>
+          <p>A few equal, clearly separated panels for complementary local businesses — one per category.</p>
+        </div>
+        <div class="anatomy__item">
+          <Image class="anatomy__img" src={anatomyPrint} alt="" widths={[400, 700]} sizes="(min-width: 900px) 360px, 100vw" format="webp" quality={78} />
+          <h3>Professionally printed</h3>
+          <p>Sponsor panels are printed to last outdoors, so your ad looks sharp every day of your term.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream" aria-labelledby="specs-title">
+    <div class="container grid-2">
+      <div>
+        <SectionHead eyebrow="Every placement lists" title="Know exactly where your ad will be" id="specs-title"
+          lede="Each sign placement shows its location, hours, term and open categories before you book." />
+        <a class="text-link" href="/opportunities?format=board">Browse sign placements</a>
+      </div>
+      <dl class="spec-list">
+        {specs.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <QuoteIncludes price={pricing.board} cta={{ href: '/opportunities?format=board', label: 'View sign placements' }} />
+    </div>
+  </section>
+
+  <HowItWorks />
+
+  <section class="section section--cream" id="combine" aria-labelledby="combine-title">
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Signs + mailers</p>
+        <h2 id="combine-title">On their street and in their mailbox</h2>
+      </div>
+      <div class="stack">
+        <p class="lede">Pair a sponsor spot on a sign in your neighbourhood with a shared mailer to the homes around it. Each is booked and priced separately.</p>
+        <a class="text-link" href="/contact?format=combined">Ask about a sign + mailer combination</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="board-faq">
+    <div class="container--narrow">
+      <h2 id="board-faq">Storefront sign questions</h2>
+      <FaqList items={faqsFor('boards', site.features.digitalScreensInterest)} />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Get your business on the street."
+    text="Browse open sign placements, or tell us the street you want and we’ll find a host near it."
+    primary={{ href: '/opportunities?format=board', label: 'View sign placements' }}
+    secondary={{ href: '/host-a-sign', label: 'Host a sign' }}
+  />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-top: 1rem;
+  }
+  .page-hero__visual {
+    max-width: 360px;
+    width: 100%;
+    margin-inline: auto;
+  }
+  .who {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  }
+  .who li {
+    border-top: 3px solid var(--navy);
+    padding-top: 1rem;
+  }
+  .who li:nth-child(2) {
+    border-color: var(--brick);
+  }
+  .who li:nth-child(3) {
+    border-color: var(--mustard);
+  }
+  .who h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.4rem;
+  }
+  .who p {
+    color: var(--muted);
+    margin: 0;
+  }
+  .anatomy {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .anatomy__item {
+    padding: 1.4rem;
+    border-radius: var(--radius);
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .anatomy__item h3 {
+    font-size: var(--step-1);
+    margin-top: 1.1rem;
+  }
+  .anatomy__item p {
+    color: var(--muted);
+    margin: 0;
+  }
+  .anatomy__item :global(.anatomy__img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+  }
+</style>

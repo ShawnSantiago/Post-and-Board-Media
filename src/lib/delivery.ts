@@ -47,7 +47,7 @@ function summaryLines(e: Enquiry): [string, string][] {
 
 function subjectFor(e: Enquiry): string {
   return e.type === 'host'
-    ? `Host enquiry: ${e.fields.venueName ?? 'venue'}`
+    ? `Host application: ${e.fields.venueName ?? 'business'}`
     : `Advertiser enquiry: ${e.fields.business ?? 'business'} — ${e.fields.areaName ?? e.fields.area ?? 'area'}`;
 }
 

@@ -18,16 +18,16 @@ const hasMailers = list.some((o) => o.format === 'mailer');
 ---
 <BaseLayout
   title="Advertising Opportunities | Boards & Shared Mailers | Post and Board Media"
-  description="Browse current advertising board placements and shared mailer campaigns from Post and Board Media, or tell us where you’d like to advertise."
+  description="Browse open storefront sign placements and shared mailer spots in Hamilton. See locations, reach, open categories and prices."
   breadcrumbs={[{ label: 'Opportunities' }]}
 >
   <section class="section--tight">
     <div class="container">
       <p class="eyebrow">Opportunities</p>
-      <h1>Advertising opportunities</h1>
+      <h1>Open advertising spots in Hamilton</h1>
       <p class="lede">
-        Board placements and shared mailer campaigns we’re organizing. Listings are updated by hand. An enquiry isn’t a
-        reservation — we confirm availability when we reply.
+        Storefront sign placements and shared mailer campaigns with spots available now. Pick one to see the details and
+        request your spot.
       </p>
 
       {
@@ -93,9 +93,9 @@ const hasMailers = list.some((o) => o.format === 'mailer');
   </section>
 
   <CtaBand
-    title="Don’t see your area?"
-    text="Most placements start with an enquiry. Tell us the area and format you want, and we’ll let you know what we can organize."
-    secondary={{ href: '/host-a-board', label: 'Suggest a host venue' }}
+    title="Looking for a different street or neighbourhood?"
+    text="Tell us where your customers are and your business category, and we’ll set up the right placement."
+    secondary={{ href: '/host-a-sign', label: 'Host a sign' }}
   />
 </BaseLayout>
 

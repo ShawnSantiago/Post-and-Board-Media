@@ -17,17 +17,17 @@ import { site } from '../config/site';
 
 const specs = [
   ['Distribution area', 'The exact area the campaign covers.'],
-  ['Recipient type', 'Households or business addresses — never both mixed into one figure.'],
-  ['Quantity', 'How many pieces are printed and distributed, once confirmed.'],
+  ['Recipient type', 'Households or business addresses.'],
+  ['Quantity', 'How many homes or businesses it reaches.'],
   ['Your ad space', 'Position, size and which side of the mailer.'],
   ['Artwork deadline', 'When your artwork or content must be approved.'],
-  ['Mailing window', 'When the mailer is expected to go out.'],
-  ['Participation requirements', 'What the campaign needs to go ahead, and what happens if it doesn’t.'],
+  ['Mailing date', 'When the mailer goes out.'],
+  ['Open categories', 'Which business categories still have a spot.'],
 ];
 ---
 <BaseLayout
-  title="Shared Mailers for Local Businesses | Post and Board Media"
-  description="Join a shared mailer campaign with other local businesses. Choose a defined space in a household or business-address mailer — Post and Board Media organizes the rest."
+  title="Shared Mailers in Hamilton | Neighbourhood Postcard Advertising | Post and Board Media"
+  description="Book one spot on a shared postcard mailed to Hamilton homes or businesses. Share printing and distribution costs with other local advertisers — we organize the rest."
   breadcrumbs={[{ label: 'Shared mailers' }]}
 >
   <section class="section--tight page-hero">
@@ -41,8 +41,8 @@ const specs = [
         </p>
         <p class="pull">Join a campaign — not organize an entire mailing yourself.</p>
         <div class="btn-row">
-          <a class="btn btn--primary" href="/contact?format=mailer">Ask about upcoming mailers</a>
-          <a class="btn btn--ghost" href="/opportunities">See opportunities</a>
+          <a class="btn btn--primary" href="/opportunities?format=mailer">View upcoming mailers</a>
+          <a class="btn btn--ghost" href="/contact?format=mailer">Ask about a mailer</a>
         </div>
       </div>
       <ExampleFigure caption="Front of a shared postcard with six separate advertisers.">
@@ -81,7 +81,7 @@ const specs = [
   <section class="section" aria-labelledby="aud-title">
     <div class="container">
       <SectionHead eyebrow="Two kinds of campaign" title="Households or businesses — kept separate" id="aud-title"
-        lede="Household and business-address campaigns reach different people, so we plan them as different campaigns and never add them together into one reach number." />
+        lede="Household and business-address campaigns reach different people, so each is its own campaign with its own reach." />
       <div class="aud">
         <article class="aud__card">
           <Photo
@@ -116,11 +116,11 @@ const specs = [
   <section class="section section--cream" aria-labelledby="specs-title">
     <div class="container grid-2">
       <div>
-        <SectionHead eyebrow="Before you commit" title="What every campaign specifies" id="specs-title"
-          lede="Each confirmed campaign lists these details up front, so you can decide whether it fits." />
+        <SectionHead eyebrow="Every campaign lists" title="See exactly who you’ll reach" id="specs-title"
+          lede="Each mailer listing shows these details up front, so you can pick the right one." />
         <div class="notes">
-          <p><strong>Category exclusivity</strong>, where offered, applies to that particular campaign — not a whole city or every advertising product.</p>
-          <p><strong>Distribution</strong> is arranged through appropriate print and delivery providers. The method is named in each campaign proposal.</p>
+          <p><strong>One business per category</strong> on each mailer, so your ad isn’t next to a competitor’s.</p>
+          <p><strong>We handle it all</strong> — design help, printing and distribution.</p>
         </div>
       </div>
       <dl class="spec-list">
@@ -142,7 +142,7 @@ const specs = [
 
   <section class="section--tight">
     <div class="container">
-      <QuoteIncludes price={pricing.mailer} />
+      <QuoteIncludes price={pricing.mailer} cta={{ href: '/opportunities?format=mailer', label: 'View upcoming mailers' }} />
     </div>
   </section>
 
@@ -156,10 +156,10 @@ const specs = [
   </section>
 
   <CtaBand
-    title="Ask about upcoming mailers."
-    text="Tell us the area and whether you want to reach households or businesses. We’ll share what’s being planned."
-    primary={{ href: '/contact?format=mailer', label: 'Ask about upcoming mailers' }}
-    secondary={{ href: '/advertising-boards', label: 'Advertising boards' }}
+    title="Reach thousands of local homes for the price of one spot."
+    text="Browse upcoming Hamilton mailers, or tell us the neighbourhood you want to reach."
+    primary={{ href: '/opportunities?format=mailer', label: 'View upcoming mailers' }}
+    secondary={{ href: '/storefront-signs', label: 'Storefront signs' }}
   />
 </BaseLayout>
 

@@ -9,36 +9,36 @@ export interface FormatOption {
 }
 
 export const formatOptions: FormatOption[] = [
-  { id: 'board', label: 'Advertising board inside a local business' },
+  { id: 'board', label: 'Storefront sign placement' },
   { id: 'mailer', label: 'Shared mailer' },
-  { id: 'combined', label: 'Both — a board and a mailer' },
+  { id: 'combined', label: 'Both — a sign and a mailer' },
   { id: 'digital-interest', label: 'Future digital screens (interest only)', futureOnly: true },
   { id: 'not-sure', label: 'Not sure yet' },
 ];
 
 export const formatLabels: Record<string, string> = {
-  board: 'Advertising board',
+  board: 'Storefront sign',
   mailer: 'Shared mailer',
-  combined: 'Board + mailer',
+  combined: 'Sign + mailer',
   'digital-interest': 'Digital screens (future)',
 };
 
 export const services = {
   boards: {
-    href: '/advertising-boards',
-    eyebrow: 'Inside local businesses',
-    title: 'Advertising boards',
+    href: '/storefront-signs',
+    eyebrow: 'On the street',
+    title: 'Storefront signs',
     summary:
-      'A branded board inside an approved host venue. The venue keeps a large area for its own specials; advertisers share a designated section.',
-    cta: 'Ask about board placements',
+      'Advertise on the sidewalk signs local businesses put out every day. The host promotes its own specials on most of the sign; a sponsor section carries a few local advertisers.',
+    cta: 'View sign placements',
   },
   mailers: {
     href: '/shared-mailers',
-    eyebrow: 'Delivered to a defined area',
+    eyebrow: 'In the mailbox',
     title: 'Shared mailers',
     summary:
-      'Several businesses share one printed mailer and its campaign costs. Each advertiser buys a defined space in a campaign we organize.',
-    cta: 'Ask about upcoming mailers',
+      'Reach thousands of local homes or businesses while sharing printing and distribution costs with other advertisers.',
+    cta: 'View upcoming mailers',
   },
 } as const;
 
@@ -60,12 +60,14 @@ export const timingOptions = [
 ];
 
 export const venueTypes = [
-  'Restaurant',
   'Café or bakery',
-  'Bar or pub',
-  'Salon, barber or spa',
+  'Restaurant or takeout',
+  'Pub or bar',
+  'Barber shop or salon',
+  'Convenience or specialty food store',
+  'Independent retailer',
   'Gym or studio',
-  'Retail shop',
-  'Laundromat',
-  'Other customer-facing business',
+  'Pet store',
+  'Clinic or health business',
+  'Other storefront business',
 ];

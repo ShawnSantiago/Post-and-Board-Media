@@ -3,8 +3,8 @@ import type { Opportunity } from '../../content/opportunities';
 import { audienceLabels, opportunityStatusLabels } from '../../content/opportunities';
 import { getArea } from '../../content/areas';
 import { formatLabels } from '../../content/services';
+import { pricing } from '../../content/pricing';
 import { formatDate, formatNumber } from '../../lib/format';
-import { isEnquirable } from '../../lib/opportunities';
 import PriceTag from '../ui/PriceTag.astro';
 
 interface Props {
@@ -13,13 +13,27 @@ interface Props {
 }
 const { opp, headingLevel: H = 'h3' } = Astro.props;
 const area = getArea(opp.area);
-const enquirable = isEnquirable(opp);
-const statusTone =
-  opp.status === 'fully-booked' || opp.status === 'completed' ? 'chip--muted' : opp.status === 'open-for-applications' ? 'chip--mustard' : '';
-const enquireHref = `/contact?opportunity=${encodeURIComponent(opp.slug)}&area=${opp.area}&format=${opp.format}`;
+const isSign = opp.format === 'board';
+const closed = opp.status === 'fully-booked' || opp.status === 'completed';
+const statusTone = closed ? 'chip--muted' : opp.status === 'open-for-applications' ? 'chip--mustard' : '';
+const hasSpots = opp.spotsTotal != null && opp.spotsBooked != null;
+const booked = opp.spotsBooked ?? 0;
+const total = opp.spotsTotal ?? 0;
+const left = hasSpots ? Math.max(0, total - booked) : 0;
+const pct = hasSpots && total > 0 ? Math.round((booked / total) * 100) : 0;
+const openCats = opp.categories?.filter((c) => c.status === 'open') ?? [];
+const place = [opp.locality, area?.name].filter(Boolean).join(', ');
+const facts: [string, string][] = [
+  ...(opp.quantity != null ? [[opp.audience === 'business' ? 'Businesses' : 'Households', formatNumber(opp.quantity)] as [string, string]] : []),
+  ...(isSign && opp.location ? [['Location', opp.location] as [string, string]] : []),
+  ...(isSign && opp.displayHours ? [['Out', opp.displayHours] as [string, string]] : []),
+  ...(opp.specs ? [['Format', opp.specs] as [string, string]] : []),
+  [isSign ? 'Term' : 'Mailing', opp.term],
+];
+const cta = isSign ? 'View placement' : 'View campaign';
 ---
 <article
-  class:list={['opp', { 'opp--example': opp.isExample }]}
+  class:list={['opp', { 'opp--example': opp.isExample, 'opp--closed': closed }]}
   data-opp
   data-area={opp.area}
   data-format={opp.format}
@@ -27,46 +41,70 @@ const enquireHref = `/contact?opportunity=${encodeURIComponent(opp.slug)}&area=$
 >
   {opp.isExample && <p class="example-label">Example only — not a real opportunity</p>}
   <div class="opp__chips">
-    <span class="chip">{formatLabels[opp.format]}</span>
-    {opp.audience && <span class="chip chip--brick">{audienceLabels[opp.audience]}</span>}
+    <span class:list={['chip', { 'chip--brick': !isSign }]}>{formatLabels[opp.format]}</span>
+    {opp.audience && <span class="chip chip--muted">{audienceLabels[opp.audience]}</span>}
     <span class:list={['chip', 'chip--dot', statusTone]}>{opportunityStatusLabels[opp.status]}</span>
   </div>
   <H class="opp__title">
     <a href={`/opportunities/${opp.slug}`}>{opp.title}</a>
   </H>
-  <p class="opp__summary">{opp.summary}</p>
-  <dl class="opp__facts">
-    <div><dt>Area</dt><dd>{area?.name ?? opp.area}{opp.locality && ` · ${opp.locality}`}</dd></div>
-    {opp.venueName && <div><dt>Venue</dt><dd>{opp.venueName}</dd></div>}
-    {opp.quantity != null && <div><dt>Quantity</dt><dd>{formatNumber(opp.quantity)} pieces</dd></div>}
-    <div><dt>{opp.format === 'board' ? 'Term' : 'Campaign window'}</dt><dd>{opp.term}</dd></div>
-    {opp.spacesAvailable != null && <div><dt>Spaces available</dt><dd>{opp.spacesAvailable}</dd></div>}
-  </dl>
+  {place && <p class="opp__place">{place}{opp.venueName && ` · ${opp.venueName}`}</p>}
+
+  <ul class="opp__facts">
+    {facts.map(([k, v]) => <li><span>{k}</span>{v}</li>)}
+  </ul>
+
+  {
+    hasSpots && (
+      <div class="opp__spots">
+        <div class="opp__bar" role="img" aria-label={`${opp.spotsBooked} of ${opp.spotsTotal} spots booked`}>
+          <span style={`width:${pct}%`} />
+        </div>
+        <p>
+          <strong>{opp.spotsBooked} of {opp.spotsTotal}</strong> spots booked
+          {!closed && left > 0 && <> · <strong class="opp__left">{left} left</strong></>}
+        </p>
+      </div>
+    )
+  }
+
+  {
+    openCats.length > 0 && !closed && (
+      <p class="opp__cats">
+        <span>Open categories:</span> {openCats.map((c) => c.name).join(', ')}
+      </p>
+    )
+  }
+
   <div class="opp__foot">
-    <PriceTag price={opp.price} compact />
+    <PriceTag exact={opp.price} anchor={pricing[opp.format]} />
     {
       opp.isExample ? (
         <span class="btn btn--ghost btn--sm" aria-disabled="true">Example — not available</span>
-      ) : enquirable ? (
-        <a class="btn btn--primary btn--sm" href={enquireHref}>Enquire about this</a>
       ) : (
-        <a class="btn btn--ghost btn--sm" href={`/contact?area=${opp.area}&format=${opp.format}`}>Ask about similar</a>
+        <a class:list={['btn', 'btn--sm', closed ? 'btn--ghost' : 'btn--primary']} href={`/opportunities/${opp.slug}`}>
+          {closed ? 'See details' : cta}
+        </a>
       )
     }
   </div>
-  <p class="opp__updated">Last updated {formatDate(opp.lastUpdated)}</p>
+  <p class="opp__updated">Updated {formatDate(opp.lastUpdated)}</p>
 </article>
 
 <style>
   .opp {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.75rem;
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 1.4rem;
     box-shadow: var(--shadow);
+  }
+  .opp--closed {
+    box-shadow: none;
+    opacity: 0.85;
   }
   .opp--example {
     border-style: dashed;
@@ -88,28 +126,58 @@ const enquireHref = `/contact?opportunity=${encodeURIComponent(opp.slug)}&area=$
   .opp__title a:hover {
     text-decoration: underline;
   }
-  .opp__summary {
+  .opp__place {
+    margin: -0.4rem 0 0;
     color: var(--muted);
-    margin: 0;
+    font-weight: 500;
   }
   .opp__facts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 0.6rem 1rem;
+    list-style: none;
     margin: 0;
-    padding: 0.9rem 0;
+    padding: 0.8rem 0;
     border-block: 1px dashed var(--line);
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.95rem;
   }
-  .opp__facts dt {
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+  .opp__facts li {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .opp__facts span {
+    flex: 0 0 6.6rem;
     color: var(--muted);
+    font-size: 0.82rem;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 0.1rem;
   }
-  .opp__facts dd {
+  .opp__bar {
+    height: 8px;
+    border-radius: 99px;
+    background: var(--cream);
+    overflow: hidden;
+  }
+  .opp__bar span {
+    display: block;
+    height: 100%;
+    background: var(--navy);
+    border-radius: 99px;
+  }
+  .opp__spots p {
+    margin: 0.45rem 0 0;
+    font-size: 0.93rem;
+  }
+  .opp__left {
+    color: var(--brick-deep);
+  }
+  .opp__cats {
     margin: 0;
-    font-weight: 500;
+    font-size: 0.93rem;
+  }
+  .opp__cats span {
+    font-weight: 600;
   }
   .opp__foot {
     display: flex;
@@ -118,9 +186,10 @@ const enquireHref = `/contact?opportunity=${encodeURIComponent(opp.slug)}&area=$
     justify-content: space-between;
     gap: 0.8rem;
     margin-top: auto;
+    padding-top: 0.4rem;
   }
   .opp__updated {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     color: var(--muted);
     margin: 0;
   }

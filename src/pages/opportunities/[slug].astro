@@ -7,7 +7,7 @@ import { audienceLabels, opportunityStatusLabels, type Opportunity } from '../..
 import { getArea } from '../../content/areas';
 import { formatLabels } from '../../content/services';
 import { formatDate, formatNumber } from '../../lib/format';
-import { pricingFallback } from '../../content/pricing';
+import { pricing } from '../../content/pricing';
 
 export function getStaticPaths() {
   // Only records present in the loaded dataset get a page. In production that
@@ -22,24 +22,26 @@ const { opp } = Astro.props;
 const area = getArea(opp.area);
 const enquirable = isEnquirable(opp);
 
+const isSign = opp.format === 'board';
+const hasSpots = opp.spotsTotal != null && opp.spotsBooked != null;
 const rows: [string, string | undefined][] = [
-  ['Format', formatLabels[opp.format]],
-  ['Area', `${area?.name ?? opp.area}${opp.locality ? ` · ${opp.locality}` : ''}`],
-  ['Venue', opp.venueName],
-  ['Display position', opp.displayPosition],
+  ['Format', [formatLabels[opp.format], opp.specs].filter(Boolean).join(' · ')],
+  ['Area', `${opp.locality ? `${opp.locality}, ` : ''}${area?.name ?? opp.area}`],
+  ['Host business', opp.venueName],
+  ['Location', opp.location],
+  ['Sign is out', opp.displayHours],
   ['Audience', opp.audience ? audienceLabels[opp.audience] : undefined],
-  ['Quantity', opp.quantity != null ? `${formatNumber(opp.quantity)} pieces` : undefined],
-  [opp.format === 'board' ? 'Term' : 'Campaign window', opp.term],
-  ['Ad space', opp.adSpace],
+  [opp.audience === 'business' ? 'Businesses reached' : 'Households reached', opp.quantity != null ? formatNumber(opp.quantity) : undefined],
+  [isSign ? 'Term' : 'Mailing', opp.term],
+  ['Your ad space', opp.adSpace],
   ['Artwork deadline', opp.artworkDeadline],
   ['Artwork help', opp.artworkHelp],
-  ['Installation window', opp.installationWindow],
+  ['Sign goes out', opp.installationWindow],
   ['Category rules', opp.categoryRules],
-  ['Participation requirements', opp.participationRequirements],
-  ['If the placement becomes unavailable', opp.ifUnavailable],
-  ['Spaces available', opp.spacesAvailable != null ? String(opp.spacesAvailable) : undefined],
-  ['Status', opportunityStatusLabels[opp.status]],
-  ['Last updated', formatDate(opp.lastUpdated)],
+  ['Needed to go ahead', opp.participationRequirements],
+  ['If the location changes', opp.ifUnavailable],
+  ['Spots', hasSpots ? `${opp.spotsBooked} of ${opp.spotsTotal} booked` : undefined],
+  ['Updated', formatDate(opp.lastUpdated)],
 ];
 ---
 <BaseLayout
@@ -67,14 +69,38 @@ const rows: [string, string | undefined][] = [
         <h1>{opp.title}</h1>
         <p class="lede">{opp.summary}</p>
 
-        <h2 class="detail__h2">Placement details</h2>
+        <h2 class="detail__h2">{isSign ? 'Placement details' : 'Campaign details'}</h2>
         <dl class="spec-list">
           {rows.filter(([, v]) => v).map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
         </dl>
 
+        {
+          opp.categories && opp.categories.length > 0 && (
+            <>
+              <h2 class="detail__h2">Categories</h2>
+              <table class="cats">
+                <thead>
+                  <tr><th scope="col">Category</th><th scope="col">Status</th></tr>
+                </thead>
+                <tbody>
+                  {opp.categories.map((c) => (
+                    <tr>
+                      <td>{c.name}</td>
+                      <td>
+                        <span class:list={['chip', 'chip--dot', c.status === 'filled' ? 'chip--muted' : '']}>
+                          {c.status === 'filled' ? 'Filled' : 'Open'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )
+        }
+
         <div class="card price-card">
-          <PriceTag price={opp.price} />
-          {opp.price && <p class="muted">{pricingFallback} Your written quote confirms the final details.</p>}
+          <PriceTag exact={opp.price} anchor={pricing[opp.format]} size="lg" />
         </div>
       </div>
 
@@ -88,8 +114,8 @@ const rows: [string, string | undefined][] = [
             </div>
           ) : enquirable ? (
             <EnquiryForm
-              title="Enquire about this opportunity"
-              intro="Sending an enquiry doesn’t reserve a space. We’ll confirm availability and send a written quote."
+              title="Request this spot"
+              intro="Tell us a little about your business. We’ll confirm your category is open and send a quote to book it."
               opportunity={{ slug: opp.slug, title: opp.title, area: opp.area, format: opp.format }}
               area={opp.area}
               format={opp.format}
@@ -138,9 +164,20 @@ const rows: [string, string | undefined][] = [
   .price-card {
     margin-top: 2rem;
   }
-  .muted {
+  .cats {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .cats th,
+  .cats td {
+    text-align: left;
+    padding: 0.65rem 0.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .cats th {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     color: var(--muted);
-    font-size: 0.93rem;
-    margin: 0.5rem 0 0;
   }
 </style>

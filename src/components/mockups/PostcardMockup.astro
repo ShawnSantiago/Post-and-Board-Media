@@ -3,6 +3,8 @@
  * Example shared postcard (one side) with several clearly separated
  * advertisers. All businesses shown are fictional.
  */
+import { getImage } from 'astro:assets';
+import householdPhoto from '../../assets/images/examples/example-postcard-household.webp';
 interface Props {
   class?: string;
   highlight?: number;
@@ -30,38 +32,43 @@ const businessAds = [
 const ads = variant === 'business' ? businessAds : householdAds;
 const heading = variant === 'business' ? 'Local services for your business' : 'Good neighbours, nearby';
 
-const W = 170;
-const H = 118;
-const pos = (i: number) => ({ x: 22 + (i % 3) * (W + 9), y: 88 + Math.floor(i / 3) * (H + 9) });
+// Photo of a blank printed postcard; the live text below is laid over its
+// panels. Coordinates are in the photo's own pixel space (1586 × 992).
+const photo = await getImage({ src: householdPhoto, width: 1400, format: 'webp', quality: 80 });
+const cols = [
+  { x: 296, w: 321 },
+  { x: 635, w: 324 },
+  { x: 976, w: 316 },
+];
+const rows = [334, 567];
+const H = 219;
+const pos = (i: number) => ({ ...cols[i % 3], y: rows[Math.floor(i / 3)] });
 ---
-<svg class:list={['postcard', className]} viewBox="0 0 576 360" role="img" aria-labelledby={`${uid}-t ${uid}-d`}>
+<svg class:list={['postcard', className]} viewBox="226 128 1140 736" role="img" aria-labelledby={`${uid}-t ${uid}-d`}>
   <title id={`${uid}-t`}>Example layout of a shared postcard</title>
   <desc id={`${uid}-d`}>
     One side of a shared mailer divided into six equal, clearly separated ad spaces for fictional local businesses.
   </desc>
-  <rect width="576" height="360" rx="10" fill="#fffcf6" stroke="#d7cfbf"></rect>
-  <rect x="0" y="0" width="576" height="70" rx="10" fill="#1c2a44"></rect>
-  <rect x="0" y="50" width="576" height="20" fill="#1c2a44"></rect>
-  <text x="22" y="44" class="p-display" font-size="25" fill="#fffcf6">{heading}</text>
-  <text x="554" y="42" text-anchor="end" class="p-body" font-size="11" font-weight="700" letter-spacing="1.6" fill="#e9b949">SHARED MAILER</text>
+  <image href={photo.src} x="0" y="0" width="1586" height="992" preserveAspectRatio="none"></image>
+  <text x="301" y="254" class="p-display" font-size="50" fill="#fffcf6">{heading}</text>
+  <text x="1288" y="250" text-anchor="end" class="p-body" font-size="19" font-weight="700" letter-spacing="3" fill="#e9b949">SHARED MAILER</text>
   {
     ads.map((ad, i) => {
       const p = pos(i);
       const isHi = highlight === i;
       return (
         <g transform={`translate(${p.x} ${p.y})`}>
-          <rect width={W} height={H} rx="7" fill={isHi ? '#fffcf6' : ad.bg} stroke={isHi ? '#c8452f' : '#d7cfbf'} stroke-width={isHi ? 3 : 1} stroke-dasharray={isHi ? '8 6' : undefined} />
           {isHi ? (
             <>
-              <text x={W / 2} y="56" text-anchor="middle" class="p-display" font-size="20" fill="#1c2a44">Your ad here</text>
-              <text x={W / 2} y="80" text-anchor="middle" class="p-body" font-size="12" fill="#525866">One defined space</text>
+              <rect x="2" y="2" width={p.w - 4} height={H - 4} rx="10" fill="#fffcf6" stroke="#c8452f" stroke-width="5" stroke-dasharray="16 12" />
+              <text x={p.w / 2} y="112" text-anchor="middle" class="p-display" font-size="38" fill="#1c2a44">Your ad here</text>
+              <text x={p.w / 2} y="152" text-anchor="middle" class="p-body" font-size="22" fill="#525866">One defined space</text>
             </>
           ) : (
             <>
-              <circle cx="20" cy="24" r="8" fill={ad.dot} />
-              <text x="34" y="28" class="p-body" font-size="9.5" font-weight="700" letter-spacing="1.2" fill={ad.fg} opacity="0.75">{ad.kind}</text>
-              <text x="12" y="66" class="p-display" font-size="19" fill={ad.fg}>{ad.name}</text>
-              <text x="12" y="90" class="p-body" font-size="12.5" fill={ad.fg}>{ad.line}</text>
+              <text x="58" y="38" class="p-body" font-size="16.5" font-weight="700" letter-spacing="2.4" fill={ad.fg} opacity="0.75">{ad.kind}</text>
+              <text x="22" y="130" class="p-display" font-size="36" fill={ad.fg}>{ad.name}</text>
+              <text x="22" y="170" class="p-body" font-size="22" fill={ad.fg}>{ad.line}</text>
             </>
           )}
         </g>
@@ -74,7 +81,7 @@ const pos = (i: number) => ({ x: 22 + (i % 3) * (W + 9), y: 88 + Math.floor(i / 
   .postcard {
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 14px 26px rgba(28, 42, 68, 0.22));
+    border-radius: 12px;
   }
   .p-display {
     font-family: var(--font-display);

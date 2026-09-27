@@ -21,6 +21,11 @@ export default defineConfig({
   adapter,
   trailingSlash: 'never',
   build: { format: 'directory' },
+  // Old URLs from before the storefront-sign repositioning.
+  redirects: {
+    '/advertising-boards': '/storefront-signs',
+    '/host-a-board': '/host-a-sign',
+  },
   env: {
     schema: {
       SITE_URL: envField.string({ context: 'server', access: 'public', optional: true }),

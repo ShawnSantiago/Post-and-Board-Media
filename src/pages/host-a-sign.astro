@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BoardMockup from '../components/mockups/BoardMockup.astro';
+import ExampleFigure from '../components/mockups/ExampleFigure.astro';
+import SectionHead from '../components/ui/SectionHead.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import HostForm from '../components/forms/HostForm.astro';
+import { faqsFor } from '../content/faqs';
+import { site } from '../config/site';
+
+const uses = ['Daily specials', 'Menus', 'Promotions and sales', 'Events', 'Opening hours', 'New products', 'Seasonal offers'];
+const hosts = [
+  'Cafés, bakeries and restaurants',
+  'Takeout spots and pubs',
+  'Barber shops and salons',
+  'Convenience and specialty food stores',
+  'Independent retailers and pet stores',
+  'Gyms, studios and clinics',
+];
+const fit = [
+  'You already put a sign out — or would like to',
+  'Your storefront gets steady foot traffic',
+  'You’re open most days',
+  'There’s room for a sidewalk sign by your door',
+];
+---
+<BaseLayout
+  title="Host a Storefront Sign | Free Sidewalk Sign for Your Business | Post and Board Media"
+  description="Get a professional sidewalk sign for your Hamilton storefront with little or no upfront cost. Promote your own specials while local sponsors help cover the cost of the sign."
+  breadcrumbs={[{ label: 'Host a sign' }]}
+>
+  <section class="section--tight">
+    <div class="container grid-2 grid-2--wide-left">
+      <div>
+        <p class="eyebrow">For storefront businesses</p>
+        <h1>Get a professional sidewalk sign — with little or no upfront cost.</h1>
+        <p class="lede">
+          Promote your own specials on most of the sign while a few local sponsors, in a smaller section below, help
+          cover its cost. You put it out each day; we handle the sponsors.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="#host-form">Apply to host a sign</a>
+          <a class="btn btn--ghost" href="#how-hosting-works">How it works</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <ExampleFigure caption="Your specials on top. Local sponsors below.">
+          <BoardMockup />
+        </ExampleFigure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper" id="how-hosting-works" aria-labelledby="both-title">
+    <div class="container">
+      <SectionHead eyebrow="How hosting works" title="Your sign, funded by local sponsors" id="both-title" />
+      <div class="sides">
+        <div class="side">
+          <p class="side__who">You get</p>
+          <h3>A professional storefront sign</h3>
+          <p>Most of the sign is yours to promote your business, every day you’re open.</p>
+        </div>
+        <div class="side side--brick">
+          <p class="side__who">Sponsors</p>
+          <h3>Help cover the cost</h3>
+          <p>A few complementary local businesses buy panels in the sponsor section — never a direct competitor of yours.</p>
+        </div>
+        <div class="side side--mustard">
+          <p class="side__who">We handle</p>
+          <h3>Everything sponsor-related</h3>
+          <p>Finding sponsors, artwork, printing, replacement panels and any sign requirements for your location.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="use-title">
+    <div class="container grid-2">
+      <div>
+        <SectionHead eyebrow="Your section" title="Use it for whatever brings people in" id="use-title" />
+        <ul class="tags">
+          {uses.map((u) => <li>{u}</li>)}
+        </ul>
+      </div>
+      <div class="stack">
+        <h3>Great hosts include</h3>
+        <ul class="checklist">
+          {hosts.map((h) => <li>{h}</li>)}
+        </ul>
+        <h3 style="margin-top:1.5rem">A good fit if</h3>
+        <ul class="checklist">
+          {fit.map((h) => <li>{h}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream" id="host-form" aria-label="Host application">
+    <div class="container host-grid">
+      <div>
+        <h2>Questions from hosts</h2>
+        <FaqList items={faqsFor('host', site.features.digitalScreensInterest)} />
+      </div>
+      <HostForm />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-visual {
+    max-width: 340px;
+    width: 100%;
+    margin-inline: auto;
+  }
+  .sides {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  }
+  .side {
+    border-radius: var(--radius);
+    padding: 1.6rem;
+    background: var(--mist);
+  }
+  .side--brick {
+    background: #f4ddd5;
+  }
+  .side--mustard {
+    background: #f8ebc6;
+  }
+  .side__who {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+  .side h3 {
+    font-size: var(--step-2);
+  }
+  .side p:last-child {
+    margin: 0;
+  }
+  .tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tags li {
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    font-weight: 500;
+  }
+  .stack h3 {
+    font-size: var(--step-1);
+  }
+  .host-grid {
+    display: grid;
+    gap: 3rem;
+  }
+  @media (min-width: 980px) {
+    .host-grid {
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: start;
+    }
+  }
+</style>

@@ -28,7 +28,7 @@ const { headingLevel: H = 'h3' } = Astro.props;
     draftAreas.length > 0 && (
       <div class="areas__more">
         <p>
-          <strong>Also accepting enquiries from:</strong>
+          <strong>Coming after Hamilton:</strong>
         </p>
         <ul>
           {draftAreas.map((a) => (
@@ -37,7 +37,6 @@ const { headingLevel: H = 'h3' } = Astro.props;
             </li>
           ))}
         </ul>
-        <p class="areas__note">No placements are confirmed in these areas yet.</p>
       </div>
     )
   }
